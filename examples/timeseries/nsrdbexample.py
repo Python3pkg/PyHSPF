@@ -49,10 +49,10 @@ for s in stations:
 
     # print the metadata
 
-    print('station name:   ', station.station)
-    print('elevation (m):  ', station.elevation)
-    print('airforce number:', station.usaf)
-    print('wban number:    ', station.wban)
+    print(('station name:   ', station.station))
+    print(('elevation (m):  ', station.elevation))
+    print(('airforce number:', station.usaf))
+    print(('wban number:    ', station.wban))
 
     # the database has data for the METSTAT model, the SUNY model, any 
     # observed data (very scarce), and "legacy data" before 1990
@@ -76,7 +76,7 @@ for s in stations:
     t = sum(ts) / 1000 / (e - s).days
     
     print('')
-    print('average solar radiation (kWh/m2/d): {:.2f}'.format(t))
+    print(('average solar radiation (kWh/m2/d): {:.2f}'.format(t)))
     print('')
 
     # make a plot of hourly data for month of June 2001 for the Des Moines AP

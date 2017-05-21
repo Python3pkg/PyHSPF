@@ -127,7 +127,7 @@ def extract_raw(source, destination, HUC8, plot = True, show = False,
 
     xmin, ymin, xmax, ymax = bbox
 
-    if verbose: print('bounding box =', xmin, ymin, xmax, ymax, '\n')
+    if verbose: print(('bounding box =', xmin, ymin, xmax, ymax, '\n'))
 
     lats, lons = [], []
     for f in os.listdir(source):
@@ -140,7 +140,7 @@ def extract_raw(source, destination, HUC8, plot = True, show = False,
             lons.append(lon)
 
             if not os.path.isfile('{}/{}'.format(raw, f)):
-                print('copying {}'.format(f))
+                print(('copying {}'.format(f)))
                 shutil.copy('{}/{}'.format(source, f), '{}/{}'.format(raw, f))
             
     if plot: 
@@ -168,7 +168,7 @@ def extract_timeseries(directory, start, end,
 
     for f in gridfiles:
 
-        print('re-organizing {}'.format(f))
+        print(('re-organizing {}'.format(f)))
 
         if any([not os.path.isfile('{}/{}/{}'.format(directory, ts, f)) 
                 for f in os.listdir(source)]):

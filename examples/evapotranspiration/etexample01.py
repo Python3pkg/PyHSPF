@@ -37,7 +37,7 @@ end   = datetime.datetime(2010, 1, 1)
 filename = 'subbasin_catchments'
 
 if not os.path.isfile(filename + '.shp'):
-    print('error: file {} does not exist!'.format(filename))
+    print(('error: file {} does not exist!'.format(filename)))
     raise
 
 # make an instance of the ClimateProcessor to fetch the climate data
@@ -72,12 +72,12 @@ solar = [sum(solar[i:i+24]) / 24 for i in range(0, 24 * (end-start).days, 24)]
 
 evaporation = {}
 
-for k, v in processor.metadata.ghcndstations.items():
+for k, v in list(processor.metadata.ghcndstations.items()):
 
     if v['evap'] > 0:
 
         its = v['name'], v['evap']
-        print('station {} has {} evaporation observations'.format(*its))
+        print(('station {} has {} evaporation observations'.format(*its)))
 
         # open up the file and use the GHCNDStation instance to get the data
 

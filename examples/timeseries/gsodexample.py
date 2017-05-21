@@ -56,14 +56,14 @@ for station in stations:
 
     # some attributes of the station
 
-    print('Airforce number:', gsodstation.airforce)
-    print('WBAN number:    ', gsodstation.wban)
-    print('Description:    ', gsodstation.name)
-    print('Latitude:       ', gsodstation.latitude)
-    print('Longitude:      ', gsodstation.longitude)
-    print('Elevation (m):  ', gsodstation.elevation)
-    print('Data start date:', gsodstation.start)
-    print('Data end date:  ', gsodstation.end)
+    print(('Airforce number:', gsodstation.airforce))
+    print(('WBAN number:    ', gsodstation.wban))
+    print(('Description:    ', gsodstation.name))
+    print(('Latitude:       ', gsodstation.latitude))
+    print(('Longitude:      ', gsodstation.longitude))
+    print(('Elevation (m):  ', gsodstation.elevation))
+    print(('Data start date:', gsodstation.start))
+    print(('Data end date:  ', gsodstation.end))
     print('')
 
     # make a plot showing the data across the whole period
@@ -95,9 +95,9 @@ for station in stations:
 
     annual_prec = sum([p for p in prec if p is not None]) / (e-s).days * 365.25
 
-    print('avg dewpoint temperature: {:.1f} C'.format(sum(dews) / len(dews)))
-    print('avg minimum temperature:  {:.1f} C'.format(sum(tmin) / len(tmin)))
-    print('avg maximum temperature:  {:.1f} C'.format(sum(tmax) / len(tmax)))
-    print('avg wind speed:           {:.1f} m/s'.format(sum(wind) / len(wind)))
-    print('avg precipitation:        {:.1f} mm'.format(annual_prec))
+    print(('avg dewpoint temperature: {:.1f} C'.format(sum(dews) / len(dews))))
+    print(('avg minimum temperature:  {:.1f} C'.format(sum(tmin) / len(tmin))))
+    print(('avg maximum temperature:  {:.1f} C'.format(sum(tmax) / len(tmax))))
+    print(('avg wind speed:           {:.1f} m/s'.format(sum(wind) / len(wind))))
+    print(('avg precipitation:        {:.1f} mm'.format(annual_prec)))
     print('')

@@ -143,14 +143,14 @@ class GHCNDStation:
 
         if not os.path.isdir(directory):
 
-            print('\nerror: directory "{}" does not exist\n'.format(directory))
+            print(('\nerror: directory "{}" does not exist\n'.format(directory)))
             raise
 
         destination = '{}/{}'.format(directory, self.station)
 
         if not os.path.isfile(destination):
 
-            if verbose: print('attempting to download data for', self.station)
+            if verbose: print(('attempting to download data for', self.station))
 
             # source url
 
@@ -176,8 +176,8 @@ class GHCNDStation:
                 raise
 
             except:
-                print('warning: unable to download data from ' +
-                      '{}/all/{}.dly'.format(GHCND, self.station))
+                print(('warning: unable to download data from ' +
+                      '{}/all/{}.dly'.format(GHCND, self.station)))
                 
         if plot and not os.path.isfile(destination + '.png'):
 
@@ -228,7 +228,7 @@ class GHCNDStation:
         elif tstype == 'wind':          events = self.wind
         elif tstype == 'evaporation':   events = self.evap
         else:
-            print('error: unknown time series type {}\n'.format(tstype))
+            print(('error: unknown time series type {}\n'.format(tstype)))
             print('options are precipitation, tmax, tmin, snowdepth, snowfall')
             print('wind, or evaporation.\n')
             raise
@@ -299,7 +299,7 @@ class GHCNDStation:
             print('start must be less than end')
             return
 
-        dates, values = zip(*events)
+        dates, values = list(zip(*events))
 
         series = []
         t = start
@@ -360,7 +360,7 @@ class GHCNDStation:
             return
 
         if len(precipdata) > 0: 
-            times, precip = zip(*precipdata)
+            times, precip = list(zip(*precipdata))
         else:
             times = [start, start + datetime.timedelta(days = 1), 
                      end - datetime.timedelta(days = 1), end]
@@ -373,7 +373,7 @@ class GHCNDStation:
             print('warning: no data present')
             return
 
-        if verbose: print('making a plot for {}'.format(self.name))
+        if verbose: print(('making a plot for {}'.format(self.name)))
 
         # make the plot
 
@@ -392,7 +392,7 @@ class GHCNDStation:
         i = 1
 
         if len(tmaxdata) > 0: 
-            times, temp = zip(*tmaxdata)
+            times, temp = list(zip(*tmaxdata))
         else:
             times = [start, start + datetime.timedelta(days = 1), 
                      end - datetime.timedelta(days = 1), end]
@@ -402,7 +402,7 @@ class GHCNDStation:
                           label = 'max temperature')
 
         if len(tmindata) > 0: 
-            times, temp = zip(*tmindata)
+            times, temp = list(zip(*tmindata))
         else:
             times = [start, start + datetime.timedelta(days = 1), 
                      end - datetime.timedelta(days = 1), end]
@@ -415,7 +415,7 @@ class GHCNDStation:
         i = 2
     
         if len(winddata) > 0: 
-            times, wind = zip(*winddata)
+            times, wind = list(zip(*winddata))
         else:
             times = [start, start + datetime.timedelta(days = 1), 
                      end - datetime.timedelta(days = 1), end]
@@ -428,7 +428,7 @@ class GHCNDStation:
         i = 3
     
         if len(snowdata) > 0: 
-            times, snow = zip(*snowdata)
+            times, snow = list(zip(*snowdata))
         else:
             times = [start, start + datetime.timedelta(days = 1), 
                      end - datetime.timedelta(days = 1), end]
@@ -441,7 +441,7 @@ class GHCNDStation:
         i = 4
 
         if len(evapdata) > 0:
-            times, evap = zip(*evapdata)
+            times, evap = list(zip(*evapdata))
         else:
             times = [start, start + datetime.timedelta(days = 1), 
                      end - datetime.timedelta(days = 1), end]
@@ -559,8 +559,8 @@ class GSODStation:
 
         if not os.path.isfile(destination):
             var = self.name, start.year, end.year
-            print('attempting to download data for ' +
-                  '{} from {} to {}'.format(*var))
+            print(('attempting to download data for ' +
+                  '{} from {} to {}'.format(*var)))
             
             # data are stored by year and then station
 
@@ -568,7 +568,7 @@ class GSODStation:
 
                 var = GSOD, year, self.airforce, self.wban
                 url = '{0}/{1:04d}/{2:06d}-{3:05d}-{1:04d}.op.gz'.format(*var)
-                if verbose: print('attempting to download data from', url)
+                if verbose: print(('attempting to download data from', url))
             
                 try:
                     r = request.Request(url)
@@ -601,8 +601,8 @@ class GSODStation:
 
                 except:
 
-                    print('unable to download data from', url)
-                    print('listed record:', self.start, self.end)
+                    print(('unable to download data from', url))
+                    print(('listed record:', self.start, self.end))
         
             self.precip.sort()
             self.tmax.sort()
@@ -630,7 +630,7 @@ class GSODStation:
         if self.is_number(prec[:-1]):
             if 0 < float(prec[:-1]) and float(prec[:-1]) < 99:
                 self.precip.append((date, float(prec[:-1]) * 25.4))
-        else: print(prec[:-1])
+        else: print((prec[:-1]))
 
         if self.is_number(tmax[:4]):
             if float(tmax[:4]) < 9999:
@@ -688,16 +688,16 @@ class GSODStation:
 
         if start < timeseries[0][0] and timeseries[-1][0] < end:
             if verbose:
-                print('warning: specified range ' +
+                print(('warning: specified range ' +
                       '({} to {}) is outside of '.format(start, end) + 
-                      'available {} data'.format(tstype))
+                      'available {} data'.format(tstype)))
 
         data = []
 
         dates = [start + i * datetime.timedelta(days = 1) 
                  for i in range(int((end - start).total_seconds() / 86400))]
 
-        ts_dates, values = zip(*timeseries)
+        ts_dates, values = list(zip(*timeseries))
        
         for date in dates:
             if date in ts_dates:
@@ -729,7 +729,7 @@ class GSODStation:
             print('warning: no data present\n')
             return
 
-        if verbose: print('plotting GSOD data for {}\n'.format(self.name))
+        if verbose: print(('plotting GSOD data for {}\n'.format(self.name)))
 
         # some error handling
 
@@ -755,7 +755,7 @@ class GSODStation:
         i = 0
 
         if len(precipdata) > 0: 
-            times, precip = zip(*precipdata)
+            times, precip = list(zip(*precipdata))
         else:
             times = [start, start + datetime.timedelta(days = 1), 
                      end - datetime.timedelta(days = 1), end]
@@ -769,7 +769,7 @@ class GSODStation:
         i = 1
 
         if len(tmaxdata) > 0: 
-            times, temp = zip(*tmaxdata)
+            times, temp = list(zip(*tmaxdata))
         else:
             times = [start, start + datetime.timedelta(days = 1), 
                      end - datetime.timedelta(days = 1), end]
@@ -779,7 +779,7 @@ class GSODStation:
                           label = 'max temperature')
 
         if len(tmindata) > 0: 
-            times, temp = zip(*tmindata)
+            times, temp = list(zip(*tmindata))
         else:
             times = [start, start + datetime.timedelta(days = 1), 
                      end - datetime.timedelta(days = 1), end]
@@ -790,7 +790,7 @@ class GSODStation:
         subs[i].set_ylabel('Temperature (\u00B0C)', color = 'red')
 
         if len(dewtdata) > 0: 
-            times, temp = zip(*dewtdata)
+            times, temp = list(zip(*dewtdata))
         else:
             times = [start, start + datetime.timedelta(days = 1), 
                      end - datetime.timedelta(days = 1), end]
@@ -805,7 +805,7 @@ class GSODStation:
         i = 2
     
         if len(winddata) > 0: 
-            times, wind = zip(*winddata)
+            times, wind = list(zip(*winddata))
         else:
             times = [start, start + datetime.timedelta(days = 1), 
                      end - datetime.timedelta(days = 1), end]
@@ -880,8 +880,8 @@ class Precip3240Station:
             for member in members:
 
                 if verbose: 
-                    print('importing precipitation data from ' +
-                          '{}'.format(member.name))
+                    print(('importing precipitation data from ' +
+                          '{}'.format(member.name)))
 
                 # read the data into memory and split it up by lines
 
@@ -925,7 +925,7 @@ class Precip3240Station:
                                     v = int(h[i+5:i+10]) / 100
                                     events.append([date, v, h[i+10], h[i+11]])
 
-                    except: print('import error', y, m, d)
+                    except: print(('import error', y, m, d))
 
                 # append the event list
 
@@ -940,11 +940,11 @@ class Precip3240Station:
         """Downloads the data for the desired time period from the NCDC."""
 
         if not os.path.isdir(directory):
-            print('\nerror: directory "{}" does not exist\n'.format(directory))
+            print(('\nerror: directory "{}" does not exist\n'.format(directory)))
             raise
 
         if verbose: 
-            print('attempting to import data for {}'.format(self.coop))
+            print(('attempting to import data for {}'.format(self.coop)))
 
         # find and sort all the tarfiles in the directory
 
@@ -966,7 +966,7 @@ class Precip3240Station:
                     self.import_tar(f)
 
                 except: 
-                    print('failed to import data from {}'.format(f))
+                    print(('failed to import data from {}'.format(f)))
                     raise
 
         if verbose: print('')
@@ -982,13 +982,13 @@ class Precip3240Station:
         """Downloads the Precip 3240 data for a state."""
 
         if not os.path.isdir(directory):
-            print('\nerror: directory "{}" does not exist\n'.format(directory))
+            print(('\nerror: directory "{}" does not exist\n'.format(directory)))
             raise
 
         if verbose:
  
-            print('downloading hourly precipitation data for state ' + 
-                  '{}\n'.format(self.code))
+            print(('downloading hourly precipitation data for state ' + 
+                  '{}\n'.format(self.code)))
 
         # figure out which files are on the website
 
@@ -1033,7 +1033,7 @@ class Precip3240Station:
 
                 except:
 
-                    print('error: unable to connect to {}'.format(url))
+                    print(('error: unable to connect to {}'.format(url)))
                     raise
 
     def decompress7z(self, 
@@ -1066,8 +1066,8 @@ class Precip3240Station:
 
         if os.name == 'nt':
             if not os.path.isfile(self.path_to_7z):
-                print('\nerror: path to 7zip ' +
-                      '{} does not exist'.format(self.path_to_7z))
+                print(('\nerror: path to 7zip ' +
+                      '{} does not exist'.format(self.path_to_7z)))
                 raise
             self.decompress7z(filepath, directory, path_to_7z = self.path_to_7z)
         else:
@@ -1129,7 +1129,7 @@ class Precip3240Station:
         self.path_to_7z = path_to_7z
 
         if not os.path.isdir(directory):
-            print('\nerror: directory "{}" does not exist\n'.format(directory))
+            print(('\nerror: directory "{}" does not exist\n'.format(directory)))
             raise
 
         precip3240 = '{}/precip3240'.format(directory)
@@ -1178,7 +1178,7 @@ class Precip3240Station:
 
         else:
 
-            print('station {} contains no data, ignoring\n'.format(self.coop))
+            print(('station {} contains no data, ignoring\n'.format(self.coop)))
 
         # remove the intermediate files if desired
 
@@ -1211,10 +1211,10 @@ class Precip3240Station:
             raise
 
         if start < self.events[0][0] or self.events[-1][0] < end:
-            print('warning: specified range ' +
+            print(('warning: specified range ' +
                   '({} to {}) is outside of '.format(start, end) + 
                   'available gage data range ' +
-                  '({} to {})\n'.format(self.events[0][0], self.events[-1][0]))
+                  '({} to {})\n'.format(self.events[0][0], self.events[-1][0])))
 
         # if there is no overlap don't bother anything
 
@@ -1502,7 +1502,7 @@ class NSRDBStation:
 
         if new:
 
-            print('getting the new data for {}'.format(self.station))
+            print(('getting the new data for {}'.format(self.station)))
 
             # path to the source data on the NSRDB
 
@@ -1558,7 +1558,7 @@ class NSRDBStation:
 
         if old and self.wban is not None:
 
-            print('getting the legacy data for {}'.format(self.station))
+            print(('getting the legacy data for {}'.format(self.station)))
 
             # path to the source data on the NSRDB
 
@@ -1716,15 +1716,15 @@ class NSRDBStation:
         # check if data are available for the period
 
         if len(self.solar) == 0:
-            print('warning: specified range ({} to {}) '.format(start, end) + 
-                  'is outside of available station data')
+            print(('warning: specified range ({} to {}) '.format(start, end) + 
+                  'is outside of available station data'))
             hourly = [None for i in range((end-start).days * 24)]
 
         else:
 
             if start < self.solar[0][0] or self.solar[-1][0] < end:
-                print('warning: specified range ({} to {}) '.format(start, end)
-                      + 'is outside of available station data')
+                print(('warning: specified range ({} to {}) '.format(start, end)
+                      + 'is outside of available station data'))
 
             hourly = []
 

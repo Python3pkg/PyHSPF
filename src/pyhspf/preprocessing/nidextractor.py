@@ -21,11 +21,11 @@ class NIDExtractor:
 
         if not os.path.isdir(NID):
 
-            print('destination directory {} does not exist\n'.format(NID))
+            print(('destination directory {} does not exist\n'.format(NID)))
             
             try: os.mkdir(NID)
             except:
-                print('warning, unable to create directory {}'.format(NID))
+                print(('warning, unable to create directory {}'.format(NID)))
                 raise
 
     def inside_box(self, p1, p2, p3):
@@ -66,10 +66,10 @@ class NIDExtractor:
         if not os.path.isfile(compressed):
 
             if verbose: 
-                print('downloading NID source file {}\n'.format(url))
+                print(('downloading NID source file {}\n'.format(url)))
                 request.urlretrieve(url, compressed)
 
-        elif verbose: print('NID source file {} exists\n'.format(compressed))
+        elif verbose: print(('NID source file {} exists\n'.format(compressed)))
 
         # decompress the file
 
@@ -177,10 +177,10 @@ class NIDExtractor:
 
             else:
 
-                print('error: shapefile {} does not exist'.format(shapefile))
+                print(('error: shapefile {} does not exist'.format(shapefile)))
                 raise
 
             self.extract_bbox(r.bbox, output)
             
-        else: print('dam shapefile {} exists\n'.format(output))
+        else: print(('dam shapefile {} exists\n'.format(output)))
             

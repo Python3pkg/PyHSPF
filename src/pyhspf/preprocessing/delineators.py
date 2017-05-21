@@ -82,8 +82,8 @@ class NHDPlusDelineator:
 
         if len(matches) == 0:
 
-            if warning: print('unable to find a flowline with appropriate ' +
-                              'bounding box, increasing tolerance\n')
+            if warning: print(('unable to find a flowline with appropriate ' +
+                              'bounding box, increasing tolerance\n'))
 
             i = 0
             for shape in shapes:
@@ -239,7 +239,7 @@ class NHDPlusDelineator:
         # iterate through the grid and fill the array
 
         for i in range(len(ys)):
-            zs[i, :] = get_raster(filename, zip(xs, [ys[i]] * (resolution + 1)),
+            zs[i, :] = get_raster(filename, list(zip(xs, [ys[i]] * (resolution + 1))),
                                   quiet = True)
 
         # scale the values (this is converting cm to m)
@@ -387,10 +387,10 @@ class NHDPlusDelineator:
 
                 if flowlines[f].gageid == self.gageid:
 
-                    print(flowlines[f].comid, flowlines[f].gageid)
+                    print((flowlines[f].comid, flowlines[f].gageid))
                     return flowlines[f].comid
 
-            print('error: unable to locate gage {}\n'.format(self.gageid))
+            print(('error: unable to locate gage {}\n'.format(self.gageid)))
             raise
             
         elif self.gagefile is None:
@@ -435,7 +435,7 @@ class NHDPlusDelineator:
                     comids.append(comid)
                     current.append(hydroseqs[comid])
 
-        if verbose: print('found {} flowlines\n'.format(len(comids)))
+        if verbose: print(('found {} flowlines\n'.format(len(comids))))
 
         # convert the comid list to an updown dictionary
 
@@ -550,7 +550,7 @@ class NHDPlusDelineator:
     
             if verbose: 
                 l = len(indices)
-                print('queried {} flowlines\n'.format(l))
+                print(('queried {} flowlines\n'.format(l)))
 
         # extract the catchment shapes from the watershed files
 
@@ -607,7 +607,7 @@ class NHDPlusDelineator:
         
             if verbose: print('merging the catchments to form a boundary\n')
     
-            print('{}/{}'.format(output, catchments))
+            print(('{}/{}'.format(output, catchments)))
             merge_shapes('{}/{}'.format(output, catchments), 
                          outputfile = self.boundary)
 
@@ -715,7 +715,7 @@ class NHDPlusDelineator:
     
             if verbose: 
                 l = len(indices)
-                print('queried {} flowlines\n'.format(l))
+                print(('queried {} flowlines\n'.format(l)))
 
         # extract the catchment shapes from the watershed files
 
@@ -772,7 +772,7 @@ class NHDPlusDelineator:
         
             if verbose: print('merging the catchments to form a boundary\n')
     
-            print('{}/{}'.format(output, catchments))
+            print(('{}/{}'.format(output, catchments)))
             merge_shapes('{}/{}'.format(output, catchments), 
                          outputfile = self.boundary)
 
@@ -826,7 +826,7 @@ class NHDPlusDelineator:
 
         closest = numpy.empty((len(catchpoints), 3), dtype = 'float')
 
-        for point, j in zip(catchpoints, range(len(catchpoints))):
+        for point, j in zip(catchpoints, list(range(len(catchpoints)))):
             closest[j] = flowpoints[numpy.dot(flowpoints[:, :2], 
                                               point[:2]).argmin()]
 
@@ -835,7 +835,7 @@ class NHDPlusDelineator:
         f = self.get_overland(catchpoints, closest)
 
         if verbose: 
-            print('flowplane length = {:5.0f} m; slope = {:.4f}'.format(*f))
+            print(('flowplane length = {:5.0f} m; slope = {:.4f}'.format(*f)))
 
         return f
 
@@ -986,7 +986,7 @@ class NHDPlusDelineator:
 
                 else:
 
-                    landtypes, areas = zip(*self.landuse.items())
+                    landtypes, areas = list(zip(*list(self.landuse.items())))
 
                     landtypes = list(landtypes)
                     data = [round(area * a / sum(areas), 3) for a in areas]
@@ -1010,7 +1010,7 @@ class NHDPlusDelineator:
         # establish the mass linkages between the subbasins (convert to strings)
 
         updown = {'{}'.format(up):(0 if down == 0 else '{}'.format(down))
-                  for up, down in self.updown.items()}
+                  for up, down in list(self.updown.items())}
 
         watershed.add_mass_linkage(updown)
 
@@ -1043,7 +1043,7 @@ class NHDPlusDelineator:
         """
 
         if os.path.exists(output) and not overwrite:
-            if verbose: print('file %s exists' % output)
+            if verbose: print(('file %s exists' % output))
             return
         elif verbose: print('generating a mass linkage plot\n')
 
@@ -1266,7 +1266,7 @@ class NHDPlusDelineator:
         with open(self.attributes, 'rb') as f: flowlineVAAs = pickle.load(f)
     
         updown = {item.comid: flowlineVAAs[flowlineVAAs[key].down].comid
-                  for key, item in flowlineVAAs.items()
+                  for key, item in list(flowlineVAAs.items())
                   if item.comid in all_comids}
     
         flowlineVAAs = {flowlineVAAs[f].comid:flowlineVAAs[f] 
@@ -1409,8 +1409,8 @@ class HUC8Delineator(NHDPlusDelineator):
         """
 
         if os.path.isfile(outputfile + '.shp') and not overwrite:
-            if verbose: print('combined flowline shapefile ' +
-                              '{} exists'.format(outputfile))
+            if verbose: print(('combined flowline shapefile ' +
+                              '{} exists'.format(outputfile)))
             return
 
         # start by copying the projection files
@@ -1540,8 +1540,8 @@ class HUC8Delineator(NHDPlusDelineator):
         w.save(outputfile)
 
         if verbose: 
-            print('successfully combined subbasin ' +
-                  '{} flowlines'.format(last_comid))
+            print(('successfully combined subbasin ' +
+                  '{} flowlines'.format(last_comid)))
 
     def combine_catchments(self, 
                            catchments, 
@@ -1565,10 +1565,10 @@ class HUC8Delineator(NHDPlusDelineator):
 
         if os.path.isfile(output + '.shp') and not overwrite:
             if verbose: 
-                print('combined catchment shapefile {} exists'.format(output))
+                print(('combined catchment shapefile {} exists'.format(output)))
             return
    
-        if verbose: print('combining catchments from {}'.format(catchments))
+        if verbose: print(('combining catchments from {}'.format(catchments)))
 
         # start by copying the projection files
 
@@ -1637,7 +1637,7 @@ class HUC8Delineator(NHDPlusDelineator):
             length, slope = self.get_overland(catchpoints, closest)
 
             if vverbose: 
-                print('avg slope and length =', slope.mean(), length.mean())
+                print(('avg slope and length =', slope.mean(), length.mean()))
 
             lengths[i], slopes[i] = length.mean(), slope.mean()
 
@@ -1693,8 +1693,8 @@ class HUC8Delineator(NHDPlusDelineator):
 
         w.save(output)
 
-        if vverbose: print('\ncompleted catchment combination in ' +
-                           '{:.1f} seconds\n'.format(time.time() - t0))
+        if vverbose: print(('\ncompleted catchment combination in ' +
+                           '{:.1f} seconds\n'.format(time.time() - t0)))
 
     def get_flowlines(self,
                       verbose = True
@@ -1741,8 +1741,8 @@ class HUC8Delineator(NHDPlusDelineator):
                        flowlines[flowlines[f].down].comid]
                 if verbose:
 
-                    print('{} is in between {} and {}'.format(*its) +
-                          ', short-circuiting {}'.format(its[0]))
+                    print(('{} is in between {} and {}'.format(*its) +
+                          ', short-circuiting {}'.format(its[0])))
 
                 # short-circuit the problem reach
 
@@ -1762,7 +1762,7 @@ class HUC8Delineator(NHDPlusDelineator):
                 if verbose:
 
                     i = flowlines[f].comid
-                    print('{} is not between streams, ignoring'.format(i))
+                    print(('{} is not between streams, ignoring'.format(i)))
 
         self.VAAs = flowlines
 
@@ -1881,7 +1881,7 @@ class HUC8Delineator(NHDPlusDelineator):
                     if verbose:
  
                         i = comid, record[site_index]
-                        print('adding outlet {} for gage station {}'.format(*i))
+                        print(('adding outlet {} for gage station {}'.format(*i)))
 
         else: gage_outlets = []
 
@@ -1895,7 +1895,7 @@ class HUC8Delineator(NHDPlusDelineator):
             if flowlines[f].up not in flowlines and flowlines[f].up != 0:
                 if verbose:
                     its = flowlines[f].comid, flowlines[f].up
-                    print('found inlet {} ({}) not in watershed'.format(*its))
+                    print(('found inlet {} ({}) not in watershed'.format(*its)))
                 inlets.append(flowlines[f].comid)
 
         # find the watershed outlet using the drainage area
@@ -1908,11 +1908,11 @@ class HUC8Delineator(NHDPlusDelineator):
 
         # check to see if there are two flowlines feeding the watershed outlet
 
-        for k, v in flowlines.items():
+        for k, v in list(flowlines.items()):
             if (v.down == flowlines[hydroseqs[last_comid]].down and
                 v.comid != last_comid):
-                print('adding outlet for additional watershed outlet at', 
-                      v.comid, '\n')
+                print(('adding outlet for additional watershed outlet at', 
+                      v.comid, '\n'))
                 outlets.append(v.comid)
 
         # trace the main channels from the inlet hydroseqs
@@ -1957,7 +1957,7 @@ class HUC8Delineator(NHDPlusDelineator):
 
                 flowline = flowlines[hydroseqs[outlet]]
 
-                if verbose: print(flowline.comid, 'is not connected')
+                if verbose: print((flowline.comid, 'is not connected'))
 
                 # then need to add outlets to connect to the main line
 
@@ -1974,12 +1974,12 @@ class HUC8Delineator(NHDPlusDelineator):
 
                     if verbose: 
 
-                        print('adding outlet ' +
-                              '{} for connectivity'.format(flowline.comid))
+                        print(('adding outlet ' +
+                              '{} for connectivity'.format(flowline.comid)))
 
                 # add outlets for any others streams at the new junction
 
-                others = [v for k, v in flowlines.items() 
+                others = [v for k, v in list(flowlines.items()) 
                           if (v.down == flowline.down and v != flowline)]
 
                 for other in others:
@@ -1991,8 +1991,8 @@ class HUC8Delineator(NHDPlusDelineator):
 
                         if verbose: 
 
-                            print('adding another outlet ' +
-                                  '{} for connectivity'.format(other.comid))
+                            print(('adding another outlet ' +
+                                  '{} for connectivity'.format(other.comid)))
 
             # check to see if any of the outlets are still disconnected
 
@@ -2012,7 +2012,7 @@ class HUC8Delineator(NHDPlusDelineator):
 
                         if verbose:
 
-                            print(outlet, 'is still disconnected')
+                            print((outlet, 'is still disconnected'))
                             print('')
 
         # remove any outlets that are inlets (since this makes no sense)
@@ -2066,8 +2066,8 @@ class HUC8Delineator(NHDPlusDelineator):
 
                                 if verbose: 
 
-                                    print('adding outlet %d for major tributary'
-                                          % flowlines[f].comid)
+                                    print(('adding outlet %d for major tributary'
+                                          % flowlines[f].comid))
 
                         break
 
@@ -2077,8 +2077,8 @@ class HUC8Delineator(NHDPlusDelineator):
                             outlets.append(flowlines[flowline.down].comid)
 
                             if verbose: 
-                                print('adding outlet %d for drainage area' % 
-                                      flowlines[flowline.down].comid)
+                                print(('adding outlet %d for drainage area' % 
+                                      flowlines[flowline.down].comid))
 
                         break
 
@@ -2467,7 +2467,7 @@ class HUC8Delineator(NHDPlusDelineator):
 
         # copy the fields
 
-        comid = [s for s in self.subbasins.keys()][0]
+        comid = [s for s in list(self.subbasins.keys())][0]
         filename = '{}/{}/combined_flowline'.format(output, comid)
         for field in Reader(filename).fields: l.field(*field)
 
@@ -2479,7 +2479,7 @@ class HUC8Delineator(NHDPlusDelineator):
 
             if os.path.isfile(filename + '.shp'):
 
-                if verbose: print('found combined file {}\n'.format(filename))
+                if verbose: print(('found combined file {}\n'.format(filename)))
 
                 # read the new file
   
@@ -2497,7 +2497,7 @@ class HUC8Delineator(NHDPlusDelineator):
                 if record[1] == 65 * ' ': record[1] = ''
                 l.record(*record)
 
-            elif verbose: print('unable to locate {}\n'.format(filename))
+            elif verbose: print(('unable to locate {}\n'.format(filename)))
 
         # save the merged file
 
@@ -2531,7 +2531,7 @@ class HUC8Delineator(NHDPlusDelineator):
         if parallel:
 
             processes = []
-            for subbasin, names in self.subbasins.items():
+            for subbasin, names in list(self.subbasins.items()):
                 its = output, subbasin
                 catchments = '{}/{}/catchments'.format(*its)
 
@@ -2549,7 +2549,7 @@ class HUC8Delineator(NHDPlusDelineator):
 
         else:
 
-            for subbasin, names in self.subbasins.items():
+            for subbasin, names in list(self.subbasins.items()):
 
                 its = output, subbasin
                 catchments = '{}/{}/catchments'.format(*its)
@@ -2565,8 +2565,8 @@ class HUC8Delineator(NHDPlusDelineator):
 
         if parallel and not os.path.isfile(self.subbasincatchments + '.shp'):
 
-            if verbose: print('attempting to combine subbasin catchments ' +
-                              'in parallel, this may take a while...\n')
+            if verbose: print(('attempting to combine subbasin catchments ' +
+                              'in parallel, this may take a while...\n'))
 
             processes = []
             for subbasin in self.subbasins:
@@ -2593,13 +2593,13 @@ class HUC8Delineator(NHDPlusDelineator):
             for p in processes: p.join()
             processes = None
 
-            if verbose: print('successfully combined catchments in parallel ' +
-                              'in {:.1f} seconds \n'.format(time.time() -start))
+            if verbose: print(('successfully combined catchments in parallel ' +
+                              'in {:.1f} seconds \n'.format(time.time() -start)))
 
         elif not os.path.isfile(self.subbasincatchments + '.shp'):
 
-            if verbose: print('attempting to combine subbasin catchments' +
-                              ', this may take a while...\n')
+            if verbose: print(('attempting to combine subbasin catchments' +
+                              ', this may take a while...\n'))
 
             for subbasin in self.subbasins:
 
@@ -2622,18 +2622,18 @@ class HUC8Delineator(NHDPlusDelineator):
 
                         if verbose: 
 
-                            print('successfully combined catchments in ' +
-                                  'subbasin {}\n'.format(subbasin))
+                            print(('successfully combined catchments in ' +
+                                  'subbasin {}\n'.format(subbasin)))
 
                     except:
 
                         if verbose: 
 
-                            print('warning: unable to combine catchments ' + 
-                                  'in {}\n'.format(subbasin))
+                            print(('warning: unable to combine catchments ' + 
+                                  'in {}\n'.format(subbasin)))
 
-            if verbose: print('successfully combined catchments in parallel ' +
-                              'in {:.1f} seconds \n'.format(time.time() -start))
+            if verbose: print(('successfully combined catchments in parallel ' +
+                              'in {:.1f} seconds \n'.format(time.time() -start)))
 
         # put together the combined subbasins into a single file
 
@@ -2654,8 +2654,8 @@ class HUC8Delineator(NHDPlusDelineator):
                          )
 
         if verbose: 
-            print('completed subbasin delineation in ' +
-                  '{:.1f} seconds\n'.format(time.time() - start))
+            print(('completed subbasin delineation in ' +
+                  '{:.1f} seconds\n'.format(time.time() - start)))
 
     def combine_subbasins(self, 
                           output,
@@ -2707,7 +2707,7 @@ class HUC8Delineator(NHDPlusDelineator):
                 record = r.record(0)
                 w.record(*record)
 
-            elif verbose: print('unable to locate {}'.format(filename))
+            elif verbose: print(('unable to locate {}'.format(filename)))
 
         if fields is not None: 
             w.save(self.subbasincatchments)
@@ -2759,8 +2759,8 @@ class HUC8Delineator(NHDPlusDelineator):
             ):
 
             if verbose: 
-                print('delineating HSPF watershed for HUC ' +
-                      '{}\n'.format(self.HUC8))
+                print(('delineating HSPF watershed for HUC ' +
+                      '{}\n'.format(self.HUC8)))
 
             # add any additional outlets as a list of points (or None) and 
             # divide the flowfiles into subbasins above each of the subbasin 
@@ -2776,7 +2776,7 @@ class HUC8Delineator(NHDPlusDelineator):
 
             # divide the flowline shapefile into subbasin flowline shapefiles 
 
-            for subbasin, comids in self.subbasins.items():
+            for subbasin, comids in list(self.subbasins.items()):
 
                 p        = '{}/{}'.format(output, subbasin)
                 flow     = p + '/flowlines'
@@ -2816,8 +2816,8 @@ class HUC8Delineator(NHDPlusDelineator):
 
             if verbose: 
 
-                print('successfully divided watershed in ' +
-                      '{:.1f} seconds\n'.format((time.time() - start)))
+                print(('successfully divided watershed in ' +
+                      '{:.1f} seconds\n'.format((time.time() - start))))
 
             if not os.path.isfile(self.subbasincatchments + '.shp'):
 
@@ -2829,7 +2829,7 @@ class HUC8Delineator(NHDPlusDelineator):
 
         elif verbose: 
 
-            print('hydrography data for {} exist\n'.format(self.HUC8))
+            print(('hydrography data for {} exist\n'.format(self.HUC8)))
 
         if not os.path.isfile(self.preliminary) and watershedplots:
 
@@ -2879,7 +2879,7 @@ class HUC8Delineator(NHDPlusDelineator):
         of a raster image file.
         """
 
-        if verbose: print('generating plot of watershed {}\n'.format(self.HUC8))
+        if verbose: print(('generating plot of watershed {}\n'.format(self.HUC8)))
 
         # paths to the files used herein
 
@@ -3063,7 +3063,7 @@ class HUC8Delineator(NHDPlusDelineator):
             flow_index = f.fields.index(['AVG_FLOW', 'N', 15, 3]) - 1
             flows = [r[flow_index] for r in outlet_records]
             outlet_points = [o.points[0] for o in outlet_shapes]
-            x1, y1 = zip(*outlet_points)
+            x1, y1 = list(zip(*outlet_points))
             subplot.scatter(x1, y1, marker = 'o', c = 'r', s = 30, 
                             label = 'outlets')
 
@@ -3072,7 +3072,7 @@ class HUC8Delineator(NHDPlusDelineator):
                 inlet_shapes = f.shapes()
                 inlet_points = [s.points[0] for s in inlet_shapes]
                 inlet_flows = [r[flow_index] for r in f.records()]
-                x2, y2 = zip(*inlet_points)
+                x2, y2 = list(zip(*inlet_points))
                 subplot.scatter(x2, y2, marker = 'o', c = 'b', s = 30)
 
         if gages == 'all':
@@ -3082,7 +3082,7 @@ class HUC8Delineator(NHDPlusDelineator):
             gage_shapes = f.shapes()
             gage_points = [g.points[0] for g in gage_shapes]
 
-            x1, y1 = zip(*gage_points)
+            x1, y1 = list(zip(*gage_points))
             subplot.scatter(x1, y1, marker = 'o', c = 'r', s = 30, 
                             label = 'gauges')
 
@@ -3114,7 +3114,7 @@ class HUC8Delineator(NHDPlusDelineator):
 
                     gage_points.append(shape.points[0])
 
-            x1, y1 = zip(*gage_points)
+            x1, y1 = list(zip(*gage_points))
             subplot.scatter(x1, y1, marker = 'o', c = 'r', s = 30, 
                             label = 'gauges')
 
@@ -3139,7 +3139,7 @@ class HUC8Delineator(NHDPlusDelineator):
                 
                     dam_points.append(s.points[0])
 
-            x1, y1 = zip(*dam_points)
+            x1, y1 = list(zip(*dam_points))
             subplot.scatter(x1, y1, marker = 's', c = 'y', s = 30, 
                             label = 'dams')
 

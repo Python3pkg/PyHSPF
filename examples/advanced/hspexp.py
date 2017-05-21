@@ -194,9 +194,9 @@ if __name__ == '__main__':
                      sum((numpy.array(log_o) - numpy.mean(log_o))**2))
 
     print('daily stats:')
-    print(daily_r**2, daily_logr**2, dailyNS, daily_logNS)
+    print((daily_r**2, daily_logr**2, dailyNS, daily_logNS))
     print('monthly stats:')
-    print(monthly_r**2, monthly_logr**2, monthlyNS, monthly_logNS)
+    print((monthly_r**2, monthly_logr**2, monthlyNS, monthly_logNS))
 
     # calculate the mean flow rate
 
@@ -394,7 +394,7 @@ if __name__ == '__main__':
 
     # hydrograph
 
-    trange = range(0,10,2)
+    trange = list(range(0,10,2))
 
     fig = pyplot.figure(figsize = (8,8))
 

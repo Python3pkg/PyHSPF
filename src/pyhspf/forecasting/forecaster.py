@@ -67,7 +67,7 @@ class Forecaster:
 
         # make a dictionary to use to find the comid for each gage id
 
-        d = {v:k for k, v in hspfmodel.subbasin_timeseries['flowgage'].items()}
+        d = {v:k for k, v in list(hspfmodel.subbasin_timeseries['flowgage'].items())}
         self.gagecomid = d[gageid]
 
         # use the updown dictionary to find the upstream gages (if desired)
@@ -169,7 +169,7 @@ class Forecaster:
             hspfmodel.add_timeseries('evaporation', l, start, 
                                      PET[i:], tstep = t)
             
-        for k, val in landuse_keys.items():
+        for k, val in list(landuse_keys.items()):
 
             # assign to the landuse categories
 
@@ -366,8 +366,8 @@ class Forecaster:
         end = start + datetime.timedelta(minutes = tstep) * len(data)
 
         if self.process_dates[0] < start or end < self.process_dates[1]:
-            print('warning: missing data; processing only period of ' +
-                  'available gage data\n')
+            print(('warning: missing data; processing only period of ' +
+                  'available gage data\n'))
             process_dates = start, end
         else:
             process_dates = self.process_dates

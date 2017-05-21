@@ -39,11 +39,11 @@ end   = datetime.datetime(2009, 1, 1)
 warmup = 365
 
 if not os.path.isdir(network):
-    print('error, directory {} doesn not exist (please update)'.format(network))
+    print(('error, directory {} doesn not exist (please update)'.format(network)))
     raise
 if not os.path.isdir(destination):
-    print('error, directory ' +
-          '{} doesn not exist (please update)'.format(destination))
+    print(('error, directory ' +
+          '{} doesn not exist (please update)'.format(destination)))
     raise
 
 # Because parallel processing is (optionally) used, the process method has 
@@ -67,7 +67,7 @@ if __name__ == '__main__':
 
     # get the comid of the gage
 
-    d = {v:k for k, v in hspfmodel.subbasin_timeseries['flowgage'].items()}
+    d = {v:k for k, v in list(hspfmodel.subbasin_timeseries['flowgage'].items())}
     comid = d[gageid]
 
     # change the file paths for the input/output

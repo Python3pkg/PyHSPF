@@ -30,25 +30,25 @@ elevfile  = '{}/elevations.tif'.format(output) # NED raster file
 
 if not os.path.isfile(VAAfile):
 
-    print('\nerror: file {} does not exist!'.format(VAAfile))
+    print(('\nerror: file {} does not exist!'.format(VAAfile)))
     print('double-check that the path is correct\n')
     raise
 
 if not os.path.isfile(flowfile + '.shp'):
 
-    print('\nerror: file {} does not exist!'.format(flowfile))
+    print(('\nerror: file {} does not exist!'.format(flowfile)))
     print('double-check that the path is correct\n')
     raise
 
 if not os.path.isfile(cfile + '.shp'):
 
-    print('\nerror: file {} does not exist!'.format(cfile))
+    print(('\nerror: file {} does not exist!'.format(cfile)))
     print('double-check that the path is correct\n')
     raise
 
 if not os.path.isfile(elevfile):
 
-    print('\nerror: file {} does not exist!'.format(elevfile))
+    print(('\nerror: file {} does not exist!'.format(elevfile)))
     print('double-check that the path is correct\n')
     raise
 

@@ -34,9 +34,9 @@ for i in range(4, 16):
 
     p = 'test{:02d}.uci'.format(i)
     if os.path.isfile(p): 
-        print('performing HSPF simulation {}'.format(p))
+        print(('performing HSPF simulation {}'.format(p)))
         hspf.hsppy(p, messagepath)
         print('successfully completed simulation\n')
     else:
-        print('unable to locate {}, terminating'.format(p))
+        print(('unable to locate {}, terminating'.format(p)))
         raise

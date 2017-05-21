@@ -32,7 +32,7 @@ class WDMUtil:
         elif os.path.isfile(messagepath):
             self.messagepath = messagepath
         else:
-            print('error: unable to open message file {}'.format(messagepath))
+            print(('error: unable to open message file {}'.format(messagepath)))
             raise
 
         self.verbose = verbose
@@ -96,12 +96,12 @@ class WDMUtil:
 
         if os.path.exists(wdmpath) and mode == 'w':
             if self.verbose: 
-                print('warning: file %s exists, overwriting\n' % wdmpath)
+                print(('warning: file %s exists, overwriting\n' % wdmpath))
             os.remove(wdmpath)
 
         if wdmpath not in self.openfiles:
             if len(wdmpath) > 64:
-                print('path {} has {} characters'.format(wdmpath, len(wdmpath)))
+                print(('path {} has {} characters'.format(wdmpath, len(wdmpath))))
                 print('error, the file path must be 64 characters or less\n')
                 raise
 
@@ -122,11 +122,11 @@ class WDMUtil:
             #                            ronwfg)
 
             if retcode == 0 and self.verbose: 
-                print('opened {} {}'.format(wdmpath, choice[ronwfg]))
+                print(('opened {} {}'.format(wdmpath, choice[ronwfg])))
             if retcode == 1 and self.verbose: 
-                print('opened file {} but invalid filename'.format(wdmpath))
+                print(('opened file {} but invalid filename'.format(wdmpath)))
             if retcode  < 0:
-                print('error: unable to open file {}\n'.format(wdmpath))
+                print(('error: unable to open file {}\n'.format(wdmpath)))
                 raise
             self.openfiles[wdmpath] = len(self.openfiles) + 11
 
@@ -154,9 +154,9 @@ class WDMUtil:
             self.dsns.pop(self.openfiles[wdmpath])
             self.openfiles.pop(wdmpath)
             if retcode == 0 and self.verbose: 
-                print('successfully closed file {}\n'.format(wdmpath))
+                print(('successfully closed file {}\n'.format(wdmpath)))
             if retcode != 0: 
-                print('error closing {}, retcode {}\n'.format(wdmpath, retcode))
+                print(('error closing {}, retcode {}\n'.format(wdmpath, retcode)))
 
     def close_message(self):
         """
@@ -192,10 +192,10 @@ class WDMUtil:
 
         wdm_number = self.openfiles[wdmpath]
 
-        if self.verbose: print('creating DSN {} in {}'.format(dsn, wdmpath))
+        if self.verbose: print(('creating DSN {} in {}'.format(dsn, wdmpath)))
 
         if hspf.wdckdtpy(wdm_number, dsn) == 1 and self.verbose: 
-            print('DSN {} already exists'.format(dsn))
+            print(('DSN {} already exists'.format(dsn)))
 
         dataset = DSN(wdm_number, dsn, self.message)
 
@@ -203,16 +203,16 @@ class WDMUtil:
         dataset.create(pointers)
 
         if self.verbose: 
-            print('created new DSN {}'.format(dsn))
-            print('writing attributes to DSN {}'.format(dsn))
+            print(('created new DSN {}'.format(dsn)))
+            print(('writing attributes to DSN {}'.format(dsn)))
 
-        for k, v in attributes.items():
+        for k, v in list(attributes.items()):
             retcode, var = dataset.add_attribute(v, self.attributes[k])
 
             if retcode == 0 and self.verbose:
-                print('set {} to {}'.format(k, v))
+                print(('set {} to {}'.format(k, v)))
             elif self.verbose:
-                print('failed to set value of {}'.format(k))
+                print(('failed to set value of {}'.format(k)))
                 raise
 
         self.dsns[wdm_number] = dsn
@@ -235,15 +235,15 @@ class WDMUtil:
 
         wdm_number = self.openfiles[wdmpath]
 
-        if self.verbose: print('adding data to DSN {}'.format(dsn))
+        if self.verbose: print(('adding data to DSN {}'.format(dsn)))
         dataset = DSN(wdm_number, dsn, self.message)
         retcode = dataset.add_data(data, start_date)
 
         self.retcode_check(retcode, function = 'wdtput')
         if retcode == 0 and self.verbose: 
-            print('added data to {} DSN {}'.format(wdmpath, dsn))
+            print(('added data to {} DSN {}'.format(wdmpath, dsn)))
         elif retcode != 0:
-            print('failed to add data to DSN {}'.format(dsn))
+            print(('failed to add data to DSN {}'.format(dsn)))
             raise
 
     def import_exp(self, 
@@ -346,7 +346,7 @@ class WDMUtil:
         Renumbers a data seres.
         """
 
-        if self.verbose: print('renumbering dsn {}'.format(odsn))
+        if self.verbose: print(('renumbering dsn {}'.format(odsn)))
         wdmfp = self.openfiles[wdmpath]
 
         retcode = hspf.wddsrn(wdmfp, odsn, ndsn)
@@ -360,7 +360,7 @@ class WDMUtil:
         Deletes a data series.
         """
 
-        if self.verbose: print('deleting dsn {}'.format(dsn))
+        if self.verbose: print(('deleting dsn {}'.format(dsn)))
         wdmfp = self.openfiles[wdmpath]
         retcode = self.wddsdl(wdmfp, int(dsn))
         self.retcode_check(retcode, function = 'wddsdl')
@@ -376,7 +376,7 @@ class WDMUtil:
         """
 
         if self.verbose: 
-            print('getting attribute {} from DSN {}'.format(attribute, dsn))
+            print(('getting attribute {} from DSN {}'.format(attribute, dsn)))
 
         wdm_number = self.openfiles[wdmpath]
         dataset = DSN(wdm_number, dsn, self.message)
@@ -391,7 +391,7 @@ class WDMUtil:
         if var == '%s': value = v.tostring().strip().decode('utf-8')
         else:           value = v[0]
         if retcode == 0 and self.verbose: 
-            print('read %s' % attribute + ' = ' + var % value)
+            print(('read %s' % attribute + ' = ' + var % value))
         elif retcode != 0: 
             value = None
             self.retcode_check(retcode, function = 'wdbsac')
@@ -411,7 +411,7 @@ class WDMUtil:
         """
 
         if self.verbose: 
-            print('getting start and end dates for dataset {}'.format(dsn))
+            print(('getting start and end dates for dataset {}'.format(dsn)))
 
         wdm_number = self.openfiles[wdmpath]
         tdsfrc, llsdat, lledat, retcode = hspf.wtfndtpy(wdm_number, dsn, 1)
@@ -461,11 +461,11 @@ class WDMUtil:
         """
 
         wdm_number = self.openfiles[wdmpath]
-        if self.verbose: print('getting data from dataset number %d' % dsn)
+        if self.verbose: print(('getting data from dataset number %d' % dsn))
 
         if hspf.wdckdtpy(wdm_number, dsn) == 0:
             if self.verbose: 
-                print('DSN {} in file {} does not exist'.format(dsn, wdmpath))
+                print(('DSN {} in file {} does not exist'.format(dsn, wdmpath)))
             return None
 
         dataset = DSN(wdm_number, dsn, self.message)
@@ -475,7 +475,7 @@ class WDMUtil:
             print('no data present')
             return None
 
-        if self.verbose: print('reading data from DSN {}'.format(dsn))
+        if self.verbose: print(('reading data from DSN {}'.format(dsn)))
 
         if start != None:
             llsdat = [start.year, start.month, start.day, start.hour, 
@@ -518,7 +518,7 @@ class WDMUtil:
         """
 
         if retcode < 0 and self.verbose: 
-            print('WDM library function error {} {}'.format(retcode, function))
+            print(('WDM library function error {} {}'.format(retcode, function)))
 
 class Pointers:
     """
@@ -603,8 +603,8 @@ class DSN:
             retcode = hspf.wdbsacpy(self.wdm, self.number, self.message, i, v)
             var = '%s'
             
-            if retcode < 0: print('problem adding attribute to %d, retcode = %d'
-                                  % (i, retcode))
+            if retcode < 0: print(('problem adding attribute to %d, retcode = %d'
+                                  % (i, retcode)))
 
         return retcode, var
 
@@ -666,7 +666,7 @@ if __name__ == '__main__':
     
     data = [34.2, 35.0, 36.9, 38.2, 40.2 , 20.1, 18.4, 23.6]
     
-    print('\noriginal list to input to file %s = ' % filename, data, '\n')
+    print(('\noriginal list to input to file %s = ' % filename, data, '\n'))
 
     # make the wdm file
 
@@ -702,15 +702,15 @@ if __name__ == '__main__':
     # print it out
 
     print('')
-    print('Datasets in file {}: {}\n'.format(
-            filename, wdm.get_datasets(filename)))
-    print('Attributes of dataset number {}\n'.format(number))              
-    for value in values.items(): print(*value)
+    print(('Datasets in file {}: {}\n'.format(
+            filename, wdm.get_datasets(filename))))
+    print(('Attributes of dataset number {}\n'.format(number)))              
+    for value in list(values.items()): print((*value))
     print('')
-    print('Time series returned from dataset {} in file {}:\n'.format( 
-            number, filename))
+    print(('Time series returned from dataset {} in file {}:\n'.format( 
+            number, filename)))
     for t, d in zip(times, data):
-        print(t, d)
+        print((t, d))
 
     print('')
     wdm.close(filename)
@@ -741,9 +741,9 @@ if __name__ == '__main__':
     data = wdm.get_data(destination, 106)
     
     print('')
-    print('total precipitation (in):', data.sum())
-    print('number of values in time series', len(data))
-    print('maximum daily precipitation (in):', data.max())
+    print(('total precipitation (in):', data.sum()))
+    print(('number of values in time series', len(data)))
+    print(('maximum daily precipitation (in):', data.max()))
 
     wdm.close(destination)
 

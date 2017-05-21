@@ -276,7 +276,7 @@ class NetCDFExtractor:
     
                     name = get_file(source, m1)
     
-                    print('adding data from {}'.format(name))
+                    print(('adding data from {}'.format(name)))
     
                     # get the data
     
@@ -292,7 +292,7 @@ class NetCDFExtractor:
                         l += [(t, d) if mi <= d and d <= ma else (t, 0) 
                               for t, d in zip(times, da)]
     
-                print('dumping {}...'.format(year))
+                print(('dumping {}...'.format(year)))
                 for n, d in zip(self.names, datas):
                     o = '{}/{}'.format(ydir, n)
                     with open(o, 'wb') as f: pickle.dump(d, f)
@@ -310,7 +310,7 @@ class NetCDFExtractor:
             i = s.index('_')
             lon = float(s[:i])
             lat = float(s[i+1:])
-            print('processing grid point {}, {}'.format(lon, lat))
+            print(('processing grid point {}, {}'.format(lon, lat)))
    
             t1 = datetime.datetime(self.years[0], 1, 1, 
                                    tzinfo = datetime.timezone.utc)
@@ -367,25 +367,25 @@ class NetCDFExtractor:
 
         with open(gridfile, 'rb') as f: s = pickle.load(f)
 
-        times, prec = zip(*s.data['rain'])
+        times, prec = list(zip(*s.data['rain']))
             
         years = (times[-1] - times[0]).days / 365.25
 
         pavg = sum(prec) / years
 
-        times, temp = zip(*s.data['temperature'])
+        times, temp = list(zip(*s.data['temperature']))
 
         tmin, tmax = min(temp), max(temp)
 
-        times, solar = zip(*s.data['solar'])
+        times, solar = list(zip(*s.data['solar']))
 
         savg = sum(solar) / years
 
-        times, humidity = zip(*s.data['humidity'])
+        times, humidity = list(zip(*s.data['humidity']))
 
         havg = sum(humidity) / len(humidity)
 
-        times, wind = zip(*s.data['wind'])
+        times, wind = list(zip(*s.data['wind']))
 
         wavg = sum(wind) / len(wind)
 
@@ -437,4 +437,4 @@ if __name__ == '__main__':
 
     extractor.extract(parallel = parallel, metrics = metrics)
 
-    print('\ndone extracting all in {:.0f} seconds'.format(time.time() - go))
+    print(('\ndone extracting all in {:.0f} seconds'.format(time.time() - go)))

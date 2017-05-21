@@ -27,7 +27,7 @@ messagepath = '{}/pyhspf/core/hspfmsg.wdm'.format(pyhspfdirectory)
 
 def run(ucifile):
 
-    print('performing HSPF simulation {}'.format(ucifile))
+    print(('performing HSPF simulation {}'.format(ucifile)))
     hspf.hsppy(ucifile, messagepath)
     print('successfully completed simulation\n')
 
@@ -63,6 +63,6 @@ def main():
 
     end = time.time()
     
-    print('run time = {:.2f} seconds\n'.format(end - start))
+    print(('run time = {:.2f} seconds\n'.format(end - start)))
 
 if __name__ == '__main__': main()

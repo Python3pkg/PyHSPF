@@ -212,7 +212,7 @@ class CalibratorModel(HSPFModel):
         # store in an updown dictionary
 
         updown = {up:down 
-                  for up, down in hspfmodel.updown.items() 
+                  for up, down in list(hspfmodel.updown.items()) 
                   if down == comid}
 
         current = 0
@@ -224,7 +224,7 @@ class CalibratorModel(HSPFModel):
 
             # iterate throught the subbasins and see if any need to be added
 
-            for up, down in hspfmodel.updown.items():
+            for up, down in list(hspfmodel.updown.items()):
 
                 if (up not in updown   and   # not already there
                     up not in upcomids and   # between the boundaries
@@ -244,7 +244,7 @@ class CalibratorModel(HSPFModel):
         # overwrite the old subbasin dictionary
 
         self.subbasins = {c: subbasin 
-                              for c, subbasin in self.subbasins.items()
+                              for c, subbasin in list(self.subbasins.items())
                               if c in updown or c == comid}
 
         # overwrite the perlnd, implnd, rchres lists
@@ -278,7 +278,7 @@ class CalibratorModel(HSPFModel):
                       'flowgage':      hspfmodel.flowgages,
                       }
 
-        for tstype, identifier in hspfmodel.watershed_timeseries.items():
+        for tstype, identifier in list(hspfmodel.watershed_timeseries.items()):
             ts = timeseries[tstype]
             s, t, data = ts[identifier]
             self.add_timeseries(tstype, identifier, s, data, tstep = t)
@@ -286,18 +286,18 @@ class CalibratorModel(HSPFModel):
 
         # add and assign all the land use time series
 
-        for tstype, d in hspfmodel.landuse_timeseries.items():
+        for tstype, d in list(hspfmodel.landuse_timeseries.items()):
             ts = timeseries[tstype]
-            for landuse, identifier in d.items():
+            for landuse, identifier in list(d.items()):
                 s, t, data = ts[identifier]
                 self.add_timeseries(tstype, identifier, s, data, tstep = t)
                 self.assign_landuse_timeseries(tstype, landuse, identifier)
 
         # add and assign subbasin land use time series inside the submodel
 
-        for tstype, d in hspfmodel.subbasin_timeseries.items():
+        for tstype, d in list(hspfmodel.subbasin_timeseries.items()):
             ts = timeseries[tstype]
-            for c, identifier in d.items():
+            for c, identifier in list(d.items()):
                 if c in updown or c == comid:
                     s, t, l = ts[identifier]
                     self.add_timeseries(tstype, identifier, s, l, tstep = t)
@@ -305,10 +305,10 @@ class CalibratorModel(HSPFModel):
 
         # add and assign operation time series inside the submodel
 
-        for tstype, d1 in hspfmodel.operation_timeseries.items():
+        for tstype, d1 in list(hspfmodel.operation_timeseries.items()):
             ts = timeseries[tstype]
-            for subbasin, d2 in d1.items():
-                for otype, id in d2.items():
+            for subbasin, d2 in list(d1.items()):
+                for otype, id in list(d2.items()):
                     if subbasin in self.subbasins:
                         s, t, l = ts[id]
                         self.add_timeseries(tstype, id, s, l, tstep = t)
@@ -319,5 +319,5 @@ class CalibratorModel(HSPFModel):
              
         for upcomid in upcomids:
 
-            print('warning: input flow time series for subbasin ' +
-                  '{} must be specified'.format(upcomid))
+            print(('warning: input flow time series for subbasin ' +
+                  '{} must be specified'.format(upcomid)))

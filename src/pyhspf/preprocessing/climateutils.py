@@ -64,8 +64,8 @@ def find_ghcnd(bbox,
 
         if verbose: 
 
-            print('looking for GHCND stations in ' +
-                  '{:.4f}, {:.4f}, {:.4f}, {:.4f}...\n'.format(*bbox))
+            print(('looking for GHCND stations in ' +
+                  '{:.4f}, {:.4f}, {:.4f}, {:.4f}...\n'.format(*bbox)))
 
         filename = 'ghcnd-stations.txt'
 
@@ -85,8 +85,8 @@ def find_ghcnd(bbox,
                 
         except: 
 
-            print('unable to connect to the GHCND database\n' +
-                  'make sure that you are online')
+            print(('unable to connect to the GHCND database\n' +
+                  'make sure that you are online'))
             raise
 
         # parse through the GSN and HCN stations and see if they're in the box
@@ -109,13 +109,13 @@ def find_ghcnd(bbox,
                                                  )
                                     )
 
-                    if verbose: print('found GHCND station ' +
-                                      '{}, {}'.format(station, name.strip()))
+                    if verbose: print(('found GHCND station ' +
+                                      '{}, {}'.format(station, name.strip())))
 
     else:
 
         if verbose: 
-            print('looking for GHCND stations with {} data'.format(var))
+            print(('looking for GHCND stations with {} data'.format(var)))
             print('if your internet connection is slow this may take a while\n')
 
         filename = 'ghcnd-inventory.txt'
@@ -156,7 +156,7 @@ def find_ghcnd(bbox,
 
                         if verbose: 
 
-                            print('found {} station {}'.format(var, station))
+                            print(('found {} station {}'.format(var, station)))
 
                         names.append(station)
 
@@ -197,8 +197,8 @@ def find_ghcnd(bbox,
                                                  )
                                     )
 
-                    if verbose: print('found GHCND station ' +
-                                      '{}, {}'.format(station, name.strip()))
+                    if verbose: print(('found GHCND station ' +
+                                      '{}, {}'.format(station, name.strip())))
 
     if len(stations) == 0:
         print('\nwarning: unable to locate stations within the region')
@@ -219,8 +219,8 @@ def find_gsod(bbox,
     if verbose:
  
         i = bbox
-        print('\nsearching for GSOD stations in ' +
-              '{:.4f}, {:.4f}, {:.4f}, {:.4f}...'.format(*i))
+        print(('\nsearching for GSOD stations in ' +
+              '{:.4f}, {:.4f}, {:.4f}, {:.4f}...'.format(*i)))
 
     xmin, ymin, xmax, ymax = bbox
 
@@ -280,8 +280,8 @@ def find_gsod(bbox,
                                                 )
                                     )
                     if vverbose: 
-                        print('found GSOD station ' +
-                              '{}, {}, "{}"'.format(usaf,wban,station.strip())) 
+                        print(('found GSOD station ' +
+                              '{}, {}, "{}"'.format(usaf,wban,station.strip()))) 
 
                 elif d1 is not None and d2 is not None:
                     
@@ -290,8 +290,8 @@ def find_gsod(bbox,
                     if d1 <= dates[0] and dates[1] <= d2:
                         v = usaf, wban, station.strip(), d1.year, d2.year
                         if verbose:
-                            print('found GSOD station ' +
-                                  '{}, {}, "{}" {} to {}'.format(*v))
+                            print(('found GSOD station ' +
+                                  '{}, {}, "{}" {} to {}'.format(*v)))
                             stations.append(GSODStation(int(usaf), 
                                                         int(wban), 
                                                         station.strip(), 
@@ -321,8 +321,8 @@ def find_precip3240(bbox,
 
     if verbose: 
 
-        print('\nsearching for hourly precipitation stations within ' +
-              '{:.4f}, {:.4f}, {:.4f}, {:.4f}...\n'.format(*bbox))
+        print(('\nsearching for hourly precipitation stations within ' +
+              '{:.4f}, {:.4f}, {:.4f}, {:.4f}...\n'.format(*bbox)))
 
     # state codes
 
@@ -443,8 +443,8 @@ def find_precip3240(bbox,
                                                   )
                                 )
 
-                if verbose: print('found hourly precipitation station ' +
-                                  '{}, coop {}'.format(desc.strip(), coop))
+                if verbose: print(('found hourly precipitation station ' +
+                                  '{}, coop {}'.format(desc.strip(), coop)))
 
     if verbose: print('')
 
@@ -465,8 +465,8 @@ def find_nsrdb(bbox,
     if verbose: 
 
         i = bbox
-        print('searching for NSRDB stations in ' +
-              '{:.4f}, {:.4f}, {:.4f}, {:.4f}...\n'.format(*i))
+        print(('searching for NSRDB stations in ' +
+              '{:.4f}, {:.4f}, {:.4f}, {:.4f}...\n'.format(*i)))
 
     xmin, ymin, xmax, ymax = bbox
 
@@ -580,14 +580,14 @@ def find_nsrdb(bbox,
                                 )
 
                 if verbose: 
-                    print('found NSRDB station ' +
-                          '{}, {}'.format(usaf, station.strip())) 
+                    print(('found NSRDB station ' +
+                          '{}, {}'.format(usaf, station.strip()))) 
 
     if old and all([s.wban is None for s in stations]): stations = []
 
     if len(stations) == 0:
-        print('\nwarning: unable to locate stations for the entire ' +
-              'period of interest\n')
+        print(('\nwarning: unable to locate stations for the entire ' +
+              'period of interest\n'))
 
     elif verbose: print('')
 

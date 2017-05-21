@@ -59,7 +59,7 @@ class GageStation:
 
         # transpose the rows and get the dates/flows
 
-        org, gagename, gagedates, gageflows, gageflags = zip(*rows)
+        org, gagename, gagedates, gageflows, gageflags = list(zip(*rows))
 
         # convert dates to datetime and flows to integers
 
@@ -77,8 +77,8 @@ class GageStation:
         dates (default set in the init method).
         """
 
-        if verbose: print('attempting to download daily discharge data ' +
-                          'from NWIS for {}'.format(self.gageid))
+        if verbose: print(('attempting to download daily discharge data ' +
+                          'from NWIS for {}'.format(self.gageid)))
 
         t = start.year, start.month, start.day, end.year, end.month, end.day
 
@@ -98,7 +98,7 @@ class GageStation:
 
             # organize the data by type
 
-            org, gagename, gagedates, gageflows, gageflags = zip(*rows)
+            org, gagename, gagedates, gageflows, gageflags = list(zip(*rows))
 
             self.dailydates = [datetime.datetime.strptime(d, '%Y-%m-%d') 
                               for d in gagedates]
@@ -122,8 +122,8 @@ class GageStation:
         Downloads the instantaneous flow data for the station.
         """
 
-        if verbose: print('attempting to download instantaneous flow data ' +
-                          'from NWIS for {}'.format(self.gageid))
+        if verbose: print(('attempting to download instantaneous flow data ' +
+                          'from NWIS for {}'.format(self.gageid)))
 
         its = start.year, start.month, start.day, end.year, end.month, end.day
 
@@ -145,7 +145,7 @@ class GageStation:
 
             # organize the data by type
 
-            org, n, dates, tz, cfs, x  = zip(*rows)
+            org, n, dates, tz, cfs, x  = list(zip(*rows))
 
             self.instantaneous = []
 
@@ -181,8 +181,8 @@ class GageStation:
         Downloads the water quality data for an NWIS station.
         """
 
-        if verbose: print('attempting to download water quality data ' +
-                          'from NWIS for {}'.format(self.gageid))
+        if verbose: print(('attempting to download water quality data ' +
+                          'from NWIS for {}'.format(self.gageid)))
 
         l = (self.state, self.gageid)
 
@@ -203,7 +203,7 @@ class GageStation:
             # organize the data by type
 
             (org, n, dates, times, x, x, x, x, x, x, x, x, parm_cds, x, results,
-             x, x, x, x, x, x, x) = zip(*rows)
+             x, x, x, x, x, x, x) = list(zip(*rows))
 
             self.waterquality = {}
 
@@ -242,8 +242,8 @@ class GageStation:
         Downloads all stage-discharge measurements for the station.
         """
 
-        if verbose: print('attempting to download stage-discharge ' +
-                          'measurements from NWIS for {}'.format(self.gageid))
+        if verbose: print(('attempting to download stage-discharge ' +
+                          'measurements from NWIS for {}'.format(self.gageid)))
 
         url = ('http://nwis.waterdata.usgs.gov/' +
                'nwis/measurements?site_no={}'.format(self.gageid) +
@@ -265,7 +265,7 @@ class GageStation:
 
             (x, x, x, ds, x, x, m, x, hs, qs, x, x, x, fs, x, x,  
              x, x, x, x, x, x, x, x, ws, areas, vs, x, x, x, x, 
-             x, x, x, x) = zip(*rows)
+             x, x, x, x) = list(zip(*rows))
 
             for d, h, q, f, w, a, v in zip(ds, hs, qs, fs, ws, areas, vs):
 
@@ -403,8 +403,8 @@ class GageStation:
 
         else:
             
-            print('warning, requested dates exceed available data' +
-                  ', filling with Nones\n')
+            print(('warning, requested dates exceed available data' +
+                  ', filling with Nones\n'))
             while t < self.dailydates[0]:
                 series.append(None)
                 t += tstep
@@ -421,8 +421,8 @@ class GageStation:
 
         else:
 
-            print('warning, requested dates exceed available data' +
-                  ', filling with Nones\n')
+            print(('warning, requested dates exceed available data' +
+                  ', filling with Nones\n'))
 
             while t < self.dailydates[-1]:
 

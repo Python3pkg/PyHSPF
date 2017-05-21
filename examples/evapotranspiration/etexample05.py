@@ -38,7 +38,7 @@ end   = datetime.datetime(2005, 1, 1)
 filename = 'subbasin_catchments'
 
 if not os.path.isfile(filename + '.shp'):
-    print('error: file {} does not exist!'.format(filename))
+    print(('error: file {} does not exist!'.format(filename)))
     raise
 
 # make an instance of the ClimateProcessor to fetch the climate data

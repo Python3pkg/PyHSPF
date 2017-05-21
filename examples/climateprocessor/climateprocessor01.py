@@ -37,7 +37,7 @@ sf = 'subbasin_catchments'
 
 if not os.path.isfile(sf + '.shp'):
 
-    print('\nerror: you seem to be missing the {} shapefile\n'.format(sf))
+    print(('\nerror: you seem to be missing the {} shapefile\n'.format(sf)))
     raise
 
 from shapefile import Reader
@@ -75,24 +75,24 @@ processor.download(bbox, start, end, output, datasets = datasets)
 
 # GHCND (daily precip, tmax, tmin, snowdepth, snowfall, wind, pan evaporation
 
-for k, v in processor.metadata.ghcndstations.items(): 
+for k, v in list(processor.metadata.ghcndstations.items()): 
 
-    print('\n'.join(['{} {} {}'.format(k, p, val) for p, val in v.items()]))
+    print(('\n'.join(['{} {} {}'.format(k, p, val) for p, val in list(v.items())])))
 
 # GSOD (daily precip, tmax, tmin, wind, dewpoint)
 
-for k, v in processor.metadata.gsodstations.items(): 
+for k, v in list(processor.metadata.gsodstations.items()): 
 
-    print('\n'.join(['{} {} {}'.format(k, p, val) for p, val in v.items()]))
+    print(('\n'.join(['{} {} {}'.format(k, p, val) for p, val in list(v.items())])))
 
 # hourly precipitation (only one dataset class)
 
-for k, v in processor.metadata.precip3240stations.items(): 
+for k, v in list(processor.metadata.precip3240stations.items()): 
 
-    print('\n'.join(['{} {} {}'.format(k, p, val) for p, val in v.items()]))
+    print(('\n'.join(['{} {} {}'.format(k, p, val) for p, val in list(v.items())])))
 
 # NSRDB (legacy data (pre-1991), METSTAT model, SUNY model, observed (rare))
 
-for k, v in processor.metadata.nsrdbstations.items(): 
+for k, v in list(processor.metadata.nsrdbstations.items()): 
 
-    print('\n'.join(['{} {} {}'.format(k, p, val) for p, val in v.items()]))
+    print(('\n'.join(['{} {} {}'.format(k, p, val) for p, val in list(v.items())])))

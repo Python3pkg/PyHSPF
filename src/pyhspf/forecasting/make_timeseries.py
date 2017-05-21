@@ -25,13 +25,13 @@ def average_timeseries(directory,
 
         if not os.path.isfile(destination):
 
-            print('averaging {} timeseries...\n'.format(v))
+            print(('averaging {} timeseries...\n'.format(v)))
 
             series = []
             source = '{}/{}'.format(directory, v)
             for f in os.listdir(source):
                 p = '{}/{}'.format(source, f)
-                with open(p, 'rb') as d: ts, data = zip(*pickle.load(d))
+                with open(p, 'rb') as d: ts, data = list(zip(*pickle.load(d)))
                 series.append(numpy.array(data))
 
             values = sum(series) / len(series)
@@ -104,7 +104,7 @@ def make_precipitation(subbasins, directory, verbose = True):
     for f in os.listdir(rain):
 
         with open('{}/{}'.format(rain, f), 'rb') as g: 
-            t, r = zip(*pickle.load(g))
+            t, r = list(zip(*pickle.load(g)))
 
         precips.append(numpy.array(r))
         
@@ -119,14 +119,14 @@ def make_precipitation(subbasins, directory, verbose = True):
     if not os.path.isdir(d): os.mkdir(d)
 
     start = t[0]
-    for comid, subbasin in subbasins.items(): 
+    for comid, subbasin in list(subbasins.items()): 
 
         output = '{}/{}'.format(d, comid)
 
         if not os.path.isfile(output):
             if verbose: 
-                print('making a precipitation time series for subbasin ' +
-                      '{}'.format(comid))
+                print(('making a precipitation time series for subbasin ' +
+                      '{}'.format(comid)))
 
             # find the gages and the distance from the centroid
 
@@ -172,8 +172,8 @@ def make_dewpoint(directory):
 
     if not os.path.isfile(dewfile):
 
-        with open(tempfile, 'rb') as f: ts, Ts  = zip(*pickle.load(f))
-        with open(hfile, 'rb') as f:    ts, RHs = zip(*pickle.load(f))
+        with open(tempfile, 'rb') as f: ts, Ts  = list(zip(*pickle.load(f)))
+        with open(hfile, 'rb') as f:    ts, RHs = list(zip(*pickle.load(f)))
 
         # aggregate 3-hr temperatures to daily and get the Tmin
 
@@ -247,10 +247,10 @@ def make_timeseries(directory, HUC8, start, end, evapstations = None,
         record = sh.record(0)
         lon, lat, elev = record[-3:]
 
-        with open(windfile,  'rb') as f: ts, Ws   = zip(*pickle.load(f))
-        with open(tempfile,  'rb') as f: ts, Ts   = zip(*pickle.load(f))
-        with open(solarfile, 'rb') as f: ts, Ss   = zip(*pickle.load(f))
-        with open(dewfile,   'rb') as f: ts, dews = zip(*pickle.load(f))
+        with open(windfile,  'rb') as f: ts, Ws   = list(zip(*pickle.load(f)))
+        with open(tempfile,  'rb') as f: ts, Ts   = list(zip(*pickle.load(f)))
+        with open(solarfile, 'rb') as f: ts, Ss   = list(zip(*pickle.load(f)))
+        with open(dewfile,   'rb') as f: ts, dews = list(zip(*pickle.load(f)))
 
         # dump the daily series
 

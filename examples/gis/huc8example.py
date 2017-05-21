@@ -56,15 +56,15 @@ def main():
     # make sure the metadata are set before starting the download
 
     print('')
-    print('preparing to delineate the subbasins for HUC {}\n'.format(HUC8))
-    print('if you have already downloaded the NHDPlus, NWIS, and NID source ' +
+    print(('preparing to delineate the subbasins for HUC {}\n'.format(HUC8)))
+    print(('if you have already downloaded the NHDPlus, NWIS, and NID source ' +
           'data make sure you set the directory paths, or all the data will ' +
-          'be downloaded again.\n')
+          'be downloaded again.\n'))
     print('press "y" to continue or "n" to abort...\n')
 
     s = 'n'
     while s != 'y':
-        s = input()
+        s = eval(input())
         if s == 'n':  exit()
 
     # source data directory structure (ideally a data drive or server)

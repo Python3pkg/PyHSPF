@@ -49,7 +49,7 @@ def read_dbf(filename, attributes = None, comids = None, verbose = True):
         if isinstance(attributes, str): attributes = [attributes]
         assert isinstance(attributes, list)
 
-    if verbose: print('reading database %s\n' % filename)
+    if verbose: print(('reading database %s\n' % filename))
 
     f = open(filename, 'rb')
 

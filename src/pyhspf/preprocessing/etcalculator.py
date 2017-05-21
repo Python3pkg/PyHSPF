@@ -100,15 +100,15 @@ class ETCalculator:
         if   tstep == 'daily'  or tstep == 1440: d, ts = self.daily, 1440
         elif tstep == 'hourly' or tstep == 60:   d, ts = self.hourly, 60
         else:
-            print('error: unknown time step {} specified'.format(tstep))
+            print(('error: unknown time step {} specified'.format(tstep)))
             print('valid choices are "hourly" and "daily"\n')
             raise
 
         # make sure the time series type is valid
 
         if tstype not in d:
-            print('error: unknown time series type {} specified'.format(tstype))
-            print('valid choices are ' + ', '.join(d) + '\n')
+            print(('error: unknown time series type {} specified'.format(tstype)))
+            print(('valid choices are ' + ', '.join(d) + '\n'))
             raise
             
         d[tstype] = start, data
@@ -330,7 +330,7 @@ class ETCalculator:
         Determines whether the sun is up or not for each values in "times"
         """
 
-        sunrise, sunset = zip(*[self.sun(t) for t in times])
+        sunrise, sunset = list(zip(*[self.sun(t) for t in times]))
 
         return [r <= t and t < s for t, r, s in zip(times, sunrise, sunset)]
 
@@ -377,8 +377,8 @@ class ETCalculator:
             
         except:
 
-            print('\nerror: temperature data unavailable ' +
-                  'for requested period {} -- {}\n'.format(start, end))
+            print(('\nerror: temperature data unavailable ' +
+                  'for requested period {} -- {}\n'.format(start, end)))
             raise
         
         #fill in the first 6 hours with tmin
@@ -707,7 +707,7 @@ class ETCalculator:
 
             for ts in required:
                 if self.daily[ts] is None:
-                    print('error: {} data unavailable'.format(ts))
+                    print(('error: {} data unavailable'.format(ts)))
             raise
 
         # make a list of times to use to calculate values
@@ -733,8 +733,8 @@ class ETCalculator:
             try:
                 data[ts] = numpy.array(d[i:j])
             except:
-                print('\nerror: {} data unavailable '.format(ts) +
-                      'for requested period {} -- {}\n'.format(start, end))
+                print(('\nerror: {} data unavailable '.format(ts) +
+                      'for requested period {} -- {}\n'.format(start, end)))
                 raise
 
         # convert the units of solar radiation from W/m2 to MJ/m2/day
@@ -852,7 +852,7 @@ class ETCalculator:
 
             for ts in required:
                 if self.hourly[ts] is None:
-                    print('error: {} data unavailable'.format(ts))
+                    print(('error: {} data unavailable'.format(ts)))
             raise
 
         # make a list of times to use to calculate values
@@ -878,8 +878,8 @@ class ETCalculator:
             try:
                 data[ts] = numpy.array(d[i:j])
             except:
-                print('\nerror: {} data unavailable '.format(ts) +
-                      'for requested period {} -- {}\n'.format(start, end))
+                print(('\nerror: {} data unavailable '.format(ts) +
+                      'for requested period {} -- {}\n'.format(start, end)))
                 raise
 
         # convert the units of solar radiation from W/m2 to MJ/m2/hour
@@ -996,7 +996,7 @@ class ETCalculator:
 
                 if not r in self.daily:
 
-                    print('error: {} timeseries missing\n'.format(r))
+                    print(('error: {} timeseries missing\n'.format(r)))
                     raise
 
         s, RET = self.daily['RET']
@@ -1151,7 +1151,7 @@ class ETCalculator:
 
                 if not r in self.daily:
 
-                    print('error: {} timeseries missing\n'.format(r))
+                    print(('error: {} timeseries missing\n'.format(r)))
                     raise
 
         s, RET = self.daily['RET']
@@ -1335,7 +1335,7 @@ class ETCalculator:
 
         if crop not in self.crops:
 
-            print('error: no data for crop {} in the calculator\n'.format(crop))
+            print(('error: no data for crop {} in the calculator\n'.format(crop)))
             raise
 
         p, Le, Lg, Lm, Ll, Ki, Km, Kl = self.crops[crop]
@@ -1419,30 +1419,30 @@ class ETCalculator:
         # make sure crop data available
 
         if crop not in self.crops:
-            print('error: no data for crop {} in the calculator\n'.format(crop))
+            print(('error: no data for crop {} in the calculator\n'.format(crop)))
             raise
 
         # get the daily RET
 
         if self.daily['RET'] is None:
-            print('daily reference evapotranspiration time series ' +
-                  'not available\n')
+            print(('daily reference evapotranspiration time series ' +
+                  'not available\n'))
         
             try: 
                 print('attempting to calculate the required time series\n')
                 self.penman_daily(start, end)
             except:
-                print('insufficient information provided: either calculate ' +
+                print(('insufficient information provided: either calculate ' +
                       'and supply daily reference ET or supply the other ' +
                       'necessary input timeseries (tmin, tmax, dewpoint, ' +
-                      'solar radiation, wind speed)\n')
+                      'solar radiation, wind speed)\n'))
                 raise
 
         # make sure the time series are aligned
 
         if self.daily['RET'][0] != start:
-            print('error: start date for the reference evapotranspiration ' +
-                  'is different than the supplied start date\n')
+            print(('error: start date for the reference evapotranspiration ' +
+                  'is different than the supplied start date\n'))
             raise
             
         # calculate the daily crop coefficient
@@ -1469,25 +1469,25 @@ class ETCalculator:
         """
 
         if crop not in self.crops:
-            print('error: no data for crop {} in the calculator\n'.format(crop))
+            print(('error: no data for crop {} in the calculator\n'.format(crop)))
             raise
 
         if self.hourly['RET'] is None:
-            print('hourly reference evapotranspiration time series ' +
-                  'not available\n')
+            print(('hourly reference evapotranspiration time series ' +
+                  'not available\n'))
             try: 
                 print('attempting to calculate the required time series\n')
                 self.penman_hourly(start, end)
             except:
-                print('insufficient information provided: either calculate ' +
+                print(('insufficient information provided: either calculate ' +
                       'and supply hourly reference ET or supply the other ' +
                       'necessary input timeseries (temperature, dewpoint, ' +
-                      'solar radiation, wind speed)\n')
+                      'solar radiation, wind speed)\n'))
                 raise
 
         if self.hourly['RET'][0] != start:
-            print('error: start date for the reference evapotranspiration ' +
-                  'is different than the supplied start date\n')
+            print(('error: start date for the reference evapotranspiration ' +
+                  'is different than the supplied start date\n'))
             raise
             
         # calculate the daily crop coefficient

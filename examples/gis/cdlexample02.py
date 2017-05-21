@@ -33,16 +33,16 @@ lucfile = 'data/lucs.csv'
 # make sure the essential input data files exist
 
 if not os.path.isdir('data'):
-    print('\nerror: please ensure that the "data" directory has been created ' +
-          'and contains the essential files before running the script!\n')
+    print(('\nerror: please ensure that the "data" directory has been created ' +
+          'and contains the essential files before running the script!\n'))
     raise
 
 required = sfile + '.shp', aggregate, lucfile
 
 for f in required:
     if not os.path.isfile(f):
-        print('error: to run this script please ensure the file ' +
-              '{} has been placed in the "data" directory'.format(f))
+        print(('error: to run this script please ensure the file ' +
+              '{} has been placed in the "data" directory'.format(f)))
         raise
 
 # extract cropland data for the state from NASS using the CDLExtractor class

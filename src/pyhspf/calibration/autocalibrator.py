@@ -246,8 +246,8 @@ class AutoCalibrator:
 
         else:
 
-            print('error: optimization parameter ' +
-                  '{} not recognized'.format(self.optimization))
+            print(('error: optimization parameter ' +
+                  '{} not recognized'.format(self.optimization)))
             raise
 
     def simulate(self, simulation):
@@ -270,7 +270,7 @@ class AutoCalibrator:
 
         # run and pass back the result
                   
-        print('running', name, 'perturbation')
+        print(('running', name, 'perturbation'))
         return self.run(model)
 
     def perturb(self, 
@@ -292,7 +292,7 @@ class AutoCalibrator:
 
         # adjust the parameter values for each variable for each simulation
 
-        its = range(len(self.variables)), self.variables, self.perturbations
+        its = list(range(len(self.variables))), self.variables, self.perturbations
         adjustments = []
         for i, v, p in zip(*its):
             adjustment = self.values[:]
@@ -323,7 +323,7 @@ class AutoCalibrator:
 
                 print('error: parallel calibration failed\n')
                 print('last values of calibration variables:\n')
-                for i in zip(self.variables, self.values): print(*i)
+                for i in zip(self.variables, self.values): print((*i))
                 raise RuntimeError
 
         else:
@@ -334,8 +334,8 @@ class AutoCalibrator:
 
         if verbose: 
 
-            print('\ncompleted perturbation in ' +
-                  '{:.1f} seconds\n'.format(time.time() - st))
+            print(('\ncompleted perturbation in ' +
+                  '{:.1f} seconds\n'.format(time.time() - st)))
 
         # calculate the sensitivities for the perturbations
 
@@ -380,13 +380,13 @@ class AutoCalibrator:
             
             if value < mi:
                 its = variable, value, mi
-                print('warning: current value of ' +
-                      '{} ({}) is below minimum ({})'.format(*its))
+                print(('warning: current value of ' +
+                      '{} ({}) is below minimum ({})'.format(*its)))
                 self.values[i] = mi
             if value > ma:
                 its = variable, value, ma
-                print('warning: current value of ' +
-                      '{} ({}) is above maximum ({})'.format(*its))
+                print(('warning: current value of ' +
+                      '{} ({}) is above maximum ({})'.format(*its)))
                 self.values[i] = ma
 
     def optimize(self, 
@@ -417,7 +417,7 @@ class AutoCalibrator:
             
             values = self.values[:]
 
-            print('\ncurrent optimization value: {:4.3f}\n'.format(self.value))
+            print(('\ncurrent optimization value: {:4.3f}\n'.format(self.value)))
 
             # perturb the values positively
 
@@ -447,13 +447,13 @@ class AutoCalibrator:
                 if p > 0 and p > n:
 
                     its = self.variables[i], d, self.optimization, p
-                    print(t1.format(*its))
+                    print((t1.format(*its)))
                     self.values[i] = round(self.values[i] + d, 3)
 
                 elif n > 0:
 
                     its = self.variables[i], d, self.optimization, n
-                    print(t2.format(*its))
+                    print((t2.format(*its)))
                     self.values[i] = round(self.values[i] - d, 3)
 
             # make sure variables are within bounds
@@ -464,7 +464,7 @@ class AutoCalibrator:
 
             print('\ncalibration values relative to default:\n')
             for variable, adjustment in zip(self.variables, self.values):
-                print('{:6s} {:5.3f}'.format(variable, adjustment))
+                print(('{:6s} {:5.3f}'.format(variable, adjustment)))
 
         # since the last iteration made the fit worse, reset the values of 
         # the calibration parameters to the previous iteration
@@ -500,12 +500,12 @@ class AutoCalibrator:
 
         if self.comid is None and self.gageid is not None:
 
-            print('looking up the comid for gage {}\n'.format(self.gageid))
+            print(('looking up the comid for gage {}\n'.format(self.gageid)))
 
             # make a dictionary to use to find the comid for each gage id
 
             d = {v:k 
-                 for k, v in hspfmodel.subbasin_timeseries['flowgage'].items()}
+                 for k, v in list(hspfmodel.subbasin_timeseries['flowgage'].items())}
             self.comid = d[self.gageid]
 
         elif self.comid is None:
@@ -550,7 +550,7 @@ class AutoCalibrator:
 
         # perturb until reaching a maximum (start with large perturbations)
 
-        print('attempting to calibrate {}'.format(self.hspfmodel))
+        print(('attempting to calibrate {}'.format(self.hspfmodel)))
 
         for p in perturbations:
             self.perturbations = [p * self.get_default(v) for v in variables]

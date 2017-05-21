@@ -22,7 +22,7 @@ from shapefile            import Reader
 filename = 'subbasin_catchments'
 
 if not os.path.isfile(filename + '.shp'):
-    print('error, {} does not exist!'.format(filename))
+    print(('error, {} does not exist!'.format(filename)))
     raise
 
 # create an instance of the ClimateProcessor class
@@ -67,7 +67,7 @@ precipitations = numpy.empty((len(processor.metadata.precip3240stations),
                              (end-start).days * 24))
 
 i = 0
-for k,v in processor.metadata.precip3240stations.items():
+for k,v in list(processor.metadata.precip3240stations.items()):
 
     with open(k, 'rb') as f: station = pickle.load(f)
 
@@ -111,7 +111,7 @@ for i in range(len(sf.records())):
     lat    = record[lat_index]
 
     i = comid, lon, lat
-    print('aggregating timeseries for comid {} at {}, {}\n'.format(*i))
+    print(('aggregating timeseries for comid {} at {}, {}\n'.format(*i)))
 
     # create weighting factors using the inverse-distance squared
     
@@ -128,7 +128,7 @@ for i in range(len(sf.records())):
 
         distance = processor.get_distance(point, (lon, lat))
 
-        print('the distance to station {} is {:.1f} km'.format(name, distance))
+        print(('the distance to station {} is {:.1f} km'.format(name, distance)))
 
         weights.append(1 / distance**2)
 
@@ -159,7 +159,7 @@ for i in range(len(sf.records())):
 
     mean = sum(precipitation) / (end - start).days * 365.25
 
-    print('\naggregated annual average precipitation: {:.1f} in\n'.format(mean))
+    print(('\naggregated annual average precipitation: {:.1f} in\n'.format(mean)))
 
     # dump the result in PyHSPF timeseries format into a pickle file for later
 
@@ -171,5 +171,5 @@ for i in range(len(sf.records())):
     with open(p, 'wb') as f: pickle.dump(ts, f)
 
 i = filename, directory
-print('done aggregating all timeseries in {}, results in {}\n'.format(*i))
+print(('done aggregating all timeseries in {}, results in {}\n'.format(*i)))
 

@@ -225,7 +225,7 @@ def preprocess():
 
     # find the subbasin indentifier for the watershed outlet
 
-    subbasin = [up for up, down in w.updown.items() if down == 0][0]
+    subbasin = [up for up, down in list(w.updown.items()) if down == 0][0]
 
     # assign the flowgage to the outlet subbasin
 
@@ -244,7 +244,7 @@ def calibrate():
     # find the comid of the gage
 
     flowgages = {v:k 
-                 for k, v in hunting.subbasin_timeseries['flowgage'].items()}
+                 for k, v in list(hunting.subbasin_timeseries['flowgage'].items())}
 
     comid = flowgages['Hunting']
 
@@ -269,7 +269,7 @@ def calibrate():
 
     for variable, value in zip(calibrator.variables, calibrator.values):
 
-        print('{:6s} {:5.3f}'.format(variable, value))
+        print(('{:6s} {:5.3f}'.format(variable, value)))
 
     print('\nsaving the calibration results\n')
 
@@ -357,5 +357,5 @@ if __name__ == '__main__':
     
     tot = time.time() - st
 
-    print('finished extracting and calibrating the model for ' +
-          '{} in {:.1f} seconds'.format(gageid, tot))
+    print(('finished extracting and calibrating the model for ' +
+          '{} in {:.1f} seconds'.format(gageid, tot)))

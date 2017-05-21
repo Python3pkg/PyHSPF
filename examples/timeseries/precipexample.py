@@ -70,12 +70,12 @@ for coop in coops:
     # here are a few public methods/attributes for the data in the file
 
     print('')
-    print('station:        ', station.desc)      # description
-    print('coop number:    ', station.coop)      # coop number
-    print('wban number:    ', station.wban)      # weather bureau army navy no.
-    print('latitude:       ', station.latitude)  # latitude
-    print('longitude:      ', station.longitude) # longitude
-    print('elevation (ft): ', station.elevation) # elevation (ft)
+    print(('station:        ', station.desc))      # description
+    print(('coop number:    ', station.coop))      # coop number
+    print(('wban number:    ', station.wban))      # weather bureau army navy no.
+    print(('latitude:       ', station.latitude))  # latitude
+    print(('longitude:      ', station.longitude)) # longitude
+    print(('elevation (ft): ', station.elevation)) # elevation (ft)
 
     # let's focus on the period between 2001 and 2005
 
@@ -85,14 +85,14 @@ for coop in coops:
     # get the percent missing data 
 
     pct = round(station.pct_missing(start = s, end = e), 1)
-    print('percent missing:', pct)
+    print(('percent missing:', pct))
 
     # get the total/annual average precipitation between 2001 and 2005
     
     t = station.total_precipitation(start = s, end = e)
 
-    print('total (in):     ', round(t, 1))
-    print('avg (in/yr):    ', round(t / (e - s).days * 365.25, 1))
+    print(('total (in):     ', round(t, 1)))
+    print(('avg (in/yr):    ', round(t / (e - s).days * 365.25, 1)))
 
     # get the hourly timeseries data
 
@@ -107,8 +107,8 @@ for coop in coops:
 
     t = sum([p for p in prec if p is not None])
 
-    print('total (in):     ', round(t, 1))
-    print('avg (in/yr):    ', round(t / (e - s).days * 365.25, 1))
+    print(('total (in):     ', round(t, 1)))
+    print(('avg (in/yr):    ', round(t / (e - s).days * 365.25, 1)))
     print('')
 
     # plot the data to a file

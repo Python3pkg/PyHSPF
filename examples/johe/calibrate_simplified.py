@@ -74,8 +74,8 @@ nprocessors = 3
 # make sure the directory paths exist
 
 if not os.path.isdir(destination):
-    print('error, directory ' +
-          '{} doesn not exist (please update)'.format(destination))
+    print(('error, directory ' +
+          '{} doesn not exist (please update)'.format(destination)))
     raise
 
 # Because parallel processing is (optionally) used, the process method has 

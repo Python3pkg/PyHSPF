@@ -336,7 +336,7 @@ class HSPFModel:
             else: 
                 landuse = subbasin.landuse[self.landuseyear]
 
-            for landtype, area in landuse.items():
+            for landtype, area in list(landuse.items()):
 
                 if landtype == 'Developed':
                     
@@ -946,7 +946,7 @@ class HSPFModel:
             self.messagepath = '{}/pyhspf/core/hspfmsg.wdm'.format(directory)
 
         if verbose: 
-            print('attempting HSPF simulation for {}\n'.format(self.ucifile))
+            print(('attempting HSPF simulation for {}\n'.format(self.ucifile)))
 
         start = time.time()
 
@@ -956,8 +956,8 @@ class HSPFModel:
         retcode = hspf.hsppy(self.ucifile, self.messagepath)
 
         if retcode > 0 and verbose: 
-            print('successfully completed simulation in %.1f' %
-                  (time.time() - start), 'seconds\n')
+            print(('successfully completed simulation in %.1f' %
+                  (time.time() - start), 'seconds\n'))
 
     def warmup(self, 
                start, 
@@ -3190,7 +3190,7 @@ class HSPFModel:
 
         # assign watershed-wide timeseries
 
-        for tstype, identifier in self.watershed_timeseries.items():
+        for tstype, identifier in list(self.watershed_timeseries.items()):
 
             if tstype == 'precipitation':
 
@@ -3269,7 +3269,7 @@ class HSPFModel:
 
         # subbasin timeseries
 
-        for tstype, d in self.subbasin_timeseries.items():
+        for tstype, d in list(self.subbasin_timeseries.items()):
 
             if tstype == 'precipitation':
 
@@ -3301,7 +3301,7 @@ class HSPFModel:
 
             # for each subbasin, assign timeseries to all operations
 
-            for subbasin, identifier in d.items():
+            for subbasin, identifier in list(d.items()):
 
                 # find the dsn
 
@@ -3342,9 +3342,9 @@ class HSPFModel:
 
         # landuse timeseries
 
-        for tstype, ldict in self.landuse_timeseries.items():
+        for tstype, ldict in list(self.landuse_timeseries.items()):
 
-            for landtype, identifier in ldict.items():
+            for landtype, identifier in list(ldict.items()):
 
                 # append time series type as needed
 
@@ -3385,7 +3385,7 @@ class HSPFModel:
      
         # operation timeseries
 
-        for tstype, tdict in self.operation_timeseries.items(): 
+        for tstype, tdict in list(self.operation_timeseries.items()): 
 
             if tstype == 'inflow':
 
@@ -3422,9 +3422,9 @@ class HSPFModel:
                 factor = '1.00'
                 gtype  = 'PACKI'
 
-            for subbasin, sdict in tdict.items():
+            for subbasin, sdict in list(tdict.items()):
 
-                for landtype, identifier in sdict.items():
+                for landtype, identifier in list(sdict.items()):
 
                     if   landtype == 'Impervious': otype = 'IMPLND'
                     elif landtype == 'Reach':      otype = 'RCHRES'

@@ -14,7 +14,7 @@ from pyhspf import hspf, WDMUtil
 yr, mo, da = hspf.sydatepy()
 
 print('')
-print('testing HSPF installation on {:02d}-{:02d}-{:04d}...'.format(mo, da, yr))
+print(('testing HSPF installation on {:02d}-{:02d}-{:04d}...'.format(mo, da, yr)))
 print('')
 
 # We will change into the "tests" directory so that HSPF will find the files

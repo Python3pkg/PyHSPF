@@ -23,7 +23,7 @@ from shapefile            import Reader
 filename = 'subbasin_catchments'
 
 if not os.path.isfile(filename + '.shp'):
-    print('error, {} does not exist!'.format(filename))
+    print(('error, {} does not exist!'.format(filename)))
     raise
 
 # create an instance of the ClimateProcessor class
@@ -82,7 +82,7 @@ for i in range(len(sf.records())):
     lat    = record[lat_index]
 
     i = comid, lon, lat
-    print('aggregating timeseries for comid {} at {}, {}\n'.format(*i))
+    print(('aggregating timeseries for comid {} at {}, {}\n'.format(*i)))
 
     precipitation = processor.aggregate('precip3240', 'precip', start, end,
                                         method = 'IDWA', longitude = lon,
@@ -90,7 +90,7 @@ for i in range(len(sf.records())):
 
     mean = sum(precipitation) / (end - start).days * 365.25
 
-    print('aggregated annual average precipitation: {:.1f} in\n'.format(mean))
+    print(('aggregated annual average precipitation: {:.1f} in\n'.format(mean)))
 
     # dump the result in PyHSPF timeseries format into a pickle file for later
 
@@ -111,7 +111,7 @@ ts = start, 60, simple
 with open('{}/simple'.format(directory), 'wb') as f: pickle.dump(ts, f)
 
 i = filename, directory
-print('done aggregating all timeseries in {}, results in {}\n'.format(*i))
+print(('done aggregating all timeseries in {}, results in {}\n'.format(*i)))
 
 # plot up the results
 

@@ -46,16 +46,16 @@ class Postprocessor:
         time.sleep(5)
         dsns = self.wdm.get_datasets(self.wdmoutfile)
 
-        print(self.wdm.openfiles)
+        print((self.wdm.openfiles))
         data = self.wdm.get_data(self.wdmoutfile, dsns[0])
         dates = self.wdm.get_dates(self.wdmoutfile, dsns[0])
-        print(*dates)
+        print((*dates))
         time.sleep(5)
         # define the processing period
 
         self.start, self.end = dates
 
-        print(self.start, self.end)
+        print((self.start, self.end))
         time.sleep(5)
         # define the processing area
 
@@ -68,7 +68,7 @@ class Postprocessor:
 
         if len(hspfmodel.flowgages) > 0:
 
-            for comid, g in hspfmodel.subbasin_timeseries['flowgage'].items():
+            for comid, g in list(hspfmodel.subbasin_timeseries['flowgage'].items()):
 
                 if comid == self.comid:
 
@@ -92,7 +92,7 @@ class Postprocessor:
     def closest_index(self, l, x):
         """Returns the index of the closest value in list "l" to value "x"."""
 
-        return min(range(len(l)), key = lambda i: abs(l[i] - x))
+        return min(list(range(len(l))), key = lambda i: abs(l[i] - x))
 
     def within_dates(self, date, start, end):
         """Tests if "date" is greater than or equal to "start" and less than
@@ -308,7 +308,7 @@ class Postprocessor:
                 var_dsns.append(dsn)
 
         if len(areas) == 0:
-            print('error, no segment records found for {}'.format(*vars))
+            print(('error, no segment records found for {}'.format(*vars)))
             return
 
         vals = [self.wdm.get_data(self.wdmoutfile, n, start = start, end = end)
@@ -348,7 +348,7 @@ class Postprocessor:
                 break
 
         if n is None:
-            print('unable to locate reach {} data for {}'.format(ID, comid))
+            print(('unable to locate reach {} data for {}'.format(ID, comid)))
             return
 
         values = self.wdm.get_data(self.wdmoutfile, n, start = start, end = end)
@@ -384,7 +384,7 @@ class Postprocessor:
 
         if any([d == 'SUPY' for d in self.idconss]) and variable == 'supply':
 
-            iters = zip(self.dsns, self.idconss, self.staids, self.descriptions)
+            iters = list(zip(self.dsns, self.idconss, self.staids, self.descriptions))
 
             supys = self.get_subbasin_timeseries(['SUPY'], comids, 
                                                  dates = dates)
@@ -392,7 +392,7 @@ class Postprocessor:
 
         else:
             self.set_wdm_parms(wdm = 'input')
-            iters = zip(self.dsns, self.idconss, self.descriptions)
+            iters = list(zip(self.dsns, self.idconss, self.descriptions))
 
             if 'precipitation' in self.hspfmodel.watershed_timeseries:
 
@@ -587,7 +587,7 @@ class Postprocessor:
 
             comids = self.get_upstream_comids(comid, upcomids = upcomids)
 
-            iters = zip(self.dsns, self.idconss, self.descriptions)
+            iters = list(zip(self.dsns, self.idconss, self.descriptions))
 
             evap_dsns = {d:n for n, id, d in iters if id == 'EVAP'}
 
@@ -643,7 +643,7 @@ class Postprocessor:
             evap = self.hspfmodel.evap_multiplier * evaps.sum()
         else:
             self.set_wdm_parms(wdm = 'input')
-            iters = zip(self.dsns, self.idconss, self.descriptions)
+            iters = list(zip(self.dsns, self.idconss, self.descriptions))
             evap_dsns = {d:n for n, id, d in iters if id == 'EVAP'}
 
             areas = []
@@ -767,7 +767,7 @@ class Postprocessor:
         seasonal = [(t, v) for t, v in zip(times, vols) 
                     if self.within_season(t, start, end, season)]
 
-        return zip(*seasonal)
+        return list(zip(*seasonal))
 
     def get_season_total(self, comid, season, dates = None):
         """Returns the total flow volume from the comid during the season."""
@@ -1403,8 +1403,8 @@ class Postprocessor:
 
         p = codes[parameter]
         if p in self.hspfmodel.waterquality:
-            data = zip(*[(t, s) for t, s in self.hspfmodel.waterquality[p]
-                         if start <= t and t <= end])
+            data = list(zip(*[(t, s) for t, s in self.hspfmodel.waterquality[p]
+                         if start <= t and t <= end]))
         else: data = None
 
         return data
@@ -1979,7 +1979,7 @@ class Postprocessor:
 
         storm_end = times[i+1]
 
-        if verbose: print('storm period:', storm_start, storm_end)
+        if verbose: print(('storm period:', storm_start, storm_end))
 
         return storm_start, storm_end
 
@@ -2015,8 +2015,8 @@ class Postprocessor:
             # get the gage data for the year
 
             if len([t for t in data[0] if t.year == start.year]) > 0:
-                times, oflows = zip(*[(t, f) for t, f in zip(*data)
-                                      if t.year == start.year])
+                times, oflows = list(zip(*[(t, f) for t, f in zip(*data)
+                                      if t.year == start.year]))
 
 
                 # get the precipitation time series for the area for the year
@@ -2315,26 +2315,26 @@ class Postprocessor:
 
             print('')
             print('HSPF calibration errors:\n')
-            print('Total Runoff:{:13.1%}'.format(self.total_error))
-            print('Baseflow Recession:{:7.1%}'.format(self.recession_error))
-            print('Low Flows:{:16.1%}'.format(self.low_error))
-            print('High Flows:{:15.1%}'.format(self.high_error))
-            print('Storm Volume:{:13.1%}'.format(self.storm_vol_error))
-            print('Storm Peak Flows:{:9.1%}'.format(self.storm_peak_error))
+            print(('Total Runoff:{:13.1%}'.format(self.total_error)))
+            print(('Baseflow Recession:{:7.1%}'.format(self.recession_error)))
+            print(('Low Flows:{:16.1%}'.format(self.low_error)))
+            print(('High Flows:{:15.1%}'.format(self.high_error)))
+            print(('Storm Volume:{:13.1%}'.format(self.storm_vol_error)))
+            print(('Storm Peak Flows:{:9.1%}'.format(self.storm_peak_error)))
 
-            print('Spring Flows:{:13.1%}'.format(self.spring_error))
-            print('Summer Flows:{:13.1%}'.format(self.summer_error))
-            print('Fall Flows:  {:13.1%}'.format(self.fall_error))
-            print('Winter Flows:{:13.1%}'.format(self.winter_error))
-            print('Summer Storms:{:12.1%}'.format(self.summer_storm_error))
+            print(('Spring Flows:{:13.1%}'.format(self.spring_error)))
+            print(('Summer Flows:{:13.1%}'.format(self.summer_error)))
+            print(('Fall Flows:  {:13.1%}'.format(self.fall_error)))
+            print(('Winter Flows:{:13.1%}'.format(self.winter_error)))
+            print(('Summer Storms:{:12.1%}'.format(self.summer_storm_error)))
 
             print('\nHSPF Model Fitting Statistics:\n')            
-            print('daily flow r\u00B2:                {:6.3f}'.format(dr2))
-            print('daily log-flow r\u00B2:            {:6.3f}'.format(logdr2))
-            print('daily Nash-Sutcliffe:         {:6.3f}'.format(dNS))
-            print('daily log-flow Nash-Sutcliffe:{:6.3f}'.format(logdNS))
+            print(('daily flow r\u00B2:                {:6.3f}'.format(dr2)))
+            print(('daily log-flow r\u00B2:            {:6.3f}'.format(logdr2)))
+            print(('daily Nash-Sutcliffe:         {:6.3f}'.format(dNS)))
+            print(('daily log-flow Nash-Sutcliffe:{:6.3f}'.format(logdNS)))
             print('')
-            print('NS product (optimize):        {:6.3f}'.format(dNS * logdNS))
+            print(('NS product (optimize):        {:6.3f}'.format(dNS * logdNS)))
             #print('monthly flow r\u00B2:      {:6.3f}'.format(mr2))
             #print('monthly log-flow r\u00B2:  {:6.3f}'.format(logmr2))
             #print('monthly Nash-Sutcliffe:  {:6.3f}'.format(mNS))
@@ -2378,15 +2378,15 @@ class Postprocessor:
         balance_error = (init + erosion - mass_out - final) / init
 
         print('Sediment mass balance on stream reaches:\n')
-        print('Initial reach mass:            {:7.0f} tonnes'.format(init))
-        print('Final reach mass:              {:7.0f} tonnes'.format(final))
-        print('Simulated land erosion:        {:7.0f} tonnes'.format(erosion))
-        print('Simulated downstream loading:  {:7.0f} tonnes'.format(mass_out))
-        print('Observed downstream loading:   {:7.0f} tonnes'.format(obs_total))
+        print(('Initial reach mass:            {:7.0f} tonnes'.format(init)))
+        print(('Final reach mass:              {:7.0f} tonnes'.format(final)))
+        print(('Simulated land erosion:        {:7.0f} tonnes'.format(erosion)))
+        print(('Simulated downstream loading:  {:7.0f} tonnes'.format(mass_out)))
+        print(('Observed downstream loading:   {:7.0f} tonnes'.format(obs_total)))
         print('')
-        print('Percent error in mass balance: {:.2%}'.format(balance_error))
-        print('Percent change in reach mass:  {:.2%}'.format(reach_change))
-        print('Percent error in simulation:   {:.1%}'.format(sim_error))
+        print(('Percent error in mass balance: {:.2%}'.format(balance_error)))
+        print(('Percent change in reach mass:  {:.2%}'.format(reach_change)))
+        print(('Percent error in simulation:   {:.1%}'.format(sim_error)))
 
     def get_mass_balance(self, comid = None, upcomids = [], dates = None, 
                          verbose = True):
@@ -2439,22 +2439,22 @@ class Postprocessor:
         t = (self.start.month, self.start.day, self.start.year,
              self.end.month,   self.end.day,   self.end.year)
 
-        print('Mass balance on watershed from ' +
-              '{:02d}-{:02d}-{:04d} to {:02d}-{:02d}-{:04d}:\n'.format(*t))
-        print('initial watershed volume           {:>6.0f} {}'.format(init, u))
-        print('final watershed volume           {:>8.0f} {}\n'.format(final,u))
+        print(('Mass balance on watershed from ' +
+              '{:02d}-{:02d}-{:04d} to {:02d}-{:02d}-{:04d}:\n'.format(*t)))
+        print(('initial watershed volume           {:>6.0f} {}'.format(init, u)))
+        print(('final watershed volume           {:>8.0f} {}\n'.format(final,u)))
 
         if infl is not None:
-            print('total upstream inflow volume   {:>10.0f} {}'.format(infl, u))
+            print(('total upstream inflow volume   {:>10.0f} {}'.format(infl, u)))
         else: infl = 0
-        print('total precipitation volume         {:>6.0f} {}'.format(prec, u))
-        print('total simulated evapotranspiration {:>6.0f} {}'.format(evap, u))
-        print('total simulated outflow {:>17.0f} {}'.format(flow, u))
-        print('total groundwater recharge {:>14.0f} {}'.format(gw, u))
-        print('total potential evapotranspiration {:>6.0f} {}'.format(pet, u))
-        print('total observed outflow           {:>8.0f} {}\n'.format(gage, u))
-        print('percent error in mass balance {:.2%}\n'.format( 
-              abs((init + prec + infl - final - evap - flow - gw) / prec)))
+        print(('total precipitation volume         {:>6.0f} {}'.format(prec, u)))
+        print(('total simulated evapotranspiration {:>6.0f} {}'.format(evap, u)))
+        print(('total simulated outflow {:>17.0f} {}'.format(flow, u)))
+        print(('total groundwater recharge {:>14.0f} {}'.format(gw, u)))
+        print(('total potential evapotranspiration {:>6.0f} {}'.format(pet, u)))
+        print(('total observed outflow           {:>8.0f} {}\n'.format(gage, u)))
+        print(('percent error in mass balance {:.2%}\n'.format( 
+              abs((init + prec + infl - final - evap - flow - gw) / prec))))
 
     def get_hspexp_parameters(self, comid = None, upcomids = [], dates = None,
                               summer_storms = None, other_storms = None,
@@ -2519,46 +2519,46 @@ class Postprocessor:
         if vverbose: 
 
             print('Mass Balance:\n')
-            print('annual average precipitation                = %4d %s' % 
-                  (self.obs_prec, u))
-            print('annual average simulated evapotranspiration = %4d %s' % 
-                  (self.sim_evap, u))
-            print('annual average potential evapotranspiration = %4d %s' % 
-                  (self.obs_pet, u))
-            print('annual average groundwater recharge         = %4d %s\n' %
-                  (self.sim_gw, u))
+            print(('annual average precipitation                = %4d %s' % 
+                  (self.obs_prec, u)))
+            print(('annual average simulated evapotranspiration = %4d %s' % 
+                  (self.sim_evap, u)))
+            print(('annual average potential evapotranspiration = %4d %s' % 
+                  (self.obs_pet, u)))
+            print(('annual average groundwater recharge         = %4d %s\n' %
+                  (self.sim_gw, u)))
             print('Runoff Volume Comparison:\n') 
-            print('annual average observed outflow  = %4d %s' % 
-                  (self.obs_total, u))
-            print('annual average simulated outflow = %4d %s\n' % 
-                  (self.sim_total, u))
+            print(('annual average observed outflow  = %4d %s' % 
+                  (self.obs_total, u)))
+            print(('annual average simulated outflow = %4d %s\n' % 
+                  (self.sim_total, u)))
             print('Recession Rate Comparison:\n')
-            print('observed  mean low flow recession rate = %5.3f'  % 
-                  self.obs_total_rec)
-            print('simulated mean low flow recession rate = %5.3f' % 
-                  self.sim_total_rec + '\n')
+            print(('observed  mean low flow recession rate = %5.3f'  % 
+                  self.obs_total_rec))
+            print(('simulated mean low flow recession rate = %5.3f' % 
+                  self.sim_total_rec + '\n'))
             print('High flow/low flow distribution:\n')
-            print('observed  mean low flow  = %6.2f m3/s'   % self.obs_low)
-            print('simulated mean low flow  = %6.2f m3/s'   % self.sim_low)
-            print('observed  mean high flow = %6.2f m3/s'   % self.obs_high)
-            print('simulated mean high flow = %6.2f m3/s\n' % self.sim_high)
+            print(('observed  mean low flow  = %6.2f m3/s'   % self.obs_low))
+            print(('simulated mean low flow  = %6.2f m3/s'   % self.sim_low))
+            print(('observed  mean high flow = %6.2f m3/s'   % self.obs_high))
+            print(('simulated mean high flow = %6.2f m3/s\n' % self.sim_high))
             print('Seasonal Variability:\n')
-            print('annual average observed  spring volume %4d mm' % 
-                  self.obs_spring)
-            print('annual average simulated spring volume %4d mm' % 
-                  self.sim_spring)
-            print('annual average observed  summer volume %4d mm' % 
-                  self.obs_summer)
-            print('annual average simulated summer volume %4d mm' % 
-                  self.sim_summer)
-            print('annual average observed  fall   volume %4d mm' % 
-                  self.obs_fall)
-            print('annual average simulated fall   volume %4d mm' % 
-                  self.sim_fall)
-            print('annual average observed  winter volume %4d mm' % 
-                  self.obs_winter)
-            print('annual average simulated winter volume %4d mm\n' % 
-                  self.sim_winter)
+            print(('annual average observed  spring volume %4d mm' % 
+                  self.obs_spring))
+            print(('annual average simulated spring volume %4d mm' % 
+                  self.sim_spring))
+            print(('annual average observed  summer volume %4d mm' % 
+                  self.obs_summer))
+            print(('annual average simulated summer volume %4d mm' % 
+                  self.sim_summer))
+            print(('annual average observed  fall   volume %4d mm' % 
+                  self.obs_fall))
+            print(('annual average simulated fall   volume %4d mm' % 
+                  self.sim_fall))
+            print(('annual average observed  winter volume %4d mm' % 
+                  self.obs_winter))
+            print(('annual average simulated winter volume %4d mm\n' % 
+                  self.sim_winter))
 
         if verbose:
 
@@ -2570,24 +2570,24 @@ class Postprocessor:
             low50  = (self.obs_low,  self.sim_low)
             
             print('HSPF calibration statistics:\n')
-            print(' ' * 37 + 'Observed   Simulated')
-            print('Total Precipitation ({}/yr):         '.format(u) +
-                  '{:>8.1f}{:>12.1f}'.format(*prec))
-            print('Total runoff ({}/yr):                '.format(u) +
-                  '{:>8.1f}{:>12.1f}'.format(*total))
-            print('Total of highest 10% flows ({}/yr):  '.format(u) +
-                  '{:>8.1f}{:>12.1f}'.format(*high10))
-            print('Total of lowest 50% flows ({}/yr):   '.format(u) +
-                  '{:>8.1f}{:>12.1f}'.format(*low50))
+            print((' ' * 37 + 'Observed   Simulated'))
+            print(('Total Precipitation ({}/yr):         '.format(u) +
+                  '{:>8.1f}{:>12.1f}'.format(*prec)))
+            print(('Total runoff ({}/yr):                '.format(u) +
+                  '{:>8.1f}{:>12.1f}'.format(*total)))
+            print(('Total of highest 10% flows ({}/yr):  '.format(u) +
+                  '{:>8.1f}{:>12.1f}'.format(*high10)))
+            print(('Total of lowest 50% flows ({}/yr):   '.format(u) +
+                  '{:>8.1f}{:>12.1f}'.format(*low50)))
             print('')
 
             # print the evapotranspiration statistics
 
             evap = (self.obs_pet, self.sim_evap)
 
-            print(' ' * 36 + 'Potential   Simulated')
-            print('Evapotranspiration ({}/yr):          '.format(u) +
-                  '{:>8.1f}{:>12.1f}'.format(*evap))
+            print((' ' * 36 + 'Potential   Simulated'))
+            print(('Evapotranspiration ({}/yr):          '.format(u) +
+                  '{:>8.1f}{:>12.1f}'.format(*evap)))
             print('')
 
             # print the storm statistics
@@ -2599,21 +2599,21 @@ class Postprocessor:
             peaks = (self.obs_storm_peaks,  self.sim_storm_peaks)
             rec   = (self.obs_total_rec,    self.sim_total_rec)
 
-            print(' ' * 37 + 'Observed   Simulated')
-            print('Total storm volume ({}):             '.format(u) +
-                  '{:>8.1f}{:>12.1f}'.format(*total))
-            print('Average of storm peaks ({}3/s):      '.format(u2) + u3 +
-                  '{:>8.1f}{:>12.1f}'.format(*peaks))
-            print('Baseflow recession rate:             ' +
-                  '{:>8.3f}{:>12.3f}'.format(*rec))
+            print((' ' * 37 + 'Observed   Simulated'))
+            print(('Total storm volume ({}):             '.format(u) +
+                  '{:>8.1f}{:>12.1f}'.format(*total)))
+            print(('Average of storm peaks ({}3/s):      '.format(u2) + u3 +
+                  '{:>8.1f}{:>12.1f}'.format(*peaks)))
+            print(('Baseflow recession rate:             ' +
+                  '{:>8.3f}{:>12.3f}'.format(*rec)))
             print('')
             
             # print the interflow/surface runoff statistics
 
-            print('Total simulated storm interflow ({}):      '.format(u) +
-                  '{:>8.1f}'.format(self.storm_interflow))
-            print('Total simulated storm surface runoff ({}): '.format(u) +
-                  '{:>8.1f}'.format(self.storm_surface_runoff))
+            print(('Total simulated storm interflow ({}):      '.format(u) +
+                  '{:>8.1f}'.format(self.storm_interflow)))
+            print(('Total simulated storm surface runoff ({}): '.format(u) +
+                  '{:>8.1f}'.format(self.storm_surface_runoff)))
             print('')
 
             # print the seasonal statistics
@@ -2622,13 +2622,13 @@ class Postprocessor:
             winter = (self.obs_winter,        self.sim_winter)
             storms = (self.obs_summer_storms, self.sim_summer_storms)
 
-            print(' ' * 37 + 'Observed   Simulated')
-            print('Summer flow volume ({}/yr):          '.format(u) +
-                  '{:>8.1f}{:>12.1f}'.format(*summer))
-            print('Winter flow volume ({}/yr):          '.format(u) +
-                  '{:>8.1f}{:>12.1f}'.format(*winter))
-            print('Summer storm volume ({}):            '.format(u) +
-                  '{:>8.1f}{:>12.1f}'.format(*storms))
+            print((' ' * 37 + 'Observed   Simulated'))
+            print(('Summer flow volume ({}/yr):          '.format(u) +
+                  '{:>8.1f}{:>12.1f}'.format(*summer)))
+            print(('Winter flow volume ({}/yr):          '.format(u) +
+                  '{:>8.1f}{:>12.1f}'.format(*winter)))
+            print(('Summer storm volume ({}):            '.format(u) +
+                  '{:>8.1f}{:>12.1f}'.format(*storms)))
             print('')
 
     def calibration_report(self, output = 'calibration_report.csv'):
@@ -2897,9 +2897,9 @@ class Postprocessor:
 
         if years is None:
             if self.start.month == 10 and self.start.day == 1:
-                years = range(self.start.year, self.end.year)
+                years = list(range(self.start.year, self.end.year))
             else:
-                years = range(self.start.year + 1, self.end.year)
+                years = list(range(self.start.year + 1, self.end.year))
 
         if not os.path.isdir(output) and output is not None: 
             os.mkdir(output)
@@ -2925,7 +2925,7 @@ class Postprocessor:
                                       dates = dates, show = show, output = f)
 
             except: 
-                print('warning, unable to plot water budget for {}'.format(y))
+                print(('warning, unable to plot water budget for {}'.format(y)))
 
     def plot_tss(self, comid = None, tstep = 'daily', output = None, 
                  show = True):

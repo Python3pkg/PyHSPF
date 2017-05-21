@@ -104,7 +104,7 @@ class NHDPlusExtractor:
                            '12':  ['12a', '12b', '12c', '12d'],
                            }
 
-        self.vpu_to_da = {i:k for k, v in self.da_to_vpu.items() for i in v}
+        self.vpu_to_da = {i:k for k, v in list(self.da_to_vpu.items()) for i in v}
 
         self.url          = url
         self.destination  = destination
@@ -114,9 +114,9 @@ class NHDPlusExtractor:
             self.DA = self.vpu_to_da[VPU]
         else:
             print('')
-            print('error: VPU "{}" is not a valid choice!'.format(VPU))
+            print(('error: VPU "{}" is not a valid choice!'.format(VPU)))
             print('valid VPU choices are:')
-            print(*self.vpu_to_da.keys())
+            print((*list(self.vpu_to_da.keys())))
             print('')
             raise
         
@@ -146,8 +146,8 @@ class NHDPlusExtractor:
         """
 
         if not os.path.isfile(self.path_to_7zip):
-            print('error: specified path to 7zip ' +
-                  '{} does not exist!\n'.format(self.path_to_7zip))
+            print(('error: specified path to 7zip ' +
+                  '{} does not exist!\n'.format(self.path_to_7zip)))
             raise
 
         args = [self.path_to_7zip, 'x', '-o{}'.format(self.destination), 
@@ -198,8 +198,8 @@ class NHDPlusExtractor:
             if self.downloaded < self.filesize:
 
                 its = self.downloaded / 10**6, self.filesize / 10**6
-                print('{:<5.1f} MB of {:<5.1f}'.format(*its), 
-                      'MB transferred')
+                print(('{:<5.1f} MB of {:<5.1f}'.format(*its), 
+                      'MB transferred'))
 
         self.openfile.write(chunk)
 
@@ -221,7 +221,7 @@ class NHDPlusExtractor:
 
         if not os.path.isfile(compressed):
         
-            if verbose: print('downloading {} file {}\n'.format(name, webfile))
+            if verbose: print(('downloading {} file {}\n'.format(name, webfile)))
 
             # get some info for download progress tracking
 
@@ -262,14 +262,14 @@ class NHDPlusExtractor:
                             c = 10**6
                             s = self.openfile.tell() / c
                             it = s, 'MB of', self.filesize / c, 'completed'
-                            print('{:>6.1f} {} {:>6.1f} MB {}'.format(*it))
+                            print(('{:>6.1f} {} {:>6.1f} MB {}'.format(*it)))
 
                 print('')
-                print(self.ftp.voidresp())
+                print((self.ftp.voidresp()))
 
             print('')
 
-        elif verbose: print('file {} exists'.format(compressed))
+        elif verbose: print(('file {} exists'.format(compressed)))
 
     def download_data(self,
                       verbose = True,
@@ -285,14 +285,14 @@ class NHDPlusExtractor:
 
         else: 
 
-            print('NHDPlus destination directory ' +
-                  '{} exists\n'.format(self.destination))
+            print(('NHDPlus destination directory ' +
+                  '{} exists\n'.format(self.destination)))
 
         destination = '{}/NHDPlus{}'.format(self.destination, self.DA)
         if not os.path.isdir(destination):
 
             if verbose: 
-                print('NHDPlus data for {} not present'.format(self.DA))
+                print(('NHDPlus data for {} not present'.format(self.DA)))
             os.mkdir(destination)
         
         # directory path to decompressed NHDPlus data for the VPU
@@ -309,7 +309,7 @@ class NHDPlusExtractor:
 
             if verbose:
  
-                print('NHDPlus directory for VPU {} exists\n'.format(self.VPU))
+                print(('NHDPlus directory for VPU {} exists\n'.format(self.VPU)))
 
             flag = False
 
@@ -331,19 +331,19 @@ class NHDPlusExtractor:
 
                 if any([f in localfile for localfile in localfiles]):
 
-                    if verbose: print(f, 'exists')
+                    if verbose: print((f, 'exists'))
 
                 else:
 
-                    if verbose: print(f, 'does not exist')
+                    if verbose: print((f, 'does not exist'))
                     flag = True
 
             if verbose: print('')
 
         else: 
 
-            if verbose: print('NHDPlus data for VPU ' +
-                              '{} need to be downloaded\n'.format(self.VPU))
+            if verbose: print(('NHDPlus data for VPU ' +
+                              '{} need to be downloaded\n'.format(self.VPU)))
             flag = True
 
         # if any of the files are needed, go to the NHDPlus FTP site
@@ -364,8 +364,8 @@ class NHDPlusExtractor:
 
             except:
 
-                print('unable to access NHDPlus FTP server; verify that you ' +
-                      'have internet access\n')
+                print(('unable to access NHDPlus FTP server; verify that you ' +
+                      'have internet access\n'))
                 raise
 
             # change into the NHDPlus V21 Data directory
@@ -480,7 +480,7 @@ class NHDPlusExtractor:
 
         if not any([os.path.isfile(f + '.aux') for f in self.nedfiles]):
             for compressed, decompressed in zip(nedfiles, self.nedfiles):
-                print('decompressing the elevation raster\n'.format(compressed))
+                print(('decompressing the elevation raster\n'.format(compressed)))
                 self.decompress('{}/{}'.format(self.destination, compressed))
 
     def get_comids(self, flowlinefile):
@@ -565,7 +565,7 @@ class NHDPlusExtractor:
     
         if verbose: 
             l = len(indices)
-            print('queried {} flowlines from original shapefile\n'.format(l))
+            print(('queried {} flowlines from original shapefile\n'.format(l)))
 
     def extract_catchments(self, 
                            source, 
@@ -662,7 +662,7 @@ class NHDPlusExtractor:
         values = None
         for NED in nedfiles:
 
-            if verbose: print('reading data from {}'.format(NED))
+            if verbose: print(('reading data from {}'.format(NED)))
 
             try:
 
@@ -768,7 +768,7 @@ class NHDPlusExtractor:
         p = '{}/{}'.format(output, flowlinefile)
         if not os.path.isfile(p + '.shp'):
             if verbose: 
-                print('extracting flowline shapefile for {}\n'.format(HUC8))
+                print(('extracting flowline shapefile for {}\n'.format(HUC8)))
             self.extract_flowlines(self.flowlinefile, p, HUC8,
                                    verbose = vverbose)
 
@@ -778,7 +778,7 @@ class NHDPlusExtractor:
         if not os.path.isfile(p + '.shp'):
             ffile = '{}/{}'.format(output, flowlinefile)
             if verbose: 
-                print('extracting catchment shapefile for {}\n'.format(HUC8))
+                print(('extracting catchment shapefile for {}\n'.format(HUC8)))
             self.extract_catchments(self.catchmentfile, p, ffile,
                                     verbose = vverbose)
 
@@ -796,8 +796,8 @@ class NHDPlusExtractor:
                               'TotDASqKM', 'AreaSqKM', 'DivDASqKM','ReachCode']
     
             if verbose: 
-                print('reading flowline value added attributes for ' +
-                      '{}\n'.format(HUC8))
+                print(('reading flowline value added attributes for ' +
+                      '{}\n'.format(HUC8)))
             flowvalues = read_dbf(self.PlusFlowlineVAAfile, 
                                   attributes = flowattributes, 
                                   comids = comids, 
@@ -809,8 +809,8 @@ class NHDPlusExtractor:
                                'SLOPELENKM']
     
             if verbose: 
-                print('reading slope and elevation attributes for ' +
-                      '{}\n'.format(HUC8))
+                print(('reading slope and elevation attributes for ' +
+                      '{}\n'.format(HUC8)))
             slopevalues = read_dbf(self.elevslopefile, 
                                    attributes = slopeattributes, 
                                    comids = comids, 
@@ -820,8 +820,8 @@ class NHDPlusExtractor:
     
             eromattributes = ['ComID', 'Q0001E', 'V0001E', 'SMGageID']
 
-            if verbose: print('reading EROM model attributes for ' +
-                              '{}\n'.format(HUC8))
+            if verbose: print(('reading EROM model attributes for ' +
+                              '{}\n'.format(HUC8)))
             eromvalues = read_dbf(self.eromfile, 
                                   attributes = eromattributes, 
                                   comids = comids, 
@@ -855,7 +855,7 @@ class NHDPlusExtractor:
         p = '{}/{}'.format(output, elevfile)
         if not os.path.isfile(p):
             if verbose: 
-                print('extracting the NED raster file for {}\n'.format(HUC8))
+                print(('extracting the NED raster file for {}\n'.format(HUC8)))
             cfile = '{}/{}'.format(output, catchmentfile)
             self.extract_NED(self.nedfiles, cfile, p, verbose = verbose)
 
@@ -864,8 +864,8 @@ class NHDPlusExtractor:
 
         if verbose: 
 
-            print('successfully queried NHDPlus data for {} '.format(HUC8) +
-                  'in {:.1f} seconds\n'.format(t))
+            print(('successfully queried NHDPlus data for {} '.format(HUC8) +
+                  'in {:.1f} seconds\n'.format(t)))
     
         # merge the shapes into a watershed
 
@@ -984,7 +984,7 @@ class NHDPlusExtractor:
         # iterate through the grid and fill the array
 
         for i in range(len(ys)):
-            zs[i, :] = get_raster(filename, zip(xs, [ys[i]] * (resolution + 1)),
+            zs[i, :] = get_raster(filename, list(zip(xs, [ys[i]] * (resolution + 1))),
                                   quiet = True)
 
         # scale the values

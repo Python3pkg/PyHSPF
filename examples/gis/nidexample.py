@@ -74,9 +74,9 @@ for r in sf.records():
     lat   = r[lat_index]
     pur   = r[purp_index]
 
-    print('Dam name:       ', name)
-    print('NID ID:         ', nidid)
-    print('Longitude:      ', lon)
-    print('Latitude:       ', lat)
-    print('Primary Purpose:', pur)
+    print(('Dam name:       ', name))
+    print(('NID ID:         ', nidid))
+    print(('Longitude:      ', lon))
+    print(('Latitude:       ', lat))
+    print(('Primary Purpose:', pur))
     print('')

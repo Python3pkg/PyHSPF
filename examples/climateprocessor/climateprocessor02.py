@@ -52,7 +52,7 @@ n = 10
 # make a list of the 
 templengths = []
 
-for k, v in processor.metadata.ghcndstations.items(): 
+for k, v in list(processor.metadata.ghcndstations.items()): 
 
     templengths.append((v['tmax'], k))
 
@@ -70,7 +70,7 @@ for k in tempstations:
 
     its = m['name'], m['tmax']
 
-    print('station: {:24s} {} temperature observations'.format(*its))
+    print(('station: {:24s} {} temperature observations'.format(*its)))
 
 print('')
 
@@ -95,7 +95,7 @@ tmax  = numpy.empty((n, len(times)))
 
 for i, k in enumerate(tempstations):
 
-    print('fetching the temperature time series data from {}'.format(k))
+    print(('fetching the temperature time series data from {}'.format(k)))
 
     # open up the GHCNDStation data
 
@@ -119,7 +119,7 @@ tmax = tmax.transpose()
 
 nones = numpy.isnan(tmax)
 
-print('number of missing values:', nones.size)
+print(('number of missing values:', nones.size))
 
 # this creates a Boolean array (true/false) to "mask" the nan values
 

@@ -38,8 +38,8 @@ class NWISExtractor:
             
             try: os.mkdir(destination)
             except:
-                print('warning, unable to create directory ' +
-                      '{}'.format(destination))
+                print(('warning, unable to create directory ' +
+                      '{}'.format(destination)))
                 raise
 
         self.gages = gages
@@ -52,7 +52,7 @@ class NWISExtractor:
 
         if n % 100 == 0:
             it = block * n / 10**6, size / 10**6
-            print('{:.1f} MB of {:.1f} MB transferred'.format(*it))
+            print(('{:.1f} MB of {:.1f} MB transferred'.format(*it)))
 
     def download_metadata(self,
                           webfile = 'USGS_Streamgages-NHD_Locations_Shape.zip', 
@@ -69,11 +69,11 @@ class NWISExtractor:
 
             if verbose:
  
-                print(self.destination)
+                print((self.destination))
                 print('The NWIS metadata are not present in the destination\n')
                 os.mkdir(self.destination)
 
-        else: print('NWIS directory {} exists\n'.format(self.destination))
+        else: print(('NWIS directory {} exists\n'.format(self.destination)))
 
         # source zip file download
 
@@ -87,7 +87,7 @@ class NWISExtractor:
 
         elif verbose: 
 
-            print('NWIS source metadata file {} is present\n'.format(zfile))
+            print(('NWIS source metadata file {} is present\n'.format(zfile)))
 
         # unzip 
 
@@ -100,7 +100,7 @@ class NWISExtractor:
             zf.extractall(self.destination)
             print('')
 
-        elif verbose: print('gage metadata {} is present\n'.format(self.NWIS))
+        elif verbose: print(('gage metadata {} is present\n'.format(self.NWIS)))
 
     def extract_HUC8(self, 
                      HUC8, 
@@ -141,7 +141,7 @@ class NWISExtractor:
             # iterate through the field and find gages in the watershed
 
             its = HUC8, sfile
-            print('extracting gage stations in {} to {}\n'.format(*its))
+            print(('extracting gage stations in {} to {}\n'.format(*its)))
 
             gage_indices = []
 
@@ -169,7 +169,7 @@ class NWISExtractor:
 
         elif verbose: 
 
-            print('gage station file {} exists\n'.format(sfile))
+            print(('gage station file {} exists\n'.format(sfile)))
 
         self.set_metadata(sfile)
 
@@ -290,8 +290,8 @@ class NWISExtractor:
 
                     try: gagestation.download_water_quality()
                     except: 
-                        print('warning, unable to download water quality ' +
-                              'data for {}\n'.format(gage))
+                        print(('warning, unable to download water quality ' +
+                              'data for {}\n'.format(gage)))
 
                     # download the instantaneous flow data if it exists
 
@@ -303,10 +303,10 @@ class NWISExtractor:
 
                 except: 
 
-                    print('warning, unable to download daily flow data ' +
-                          'for {}\n'.format(gage))
+                    print(('warning, unable to download daily flow data ' +
+                          'for {}\n'.format(gage)))
 
-            else: print('gage data for {} exist\n'.format(gage))
+            else: print(('gage data for {} exist\n'.format(gage)))
 
         else:
 
@@ -329,8 +329,8 @@ class NWISExtractor:
 
         # iterate through the records
 
-        iters = zip(self.gages, self.day1s, self.dayns, self.drains, 
-                    self.states, self.nwiss, self.aves, self.names)
+        iters = list(zip(self.gages, self.day1s, self.dayns, self.drains, 
+                    self.states, self.nwiss, self.aves, self.names))
 
         for gage, day1, dayn, drain, state, nwis, ave, name in iters:
 
@@ -365,8 +365,8 @@ class NWISExtractor:
 
                         try: gagestation.download_water_quality()
                         except: 
-                            print('warning, unable to download water quality ' +
-                                  'data for {}\n'.format(gage))
+                            print(('warning, unable to download water quality ' +
+                                  'data for {}\n'.format(gage)))
 
                         # download the instantaneous flow data if it exists
 
@@ -382,6 +382,6 @@ class NWISExtractor:
             else:
 
                 its = gage, start, end
-                print('no data available for station ' +
-                      '{} for years {:%Y}-{:%Y}\n'.format(*its))
+                print(('no data available for station ' +
+                      '{} for years {:%Y}-{:%Y}\n'.format(*its)))
 

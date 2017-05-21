@@ -119,13 +119,13 @@ class ClimateProcessor:
         while all([len([d for d, e in s.evap if 0 <= e and start <= d and 
                         d <= end]) == 0 for s in stations]):
 
-            print('warning: insufficient evaporation data available in the ' +
-                  'box;\nexpanding the search for evaporation data\n')
+            print(('warning: insufficient evaporation data available in the ' +
+                  'box;\nexpanding the search for evaporation data\n'))
 
             # new search area with more space
 
             bbox = self.get_boundaries(bbox = bbox, space = space)
-            print('bounding box: {:.2f}, {:.2f}, {:.2f}, {:.2f}'.format(*bbox))
+            print(('bounding box: {:.2f}, {:.2f}, {:.2f}, {:.2f}'.format(*bbox)))
 
             # find new stations
 
@@ -259,7 +259,7 @@ class ClimateProcessor:
         # make sure the output directory exists
 
         if not os.path.isdir(output):
-            print('\nerror: directory "{}" does not exist\n'.format(output))
+            print(('\nerror: directory "{}" does not exist\n'.format(output)))
             raise
 
         # download the GHCND data
@@ -338,7 +338,7 @@ class ClimateProcessor:
         # make sure the output directory exists
 
         if not os.path.isdir(output):
-            print('\nerror: directory "{}" does not exist\n'.format(output))
+            print(('\nerror: directory "{}" does not exist\n'.format(output)))
             raise
 
         # open it up
@@ -477,11 +477,11 @@ class ClimateProcessor:
         elif database == 'precip3240': 
             stations = self.metadata.precip3240stations
         else:
-            print('error: database {} not recognized'.format(database))
+            print(('error: database {} not recognized'.format(database)))
             raise
 
         if len(stations) == 0:
-            print('error: no {} stations present in directory'.format(database))
+            print(('error: no {} stations present in directory'.format(database)))
             raise
 
         # weighted average check
@@ -489,13 +489,13 @@ class ClimateProcessor:
         if method is not None:
 
             if method not in ['IDWA']:
-                print('error: unknown weighting scheme ' +
-                      '"{}" specified'.format(weights))
+                print(('error: unknown weighting scheme ' +
+                      '"{}" specified'.format(weights)))
                 raise
                 
             elif latitude is None or longitude is None:
-                print('to use the distance weighted-average, the location ' +
-                      '(latitude and longitude) must be specified\n')
+                print(('to use the distance weighted-average, the location ' +
+                      '(latitude and longitude) must be specified\n'))
                 raise
 
             elif not self.is_number(latitude) or not self.is_number(longitude):
@@ -507,8 +507,8 @@ class ClimateProcessor:
         s = stations[[k for k in stations][0]]
         if parameter not in s:
             its = database, parameter
-            print('error: database {} contains no parameter {}'.format(*its))
-            print('available parameters include:', ', '.join(s.keys()))
+            print(('error: database {} contains no parameter {}'.format(*its)))
+            print(('available parameters include:', ', '.join(list(s.keys()))))
             raise
 
         if start >= end:
@@ -518,7 +518,7 @@ class ClimateProcessor:
         # find the longest "n" datasets
 
         datalengths = []
-        for k, v in stations.items(): datalengths.append((v[parameter], k))
+        for k, v in list(stations.items()): datalengths.append((v[parameter], k))
 
         datalengths.sort()
 
@@ -551,7 +551,7 @@ class ClimateProcessor:
             if verbose: 
                 
                 its = parameter, k
-                print('fetching {} data from {}'.format(*its))
+                print(('fetching {} data from {}'.format(*its)))
 
             # read the data into the array
 
@@ -584,9 +584,9 @@ class ClimateProcessor:
                     print('')
                     for i in zip(lons, lats, descriptions, distances):
 
-                        print('distance between ' +
+                        print(('distance between ' +
                               '{:.2f}, {:.2f} & '.format(*p1) 
-                              + '{:.2f}, {:.2f} {:22s}: {:.1f} km'.format(*i))
+                              + '{:.2f}, {:.2f} {:22s}: {:.1f} km'.format(*i)))
 
                 # use the inverse distance squared as the weighting factors
 
@@ -624,8 +624,8 @@ class ClimateProcessor:
         if len([a for a in averages if a is None]) > 0:
 
             missing = [i for i in range(len(averages)) if averages[i] is None]
-            print('warning: missing {} values;'.format(len(missing)) +
-                  ' trying to fill with next day\n')
+            print(('warning: missing {} values;'.format(len(missing)) +
+                  ' trying to fill with next day\n'))
             
             for i in missing:
 
@@ -634,7 +634,7 @@ class ClimateProcessor:
                         delta = datetime.timedelta(days = 1)
                     elif database in ['NSRDB', 'precip3240']:
                         delta = datetime.timedelta(hours = 1)
-                    print('filling {}'.format(start + delta * i))
+                    print(('filling {}'.format(start + delta * i)))
                 j = 0
                 while averages[j] is None and j < len(averages) - 1: j += 1
                 if j == len(averages): averages[i] = 0

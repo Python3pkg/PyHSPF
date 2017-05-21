@@ -86,7 +86,7 @@ def extract_aquifers(directory, HUC8, aquifers, pad = 0.2, verbose = True):
     corners = [[[b[0], b[1]], [b[0], b[3]], [b[2], b[1]], [b[2], b[3]]]
                for b in bboxes]
 
-    indices = [i for i, c in zip(range(len(corners)), corners) if 
+    indices = [i for i, c in zip(list(range(len(corners))), corners) if 
                any([inside_box(p1, p2, p) for p in c]) or 
                all([inside_box(c[0], c[3], p1), inside_box(c[0], c[3], p2)])]
 
@@ -146,7 +146,7 @@ def extract_aquifers(directory, HUC8, aquifers, pad = 0.2, verbose = True):
     end = time.time()
     
     if verbose: 
-        print('successfully queried data in %.2f seconds\n' % (end - start))
+        print(('successfully queried data in %.2f seconds\n' % (end - start)))
 
 
 #directory = r'C:\HSPF_data'

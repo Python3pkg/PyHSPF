@@ -49,7 +49,7 @@ def format_shape(points,
 
         # format the points and add them to the array
 
-        for p, i in zip(points[start:end + 1], range(end - start + 1)):
+        for p, i in zip(points[start:end + 1], list(range(end - start + 1))):
 
             a[i] = round(p[0], tol), round(p[1], tol)
 
@@ -86,7 +86,7 @@ def find_neighbor_indices(shape,
     ymax = max([y for x, y in shape])
 
     neighbors = []
-    for b, i in zip(bboxes, range(len(bboxes))):
+    for b, i in zip(bboxes, list(range(len(bboxes)))):
         
         if xmin < b[2] and xmax < b[0]: x = False
         else: x = True
@@ -137,10 +137,10 @@ def combine_shapes2(shapes,
 
     # find all points that aren't duplicated (interior points are duplicated)
 
-    edges = [p for p, count in collections.Counter(all_points).items()
+    edges = [p for p, count in list(collections.Counter(all_points).items())
              if count == 1]
 
-    xs, ys = zip(*edges)
+    xs, ys = list(zip(*edges))
 
     # find the smallest value of x (which is an outside point) and start there
     # also use the shape with the max x as a check the trace made it around
@@ -167,7 +167,7 @@ def combine_shapes2(shapes,
 
     # "current" is current shape being traced (as list); "points" are the trace
  
-    if verbose: print('tracing shape {}'.format(shape_index))
+    if verbose: print(('tracing shape {}'.format(shape_index)))
 
     shapes = [array_to_list(s) for s in shapes]
     current = shapes[shape_index]
@@ -231,7 +231,7 @@ def combine_shapes2(shapes,
         elif current[i] in points:
             print('trace error occurred')
             raise
-        if verbose: print('tracing shape', shape_index)
+        if verbose: print(('tracing shape', shape_index))
 
         # find the neighbors
 
@@ -257,7 +257,7 @@ def combine_shapes2(shapes,
 
     # add the last points from the first shape
 
-    if verbose: print('tracing shape {}'.format(shape_index))
+    if verbose: print(('tracing shape {}'.format(shape_index)))
 
     while current[i] != points[0]:
         points.append(current[i])
@@ -266,13 +266,13 @@ def combine_shapes2(shapes,
 
     if verbose: 
         v = time.time() - start
-        print('\nfinished tracing catchments in {:.1f} seconds\n'.format(v))
+        print(('\nfinished tracing catchments in {:.1f} seconds\n'.format(v)))
 
     if opposite: return points
     else: 
         if verbose: 
-            print('\ntrace failed to reach opposite side, ' +
-                  'trying alternate method')
+            print(('\ntrace failed to reach opposite side, ' +
+                  'trying alternate method'))
         raise
 
 def get_distance(p1, p2):
@@ -375,11 +375,11 @@ def combine_shapes(shapes,
     all_points = [(round(x, 6), round(y, 6)) 
                   for shape in shapes for x, y in shape.points]
 
-    if verbose: print('found', len(all_points), 'points')
+    if verbose: print(('found', len(all_points), 'points'))
 
     # find all points that aren't duplicated (interior points are duplicated)
 
-    edges = [p for p, count in collections.Counter(all_points).items()
+    edges = [p for p, count in list(collections.Counter(all_points).items())
              if count == 1]
 
     # round everything to enable checking and keep track of the bounding boxes
@@ -392,7 +392,7 @@ def combine_shapes(shapes,
         # deal with shapes with multiple parts
 
         points = [(round(x, 6), round(y, 6)) for x,y in shape.points]
-        duplicates = [p for p, count in collections.Counter(points).items()
+        duplicates = [p for p, count in list(collections.Counter(points).items())
                       if count > 1]
 
         points = [p for p in points if p not in duplicates]
@@ -414,17 +414,17 @@ def combine_shapes(shapes,
     if verbose:
 
         its = len(shapes), len(keepers)
-        print('intially {} shapes; finally {} shapes'.format(*its))
+        print(('intially {} shapes; finally {} shapes'.format(*its)))
 
     bboxes  = [bboxes[i] for i in keepers]
     shapes  = [shapes[i] for i in keepers]
 
-    if verbose: print('found', len(edges), 'points')
+    if verbose: print(('found', len(edges), 'points'))
 
     # find the smallest value of x (which is an outside point) and start there
     # also use the shape with the max x as a check the trace made it around
 
-    xs, ys = zip(*edges)
+    xs, ys = list(zip(*edges))
 
     xmin = min(xs)
     xmax = max(xs)
@@ -455,8 +455,8 @@ def combine_shapes(shapes,
         if verbose: 
             
             its = j, current[i][0], current[i][1]
-            print('started  tracing shape ' +
-                  '{:3d} starting at {:8.4f}, {:7.4f}'.format(*its))
+            print(('started  tracing shape ' +
+                  '{:3d} starting at {:8.4f}, {:7.4f}'.format(*its)))
 
         # find the neighbors
 
@@ -471,8 +471,8 @@ def combine_shapes(shapes,
 
         if verbose:
             its = j, current[i][0], current[i][1]
-            print('finished tracing shape ' +
-                  '{:3d} starting at {:8.4f}, {:7.4f}'.format(*its))
+            print(('finished tracing shape ' +
+                  '{:3d} starting at {:8.4f}, {:7.4f}'.format(*its)))
 
         # make a list of the candidates for the next shape to trace
 
@@ -486,10 +486,10 @@ def combine_shapes(shapes,
 
             if verbose:
 
-                print('unable to find neighboring shape at point ' +
+                print(('unable to find neighboring shape at point ' +
                       '{:8.4f}, {:7.4f} '.format(*current[i]) + 
                       'in shape {};\n'.format(j) +
-                      'searching for closest point'.format(j))
+                      'searching for closest point'.format(j)))
 
             # find the closest edge point
 
@@ -497,7 +497,7 @@ def combine_shapes(shapes,
 
             if verbose:
 
-                print('found close point {:8.4f}, {:7.4f}'.format(*closest))
+                print(('found close point {:8.4f}, {:7.4f}'.format(*closest)))
 
             # find the shape
 
@@ -552,7 +552,7 @@ def combine_shapes(shapes,
 
             if verbose:
                 
-                print('found close point {:8.4f}, {:7.4f}'.format(*closest))
+                print(('found close point {:8.4f}, {:7.4f}'.format(*closest)))
 
             # find the shape
 
@@ -571,12 +571,12 @@ def combine_shapes(shapes,
 
     if verbose: 
         v = time.time() - st
-        print('\nfinished tracing catchments in {:.1f} seconds\n'.format(v))
+        print(('\nfinished tracing catchments in {:.1f} seconds\n'.format(v)))
 
     if opposite in points: return points
     else: 
-        print('\ntrace failed to reach opposite side, ' +
-              'trying alternate method')
+        print(('\ntrace failed to reach opposite side, ' +
+              'trying alternate method'))
         raise
 
 def merge_shapes(inputfile, 
@@ -593,11 +593,11 @@ def merge_shapes(inputfile,
 
     if os.path.isfile(outputfile + '.shp') and not overwrite:
         if verbose: 
-            print('combined watershed shapefile {} exists'.format(outputfile))
+            print(('combined watershed shapefile {} exists'.format(outputfile)))
         return
    
-    if verbose: print('combining shapes from {}\n'.format(inputfile) + 
-                      'this may take a while...\n')
+    if verbose: print(('combining shapes from {}\n'.format(inputfile) + 
+                      'this may take a while...\n'))
 
     # start by copying the projection files
 
@@ -633,7 +633,7 @@ def merge_shapes(inputfile,
     if verbose: 
 
         its = inputfile, outputfile
-        print('successfully combined shapes from {} to {}\n'.format(*its))
+        print(('successfully combined shapes from {} to {}\n'.format(*its)))
 
 # pretty simple to use--point the inputfile to the shapefile with the shapes
 # you want to merge (do NOT include the extension .shp, .prj, etc.) and the 

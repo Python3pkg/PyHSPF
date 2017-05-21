@@ -75,7 +75,7 @@ def shape_to_mask(shape, width = 1000):
 
     # separate the x and y values for the shape
 
-    xs, ys = zip(*shape)
+    xs, ys = list(zip(*shape))
 
     x0 = min(xs)
     y0 = min(ys)
@@ -116,7 +116,7 @@ def poly_to_cdf(poly, n = 1000, dim = 'x'):
 
     # convert the points to xs and ys
 
-    xs, ys = zip(*poly)
+    xs, ys = list(zip(*poly))
 
     if dim == 'x':
 
@@ -210,7 +210,7 @@ def add_raster(fig, filename, resolution, extent, colormap, intensity,
     zs = np.zeros((resolution + 1, resolution + 1))
 
     for i in range(len(ys)):
-        zs[i, :] = get_raster(filename, zip(xs, [ys[i]] * (resolution + 1)),
+        zs[i, :] = get_raster(filename, list(zip(xs, [ys[i]] * (resolution + 1))),
                               quiet = True)
 
     if intensity is not None:
@@ -243,7 +243,7 @@ def plot_climate(HUC8, sfile, bfile, pfile = None, efile = None, tfile = None,
 
 
     if verbose: 
-        print('generating plot of watershed %s NCDC stations\n' % HUC8)
+        print(('generating plot of watershed %s NCDC stations\n' % HUC8))
 
     fig = pyplot.figure()
     subplot = fig.add_subplot(111, aspect = 'equal')
@@ -291,7 +291,7 @@ def plot_climate(HUC8, sfile, bfile, pfile = None, efile = None, tfile = None,
         cy_index = s.fields.index(['CenY', 'N', 12, 6]) - 1
 
         centroids = [[r[cx_index], r[cy_index]] for r in s.records()]
-        xs, ys = zip(*centroids)
+        xs, ys = list(zip(*centroids))
         cplot = subplot.scatter(xs, ys, marker = '+', c = 'pink', s = 15)
         plots.append(cplot)
         names.append('Centroids')
@@ -336,8 +336,8 @@ def plot_climate(HUC8, sfile, bfile, pfile = None, efile = None, tfile = None,
 
         with open(pfile, 'rb') as f: precips = pickle.load(f)
 
-        gage_points = [(p.longitude, p.latitude) for p in precips.values()]
-        x1, y1 = zip(*gage_points)
+        gage_points = [(p.longitude, p.latitude) for p in list(precips.values())]
+        x1, y1 = list(zip(*gage_points))
         plots.append(subplot.scatter(x1, y1, marker = 'o', c = 'b'))
         names.append('Precipitation') 
 
@@ -347,9 +347,9 @@ def plot_climate(HUC8, sfile, bfile, pfile = None, efile = None, tfile = None,
 
         with open(efile, 'rb') as f: evaps = pickle.load(f)
 
-        gage_points = [(e.longitude, e.latitude) for e in evaps.values()]
+        gage_points = [(e.longitude, e.latitude) for e in list(evaps.values())]
 
-        x2, y2 = zip(*gage_points)
+        x2, y2 = list(zip(*gage_points))
         eplot = subplot.scatter(x2, y2, s = evaps, marker = 'o', c = 'g')
         plots.append(eplot)
         names.append('Pan Evaporation')
@@ -360,8 +360,8 @@ def plot_climate(HUC8, sfile, bfile, pfile = None, efile = None, tfile = None,
 
         with open(tfile, 'rb') as f: temps = pickle.load(f)
 
-        gage_points = [(t.longitude, t.latitude) for t in temps.values()]
-        x2, y2 = zip(*gage_points)
+        gage_points = [(t.longitude, t.latitude) for t in list(temps.values())]
+        x2, y2 = list(zip(*gage_points))
         plots.append(subplot.scatter(x2, y2, marker = 's', c = 'red'))
         names.append('Temperature')
 
@@ -371,8 +371,8 @@ def plot_climate(HUC8, sfile, bfile, pfile = None, efile = None, tfile = None,
 
         with open(snowfile, 'rb') as f: snows = pickle.load(f)
 
-        snow_points = [(s.longitude, s.latitude) for s in snows.values()]
-        x2, y2 = zip(*snow_points)
+        snow_points = [(s.longitude, s.latitude) for s in list(snows.values())]
+        x2, y2 = list(zip(*snow_points))
         plots.append(subplot.scatter(x2, y2, marker = 'o', c = 'gray', 
                                    alpha = 0.5))
         names.append('Snow')
@@ -383,8 +383,8 @@ def plot_climate(HUC8, sfile, bfile, pfile = None, efile = None, tfile = None,
 
         with open(solarfile, 'rb') as f: solar = pickle.load(f)
 
-        points = [(s.longitude, s.latitude) for s in solar.values()]
-        x2, y2 = zip(*points)
+        points = [(s.longitude, s.latitude) for s in list(solar.values())]
+        x2, y2 = list(zip(*points))
         plots.append(subplot.scatter(x2, y2, marker = 'o', c = 'orange'))
         names.append('Solar')
 
@@ -394,8 +394,8 @@ def plot_climate(HUC8, sfile, bfile, pfile = None, efile = None, tfile = None,
 
         with open(windfile, 'rb') as f: wind = pickle.load(f)
 
-        points = [(w.longitude, w.latitude) for w in wind.values()]
-        x2, y2 = zip(*points)
+        points = [(w.longitude, w.latitude) for w in list(wind.values())]
+        x2, y2 = list(zip(*points))
         plots.append(subplot.scatter(x2, y2, marker = 'o', c = 'pink'))
         names.append('Wind')
 

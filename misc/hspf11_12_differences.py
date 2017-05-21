@@ -63,9 +63,9 @@ def compare_versions(testfolder, dir):
                     #print(l1)
                     #print(l2)
 
-            if not same: print('%s files are different' % f12)
+            if not same: print(('%s files are different' % f12))
 
-        except: print(f11, 'not found')
+        except: print((f11, 'not found'))
         #else: print('%s files are same' % f12)
 
         #input()

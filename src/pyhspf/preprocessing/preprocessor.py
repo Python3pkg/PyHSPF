@@ -202,8 +202,8 @@ class Preprocessor:
 
             if (not os.path.ismount(self.network) and
                 not os.path.isdir(self.network)):
-                print('\nerror: network {} '.format(self.network) +
-                      'does not exist or is not mounted\n')
+                print(('\nerror: network {} '.format(self.network) +
+                      'does not exist or is not mounted\n'))
                 raise
 
         # check that all the required information has been supplied
@@ -221,8 +221,8 @@ class Preprocessor:
 
             if info is None:
                 
-                print('error: required information ' +
-                      '"{}" has not supplied!\n'.format(info))
+                print(('error: required information ' +
+                      '"{}" has not supplied!\n'.format(info)))
                 raise
 
         # keep track of how long it takes
@@ -380,8 +380,8 @@ class Preprocessor:
 
         if verbose: 
 
-            print('completed preprocessing watershed in ' +
-                  '{:.1f} seconds\n'.format((time.time() - go)))
+            print(('completed preprocessing watershed in ' +
+                  '{:.1f} seconds\n'.format((time.time() - go))))
 
     def build_hspfmodel(self, 
                         output = None,
@@ -413,7 +413,7 @@ class Preprocessor:
 
         if os.path.isfile(self.hspfmodel):
 
-            print('HSPFModel {} exists\n'.format(self.hspfmodel))
+            print(('HSPFModel {} exists\n'.format(self.hspfmodel)))
             return
         
         elif verbose:
@@ -441,8 +441,8 @@ class Preprocessor:
 
             if not os.path.isfile(k):
 
-                print('error: {} '.format(climateseries[k]) +
-                      'time series data are not available')
+                print(('error: {} '.format(climateseries[k]) +
+                      'time series data are not available'))
                 raise
 
         # open the watershed data structure
@@ -451,16 +451,16 @@ class Preprocessor:
 
         # check that land use data for the given year are available
 
-        for subbasin in w.subbasins.values():
+        for subbasin in list(w.subbasins.values()):
             if landuseyear not in subbasin.landuse:
-                print('error: land use data for year ' +
-                      '{} have not been supplied'.format(landuseyear))
+                print(('error: land use data for year ' +
+                      '{} have not been supplied'.format(landuseyear)))
                 raise
 
         # make a list of all land use categories for the watershed
 
         lucs = []
-        for subbasin in w.subbasins.values():
+        for subbasin in list(w.subbasins.values()):
             for luc in subbasin.landuse[landuseyear]:
                 if luc not in lucs: lucs.append(luc)
 
@@ -472,8 +472,8 @@ class Preprocessor:
 
         for luc in lucs:
             if luc not in PETs: 
-                print('error: potential evapotranspiration time series data ' +
-                      'for {} are not available'.format(luc))
+                print(('error: potential evapotranspiration time series data ' +
+                      'for {} are not available'.format(luc)))
                 raise
 
         # check that precipitation time series are available for each subbasin
@@ -485,8 +485,8 @@ class Preprocessor:
         for comid in w.subbasins:
             p = '{}/{}'.format(self.precip, comid)
             if not os.path.isfile(p):
-                print('error: precipitation time series ' +
-                      '{} is missing\n'.format(p))
+                print(('error: precipitation time series ' +
+                      '{} is missing\n'.format(p)))
                 raise
 
         # create and build the model
@@ -783,7 +783,7 @@ class Preprocessor:
 
         if all([os.path.isfile('{}/{}landuse.csv'.format(self.landusedata, y))
                 for y in self.years]):
-            print('CDL data for {} exist\n'.format(self.HUC8))
+            print(('CDL data for {} exist\n'.format(self.HUC8)))
             return
 
         # make an instance of the CDLExtractor to use to get the data
@@ -801,7 +801,7 @@ class Preprocessor:
 
             if os.path.isfile(e):
 
-                print('land use data for {} are unavailable'.format(year))
+                print(('land use data for {} are unavailable'.format(year)))
 
             elif not os.path.isfile(p):
 
@@ -811,11 +811,11 @@ class Preprocessor:
 
                 except:
 
-                    print('warning: data for {} are not available'.format(year))
+                    print(('warning: data for {} are not available'.format(year)))
 
             else:
 
-                print('land use data for {} exist'.format(year))
+                print(('land use data for {} exist'.format(year)))
                 
         print('')
 
@@ -878,8 +878,8 @@ class Preprocessor:
 
                 except:
 
-                    print('warning: unable to calculate land use for year ' +
-                          '{}; check data availability'.format(year))
+                    print(('warning: unable to calculate land use for year ' +
+                          '{}; check data availability'.format(year)))
 
     def build_watershed(self, 
                         regression = True,
@@ -1044,8 +1044,8 @@ class Preprocessor:
                 if verbose:
 
                     its = gageid, outcomid
-                    print('using measurements from ' +
-                          '{} to estimate the reach FTABLE for {}'.format(*its))
+                    print(('using measurements from ' +
+                          '{} to estimate the reach FTABLE for {}'.format(*its)))
 
                 # path to the data file
 
@@ -1075,8 +1075,8 @@ class Preprocessor:
 
                 if verbose:
 
-                    print('searching for first gage downstream of ' +
-                          '{}'.format(outcomid))
+                    print(('searching for first gage downstream of ' +
+                          '{}'.format(outcomid)))
                 
                 # find the downstream gage
 
@@ -1090,17 +1090,17 @@ class Preprocessor:
 
                     if verbose:
 
-                        print('found downstream gage {}'.format(nwiss[comid]))
+                        print(('found downstream gage {}'.format(nwiss[comid])))
 
                 else:
 
                     gageid = default_gage
-                    comid = {v:k for k,v in nwiss.items()}[gageid]
+                    comid = {v:k for k,v in list(nwiss.items())}[gageid]
 
                     if verbose:
 
-                        print('unable to find downstream gage; using default ' +
-                              'gage {}'.format(gageid))
+                        print(('unable to find downstream gage; using default ' +
+                              'gage {}'.format(gageid)))
 
                 # path to the data file
 
@@ -1158,7 +1158,7 @@ class Preprocessor:
 
         # iterate through the subbasins and see if they have a dam 
 
-        for comid, subbasin in subbasins.items():
+        for comid, subbasin in list(subbasins.items()):
 
             if comid in nids:
 
@@ -1201,7 +1201,7 @@ class Preprocessor:
             emptys     = [r[1] for r in rows[3:]]
             data       = [r[2:] for r in rows[3:]]
 
-            for comid, subbasin in subbasins.items():
+            for comid, subbasin in list(subbasins.items()):
 
                 i = comids.index(comid)
 
@@ -1225,7 +1225,7 @@ class Preprocessor:
         # establish the mass linkages using an "updown" dictionary
 
         updown = {}    
-        for comid, subbasin in watershed.subbasins.items():
+        for comid, subbasin in list(watershed.subbasins.items()):
 
             # get the flowline instance for the outlet comid
 
@@ -1345,7 +1345,7 @@ class Preprocessor:
         if not os.path.isfile(self.evaporation):
         
             evapstations = []
-            for k, v in climateprocessor.metadata.ghcndstations.items():
+            for k, v in list(climateprocessor.metadata.ghcndstations.items()):
 
                 # check if the station has any evaporation data
 
@@ -1419,8 +1419,8 @@ class Preprocessor:
 
                 if verbose:
                     its = comid, lon, lat
-                    print('aggregating timeseries for comid ' +
-                          '{} at {}, {}\n'.format(*its))
+                    print(('aggregating timeseries for comid ' +
+                          '{} at {}, {}\n'.format(*its)))
 
                 # aggregate the hourly precipitation time series for each 
                 # subbasin using IDWA

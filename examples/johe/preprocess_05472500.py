@@ -58,17 +58,17 @@ warmup = 366
 # make sure the directory and file paths exist
 
 if not os.path.isdir(network):
-    print('error, directory {} does not exist (please update)'.format(network))
+    print(('error, directory {} does not exist (please update)'.format(network)))
     raise
 if not os.path.isdir(destination):
-    print('error, directory ' +
-          '{} does not exist (please update)'.format(destination))
+    print(('error, directory ' +
+          '{} does not exist (please update)'.format(destination)))
     raise
 if not os.path.isfile(aggregation):
-    print('error, file {} does not exist (please update)'.format(aggregation))
+    print(('error, file {} does not exist (please update)'.format(aggregation)))
     raise
 if not os.path.isfile(landuse):
-    print('error, file {} does not exist (please update)'.format(landuse))
+    print(('error, file {} does not exist (please update)'.format(landuse)))
     raise
 
 # Because parallel processing is (optionally) used, the process method has 
@@ -130,7 +130,7 @@ if __name__ == '__main__':
 
     # get the comid of the gage
 
-    d = {v:k for k, v in hspfmodel.subbasin_timeseries['flowgage'].items()}
+    d = {v:k for k, v in list(hspfmodel.subbasin_timeseries['flowgage'].items())}
     comid = d[gageid]
 
     # change the filename

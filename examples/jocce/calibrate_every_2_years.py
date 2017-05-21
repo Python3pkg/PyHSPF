@@ -72,11 +72,11 @@ nprocessors = 5
 # make sure the directory and file paths exist
 
 if not os.path.isdir(network):
-    print('error, directory {} does not exist (please update)'.format(network))
+    print(('error, directory {} does not exist (please update)'.format(network)))
     raise
 if not os.path.isdir(destination):
-    print('error, directory ' +
-          '{} does not exist (please update)'.format(destination))
+    print(('error, directory ' +
+          '{} does not exist (please update)'.format(destination)))
     raise
 
 # Because parallel processing is (optionally) used, the process method has 
@@ -93,8 +93,8 @@ if __name__ == '__main__':
     filename = '{}/{}baseline'.format(directory, landuseyear)
 
     if not os.path.isfile(filename):
-        print('error, file {} does not exist!'.format(filename) +
-              '(generate the baseline model first)')
+        print(('error, file {} does not exist!'.format(filename) +
+              '(generate the baseline model first)'))
         raise
 
     # directory for results
@@ -164,7 +164,7 @@ if __name__ == '__main__':
 
         # get the comid of the gage
 
-        d = {v:k for k, v in hspfmodel.subbasin_timeseries['flowgage'].items()}
+        d = {v:k for k, v in list(hspfmodel.subbasin_timeseries['flowgage'].items())}
         comid = d[gageid]
 
         # build the input WDM file

@@ -240,7 +240,7 @@ hunthour = 'hunthour/huntobs.exp'
 
 if not os.path.isfile(hunthour):
 
-    print('error: file {} seems to be missing'.format(hunthour))
+    print(('error: file {} seems to be missing'.format(hunthour)))
     print('please update the path and re-run\n')
     raise
 

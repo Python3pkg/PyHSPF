@@ -40,7 +40,7 @@ if not os.path.isfile(csvfile):
 
         begin = time.time()
 
-        print('reading year', y)
+        print(('reading year', y))
 
         p = '{}/{}_{}/{}'.format(directory, y, y + 2, NWISgage)
     
@@ -82,7 +82,7 @@ if not os.path.isfile(csvfile):
 
             for v in ('SURO', 'IMPEV'):
 
-                iterable = zip(dsns, idconss, descrps, staids)
+                iterable = list(zip(dsns, idconss, descrps, staids))
                 for n, idcons, descrp, staid in iterable:
 
                     # first pass: subbasin
@@ -122,7 +122,7 @@ if not os.path.isfile(csvfile):
             
                 # find the time series number for the variables in the WDM file
 
-                iterable = zip(dsns, idconss, descrps, staids)
+                iterable = list(zip(dsns, idconss, descrps, staids))
                 for n, idcons, descrp, staid in iterable:
 
                     # first pass: subbasin
@@ -157,7 +157,7 @@ if not os.path.isfile(csvfile):
     
         # find the part of the watershed contributing to the gage
     
-        d = {v:k for k, v in hspfmodel.subbasin_timeseries['flowgage'].items()}
+        d = {v:k for k, v in list(hspfmodel.subbasin_timeseries['flowgage'].items())}
         comid = d[NWISgage]
 
         # find the comids of the all the subbasins upstream of the gage
@@ -246,8 +246,8 @@ if not os.path.isfile(csvfile):
 
         calibrations.append(data)
     
-        print('finished', y, 'in',
-              '{:.1f}'.format(time.time() - begin), 'seconds')
+        print(('finished', y, 'in',
+              '{:.1f}'.format(time.time() - begin), 'seconds'))
 
     rows = []
     categories = ['NSE Calibration',

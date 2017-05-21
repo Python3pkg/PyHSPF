@@ -88,7 +88,7 @@ def make_messagefile(lib, name = 'hspfmsg.wdm', verbose = True):
     # now import the data sets
 
     for f in seqfiles:
-        if verbose: print('importing data from %s' % f)
+        if verbose: print(('importing data from %s' % f))
         hspf.seqopen(f, m)
         hspf.seqimport(n, m, n)
         hspf.seqclose(m)

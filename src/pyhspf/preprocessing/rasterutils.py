@@ -184,7 +184,7 @@ def get_cdl_meters(extent):
 
     lonmin, latmin, lonmax, latmax = extent
 
-    points = zip([lonmin] * 2 + [lonmax] * 2, [latmin, latmax] * 2)
+    points = list(zip([lonmin] * 2 + [lonmax] * 2, [latmin, latmax] * 2))
 
     xs, ys = [], []
 
@@ -301,10 +301,10 @@ def get_raster_table(filename,
 
     # transform the corner points to NAD 1983
 
-    points = zip([longmin] * 2 + [longmax] * 2, [latmin, latmax] * 2)
+    points = list(zip([longmin] * 2 + [longmax] * 2, [latmin, latmax] * 2))
 
-    xs, ys, zs = zip(*[NAD1983_transform.TransformPoint(*point) 
-                       for point in points])
+    xs, ys, zs = list(zip(*[NAD1983_transform.TransformPoint(*point) 
+                       for point in points]))
    
     # get the pixel values of the min longitudes and latitudes and the number
     # of pixels in each direction
@@ -388,8 +388,8 @@ def get_raster_in_poly(rasterfile, poly, dtype = 'uint16', locations = False,
 
     # transform the corner points to NAD 1983
 
-    xs, ys, zs = zip(*[NAD1983_transform.TransformPoint(*point) 
-                       for point in poly])
+    xs, ys, zs = list(zip(*[NAD1983_transform.TransformPoint(*point) 
+                       for point in poly]))
 
     # get the pixel values of the min xs and ys and the number of pixels 
     # in each direction
@@ -440,8 +440,8 @@ def get_raster_in_poly(rasterfile, poly, dtype = 'uint16', locations = False,
 
     values = values * mask
 
-    if verbose: print('found %d points in polygon in %.1f seconds\n' % 
-                      (mask.sum(), time.time() - start))
+    if verbose: print(('found %d points in polygon in %.1f seconds\n' % 
+                      (mask.sum(), time.time() - start)))
 
     # determine if need to calculate point coordinates (which takes time, and
     # is primarily for plotting)
@@ -564,13 +564,13 @@ def get_raster_on_poly(rasterfile, poly, dtype = 'uint16', verbose = True):
 
         # add the points from left to last left and right to the last right
 
-        if   j == right: l = range(0)
-        elif j <   left: l = range(j, left)
-        else:            l = range(left, j + 1)
+        if   j == right: l = list(range(0))
+        elif j <   left: l = list(range(j, left))
+        else:            l = list(range(left, j + 1))
 
-        if   k ==  left: r = range(0)
-        elif k  > right: r = range(right + 1, k + 1)
-        else:            r = range(k, right + 1)
+        if   k ==  left: r = list(range(0))
+        elif k  > right: r = list(range(right + 1, k + 1))
+        else:            r = list(range(k, right + 1))
 
         for i in chain(l, r): points.append((x_row[i], y_row[i], z_row[i]))
 
@@ -581,7 +581,7 @@ def get_raster_on_poly(rasterfile, poly, dtype = 'uint16', verbose = True):
 
     x_row, y_row, z_row = xs[bottom - 1], ys[bottom - 1], zs[bottom - 1]
 
-    l, r = range(left, bleft + 1), range(bright, right + 1)
+    l, r = list(range(left, bleft + 1)), list(range(bright, right + 1))
 
     for i in chain(l, r): points.append((x_row[i], y_row[i], z_row[i]))
 
@@ -594,7 +594,7 @@ def get_raster_on_line(longitudes, latitudes, values, line):
     d = sqrt(norm([longitudes[0,0], latitudes[0,0]],
                   [longitudes[1,0], latitudes[1,0]])) * 2
 
-    print(len(line), d)
+    print((len(line), d))
 
     line_values = []
     lats        = []

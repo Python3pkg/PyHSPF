@@ -43,7 +43,7 @@ plotname = 'ftable'
 # make sure the flowline file exists
 
 if not os.path.isfile(flowfile):
-    print('Please ensure that the file {} exists\n'.format(flowfile))
+    print(('Please ensure that the file {} exists\n'.format(flowfile)))
     raise
 
 # create an instance of the NWISExtractor to use to download the gage data
@@ -79,7 +79,7 @@ j = [r[i] for r in reader.records()].index(gageid)
 
 x, y = reader.shape(j).points[0]
 
-print('location of gage {}: {:.4f}, {:.4f}\n'.format(gageid, x, y))
+print(('location of gage {}: {:.4f}, {:.4f}\n'.format(gageid, x, y)))
 
 # open the flowline shapefile to supply reach length (miles or kilometers 
 # depending on the unit system)
@@ -120,7 +120,7 @@ length = record[i]
 comid  = record[j]
 
 it = comid, length
-print('comid {} is closest to the gage and has a length of {} km\n'.format(*it))
+print(('comid {} is closest to the gage and has a length of {} km\n'.format(*it)))
 
 # make an instance of the FtableCalculator to use for the data from the file
 
@@ -158,13 +158,13 @@ elif units == 'English':
 
 else:
 
-    print('error: unknown units "{}" specified'.format(units))
+    print(('error: unknown units "{}" specified'.format(units)))
 
-print('{:>15s} {:>15s} {:>15s} {:>15s}'.format(*row))
+print(('{:>15s} {:>15s} {:>15s} {:>15s}'.format(*row)))
 
 for row in ftable:
 
-    print('[{:14.4f}, {:14.5f}, {:14.6f}, {:14.5f}],'.format(*row))
+    print(('[{:14.4f}, {:14.5f}, {:14.6f}, {:14.5f}],'.format(*row)))
 
 # make a plot of the regression and the individual values for the table
 

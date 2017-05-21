@@ -228,9 +228,9 @@ def plot_hydrograph(HUC8, precipitation, simulated_flow, simulated_evap,
 
     # add a legend
 
-    hs, ls = zip(*chain(zip(*ax1.get_legend_handles_labels()), 
-                        zip(*ax2.get_legend_handles_labels()), 
-                        zip(*ax3.get_legend_handles_labels())))
+    hs, ls = list(zip(*chain(list(zip(*ax1.get_legend_handles_labels())), 
+                        list(zip(*ax2.get_legend_handles_labels())), 
+                        list(zip(*ax3.get_legend_handles_labels())))))
 
     leg = ax3.legend(hs, ls, loc = 'upper center', ncol = math.ceil(len(hs)/2),
                      bbox_to_anchor = (0.5, -0.25))
@@ -495,9 +495,9 @@ def plot_runoff(HUC8, precipitation, simulated_flow, baseflow, interflow,
 
     # add a legend
 
-    hs, ls = zip(*chain(zip(*ax1.get_legend_handles_labels()), 
-                        zip(*ax2.get_legend_handles_labels()), 
-                        zip(handles, labels)))
+    hs, ls = list(zip(*chain(list(zip(*ax1.get_legend_handles_labels())), 
+                        list(zip(*ax2.get_legend_handles_labels())), 
+                        list(zip(handles, labels)))))
 
     # change the order
 
@@ -593,7 +593,7 @@ def plot_storm(HUC8, precipitation, simulated_flow, baseflow, interflow, runoff,
                       markeredgewidth = 1, markeredgecolor = flow_color, 
                       markerfacecolor = 'None', markersize = markersize)
 
-    ax2leg = zip(*ax2.get_legend_handles_labels())
+    ax2leg = list(zip(*ax2.get_legend_handles_labels()))
 
     # formatting
 
@@ -678,7 +678,7 @@ def plot_storm(HUC8, precipitation, simulated_flow, baseflow, interflow, runoff,
 
     # add a legend
 
-    hs, ls = zip(*chain(ax2leg, zip(handles, labels)))
+    hs, ls = list(zip(*chain(ax2leg, list(zip(handles, labels)))))
 
     leg = ax2.legend(hs, ls, loc = 'upper center', 
                      ncol = math.ceil(len(hs)/2), bbox_to_anchor = (0.5, -0.1))
@@ -1204,11 +1204,11 @@ def plot_dayofyear(HUC8, precipitation, potentialET, simulated_flow,
         subs[0].add_patch(make_patch(dummybox, facecolor = evap_color, 
                                      alpha = 0.2, label = '95% CI band'))
 
-    hs, ls = zip(*chain(zip(*subs[0].get_legend_handles_labels()),
-                        zip(*subs[1].get_legend_handles_labels()),
-                        zip(*subs[2].get_legend_handles_labels())
+    hs, ls = list(zip(*chain(list(zip(*subs[0].get_legend_handles_labels())),
+                        list(zip(*subs[1].get_legend_handles_labels())),
+                        list(zip(*subs[2].get_legend_handles_labels()))
                         )
-                  )
+                  ))
 
     leg = subs[2].legend(hs, ls, loc = 'upper center', fontsize = ticksize,
                          ncol = math.ceil(len(hs)/2),
@@ -1414,7 +1414,7 @@ def plot_waterbudget(HUC8, precipitation, potential_evap, simulated_evap,
 
     # add a legend
 
-    hs, ls = zip(*chain(zip(hs, ls), zip(handles, labels)))
+    hs, ls = list(zip(*chain(list(zip(hs, ls)), list(zip(handles, labels)))))
 
     leg = sub2.legend(hs, ls, loc = 'upper center', fontsize = ticksize,
                       ncol = math.ceil(len(hs)/2),
@@ -1587,12 +1587,12 @@ def plot_snow(HUC8, precipitation, temperature, simulated_snow, simulated_fall,
 
     # add a legend
 
-    hs, ls = zip(*chain(zip(*ax1.get_legend_handles_labels()), 
-                        zip(*ax2.get_legend_handles_labels()), 
-                        zip(*ax3.get_legend_handles_labels()), 
-                        zip(*ax4.get_legend_handles_labels()),
+    hs, ls = list(zip(*chain(list(zip(*ax1.get_legend_handles_labels())), 
+                        list(zip(*ax2.get_legend_handles_labels())), 
+                        list(zip(*ax3.get_legend_handles_labels())), 
+                        list(zip(*ax4.get_legend_handles_labels())),
                         )
-                  )
+                  ))
 
     leg = ax4.legend(hs, ls, loc = 'upper center', ncol = math.ceil(len(hs)/2),
                      bbox_to_anchor = (0.5, -0.36))
@@ -2250,7 +2250,7 @@ def plot_solids(HUC8, precipitation, observed_flow, simulated_flow, sand, silt,
 
     # add a legend
 
-    hs, ls = zip(*chain(zip(hs, ls), zip(handles, labels)))
+    hs, ls = list(zip(*chain(list(zip(hs, ls)), list(zip(handles, labels)))))
 
     leg = ax4.legend(hs, ls, loc = 'upper center', 
                      ncol = math.ceil(len(hs)/2), bbox_to_anchor = (0.5, -0.2))
@@ -2433,9 +2433,9 @@ def plot_erosion(HUC8, times, precipitation, storage, runoff, detach, erosion,
 
     # add a legend
 
-    hs, ls = zip(*chain(zip(*ax1.get_legend_handles_labels()), 
-                        zip(*ax2.get_legend_handles_labels()), 
-                        zip(handles, labels)))
+    hs, ls = list(zip(*chain(list(zip(*ax1.get_legend_handles_labels())), 
+                        list(zip(*ax2.get_legend_handles_labels())), 
+                        list(zip(handles, labels)))))
 
     # change the order
 
@@ -2634,12 +2634,12 @@ def plot_sediment_loading(HUC8, times, precipitation, simulated_flows,
 
     # add a legend
 
-    hs, ls = zip(*chain(zip(*ax1.get_legend_handles_labels()), 
-                        zip(*ax2.get_legend_handles_labels()), 
-                        zip(*ax3.get_legend_handles_labels()), 
-                        zip(*ax4.get_legend_handles_labels()), 
-                        zip(handles, labels)
-                        ))
+    hs, ls = list(zip(*chain(list(zip(*ax1.get_legend_handles_labels())), 
+                        list(zip(*ax2.get_legend_handles_labels())), 
+                        list(zip(*ax3.get_legend_handles_labels())), 
+                        list(zip(*ax4.get_legend_handles_labels())), 
+                        list(zip(handles, labels))
+                        )))
 
     # change the order
 

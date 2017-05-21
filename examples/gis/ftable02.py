@@ -101,7 +101,7 @@ i = [f[0] for f in reader.fields].index('COMID') - 1
 
 comid = record[i]
 
-print('founding comid {} for gageid {}\n'.format(comid, gageid))
+print(('founding comid {} for gageid {}\n'.format(comid, gageid)))
 
 # open up the flowline value added attributes
 
@@ -136,7 +136,7 @@ while len(current) > 0:
             comids.append(c)
             current.append(hydroseqs[c])
 
-print('found {} flowlines including:\n'.format(len(comids)))
+print(('found {} flowlines including:\n'.format(len(comids))))
 for c in comids: print(c)
 print('')
 
@@ -157,8 +157,8 @@ qref   = flowlines[hydroseqs[comid]].flow * 0.3048**3
 
 ftable = calculator.create_ftable(length, units = units)
 
-print('FTABLE for gage station {}:\n'.format(comid))
-for row in ftable: print('{:15.4f} {:15.4f} {:15.4f} {:15.4f}'.format(*row))
+print(('FTABLE for gage station {}:\n'.format(comid)))
+for row in ftable: print(('{:15.4f} {:15.4f} {:15.4f} {:15.4f}'.format(*row)))
 print('')
 
 # the FtableCalculator can extend the FTABLES to other reaches upstream
@@ -179,11 +179,11 @@ for c in comids:
     qavg = qavg * 0.3048**3
 
     i = c, length, qavg
-    print('Reach comid: {}, length: {} km, average flow: {:.4f} cfs'.format(*i))
+    print(('Reach comid: {}, length: {} km, average flow: {:.4f} cfs'.format(*i)))
 
     ftable = calculator.extend_ftable(qref, qavg, length, units = units)
 
-    print('Estimated FTABLE for reach {}:\n'.format(c))
-    for row in ftable: print('{:15.4f} {:15.4f} {:15.4f} {:15.4f}'.format(*row))
+    print(('Estimated FTABLE for reach {}:\n'.format(c)))
+    for row in ftable: print(('{:15.4f} {:15.4f} {:15.4f} {:15.4f}'.format(*row)))
     print('')
 

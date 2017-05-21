@@ -103,7 +103,7 @@ class SpecialAction:
                  '<-><-><-><--------> <> <-><->\n')
 
         else:
-            print('warning: unknown action {} specified'.format(self.action))
+            print(('warning: unknown action {} specified'.format(self.action)))
             raise
 
         it1 = op, n, date, tcode, var

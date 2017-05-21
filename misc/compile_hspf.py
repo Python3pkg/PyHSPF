@@ -248,7 +248,7 @@ if not os.path.isdir(destination):
                    'djl':      modifiedfiles + incs['djl'],
                    }
 
-    for sub, files in directories.items():
+    for sub, files in list(directories.items()):
 
         for f in files:
 
@@ -395,16 +395,16 @@ class WDMattribute:
     def print_info(self):
         """Prints out all the attributes."""
 
-        print('ATTRIBUTE:', self.attribute)
-        print('INDEX:', self.index)
-        if self.desc is not None: print('DESCRIPTION:', self.desc)
-        if self.type is not None: print('FORTRAN VARIABLE TYPE:', self.type)
-        if self.length is not None: print('ARRAY LENGTH:', self.length)
+        print(('ATTRIBUTE:', self.attribute))
+        print(('INDEX:', self.index))
+        if self.desc is not None: print(('DESCRIPTION:', self.desc))
+        if self.type is not None: print(('FORTRAN VARIABLE TYPE:', self.type))
+        if self.length is not None: print(('ARRAY LENGTH:', self.length))
         if self.max is not None: 
-            print('RANGE OF VALUES:', self.min, 'TO', self.max)
-        if self.default is not None: print('DEFAULT VALUE:', self.default)
-        if self.value is not None: print('VALUE:', self.value)
-        if self.help is not None: print(self.help)
+            print(('RANGE OF VALUES:', self.min, 'TO', self.max))
+        if self.default is not None: print(('DEFAULT VALUE:', self.default))
+        if self.value is not None: print(('VALUE:', self.value))
+        if self.help is not None: print((self.help))
 
 def make_messagefile(lib, name = 'hspfmsg.wdm', verbose = True):
     """builds the HSPF message file from a list of the paths to the source
@@ -544,14 +544,14 @@ def make_messagefile(lib, name = 'hspfmsg.wdm', verbose = True):
                                    'value':     v.value,
                                    'help':      v.help
                                    }
-                     for k, v in attributes.items()}
+                     for k, v in list(attributes.items())}
 
     with open('attributes', 'wb') as f: pickle.dump(wdmattributes, f)
 
     # now import the data sets
 
     for f in seqfiles:
-        if verbose: print('importing data from {}'.format(f))
+        if verbose: print(('importing data from {}'.format(f)))
         hspf.seqopen(f, m)
         hspf.seqimport(n, m, n)
         hspf.seqclose(m)

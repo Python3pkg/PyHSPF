@@ -88,14 +88,14 @@ for n in datafiles:
 
     # the following are attributes of the station directly from the database
 
-    print('Gage ID:                     ', station.gageid)
-    print('Name:                        ', station.name)
-    print('State:                       ', station.state)
-    print('First day of measurement:    ', station.day1)
-    print('Last day of measurement:     ', station.dayn)
-    print('Drainage area (square miles):', station.drain)
-    print('Average flow (cfs):          ', station.ave)
-    print('NWIS url:                    ', station.web)
+    print(('Gage ID:                     ', station.gageid))
+    print(('Name:                        ', station.name))
+    print(('State:                       ', station.state))
+    print(('First day of measurement:    ', station.day1))
+    print(('Last day of measurement:     ', station.dayn))
+    print(('Drainage area (square miles):', station.drain))
+    print(('Average flow (cfs):          ', station.ave))
+    print(('NWIS url:                    ', station.web))
 
     # get the time series of daily flow data from the start to end date
     # if it's available:
@@ -108,12 +108,12 @@ for n in datafiles:
         # data for the whole period
 
         its = s.year, s.month, s.day, ts[0]
-        print('flow on {:04d}-{:02d}-{:02d} (cfs):     {}'.format(*its))
+        print(('flow on {:04d}-{:02d}-{:02d} (cfs):     {}'.format(*its)))
 
         # calculate the average flow across the dates specified
 
         ave = sum(ts) / (e - s).days
-        print('mean flow across dates (cfs): {:.1f}'.format(ave))
+        print(('mean flow across dates (cfs): {:.1f}'.format(ave)))
 
     except: pass
 
@@ -132,8 +132,8 @@ for n in datafiles:
     try:
 
         TSS = station.waterquality['00530']
-        print('Number of suspended solids measurements:', len(TSS))
-        print('TSS concentration on {}: {} mg/L'.format(*TSS[0]))
+        print(('Number of suspended solids measurements:', len(TSS)))
+        print(('TSS concentration on {}: {} mg/L'.format(*TSS[0])))
 
     except: 
 

@@ -21,7 +21,7 @@ with open(p, 'rb') as f: hspfmodel = pickle.load(f)
 
 # find the part of the watershed contributing to the gage
     
-d = {v:k for k, v in hspfmodel.subbasin_timeseries['flowgage'].items()}
+d = {v:k for k, v in list(hspfmodel.subbasin_timeseries['flowgage'].items())}
 comid = d[NWISgage]
 
 # make an instance of the postprocessor for the thiry-year
@@ -45,7 +45,7 @@ postprocessor.close()
 
 for y in range(1981, 2010, 2):
 
-    print('reading year', y, 'data')
+    print(('reading year', y, 'data'))
 
     # path to the two-year model
     
@@ -130,7 +130,7 @@ for y in range(1981, 2010, 2):
     sub2.set_xlabel('Date', weight = 'bold')
     sub2.set_ylabel('Evapotranspiration\n(mm)', weight = 'bold')
     sub2.set_ylim((0,10))
-    sub2.set_yticks(range(0,12,2))    
+    sub2.set_yticks(list(range(0,12,2)))    
     sub2.legend(bbox_to_anchor = (0, 0.99), loc = 'upper left',
                 fontsize = 10, frameon = False, columnspacing = 0.6)
     

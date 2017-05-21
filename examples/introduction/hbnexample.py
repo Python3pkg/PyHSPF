@@ -14,7 +14,7 @@ from pyhspf import HBNReader
 filename = 'base.hbn'
 
 if not os.path.isfile(filename):
-    print('\nError: hbn file {} does not exist!\n'.format(filename))
+    print(('\nError: hbn file {} does not exist!\n'.format(filename)))
     raise
 
 # create an instance of the HBN reader
@@ -43,14 +43,14 @@ data = results['PERLND'][101]['PWATER'][var]
 for t, v in data: 
 
     i = t.year, t.month, t.day, var, v
-    print('On {:04d}-{:02d}-{:02d}, the value of {} was {:.2f}'.format(*i))
+    print(('On {:04d}-{:02d}-{:02d}, the value of {} was {:.2f}'.format(*i)))
 
 # the data can easily be regrouped into lists of dates and values using zip
 
-times, values = zip(*data)
+times, values = list(zip(*data))
 
 # for example, get and display the average value across the simulation
 
 ave = sum(values) / len(values)
 
-print('the average value of {} was {:.2f}'.format(var, ave))
+print(('the average value of {} was {:.2f}'.format(var, ave)))

@@ -128,7 +128,7 @@ def extract_raw(source, destination, HUC8, plot = True, save = True,
     xmin, ymin, xmax, ymax = bbox
 
     if verbose and not os.path.isdir(raw): 
-        print('bounding box =', xmin, ymin, xmax, ymax, '\n')
+        print(('bounding box =', xmin, ymin, xmax, ymax, '\n'))
 
     lats, lons = [], []
     for f in os.listdir(source):
@@ -199,13 +199,13 @@ def average_timeseries(directory,
 
         if not os.path.isfile(destination):
 
-            print('averaging {} timeseries...\n'.format(v))
+            print(('averaging {} timeseries...\n'.format(v)))
 
             series = []
             source = '{}/{}'.format(directory, v)
             for f in os.listdir(source):
                 p = '{}/{}'.format(source, f)
-                with open(p, 'rb') as d: ts, data = zip(*pickle.load(d))
+                with open(p, 'rb') as d: ts, data = list(zip(*pickle.load(d)))
                 series.append(numpy.array(data))
 
             values = sum(series) / len(series)

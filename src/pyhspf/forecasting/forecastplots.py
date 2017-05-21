@@ -32,7 +32,7 @@ def aggregate_timeseries(dataset, start, end, tstep = 'hourly',
 
         return times, values
  
-    hourly, values = zip(*dataset)
+    hourly, values = list(zip(*dataset))
 
     if tstep == 'hourly': times = hourly
 
@@ -139,8 +139,8 @@ def plot_dailyET(HUC8, start, end, ET, evaporations, tmin, tmax, dewpoint,
                  wind, solar, axsize = 11, output = None, show = False, 
                  verbose = True):
 
-    if verbose: print('plotting daily potential evapotranspiration for ' +
-                      '{}\n'.format(HUC8))
+    if verbose: print(('plotting daily potential evapotranspiration for ' +
+                      '{}\n'.format(HUC8)))
 
     # make a daily time series
 
@@ -167,7 +167,7 @@ def plot_dailyET(HUC8, start, end, ET, evaporations, tmin, tmax, dewpoint,
 
     colors = ['green', 'orange', 'blue', 'brown']
 
-    for item, c in zip(evaporations.items(), colors):
+    for item, c in zip(list(evaporations.items()), colors):
         k, v = item
         evaporation = v.make_timeseries(start, end)
         subs[i].plot_date(times, evaporation, fmt = 's', markeredgecolor = c,
@@ -260,7 +260,7 @@ def plot_dayofyearET(HUC8, start, end, evaporations, ETs, tmin, tmax, dewpoint,
     # total annual evaporation
 
     tots = []
-    for item, c in zip(evaporations.items(), colors):
+    for item, c in zip(list(evaporations.items()), colors):
         k, v = item
         evaporation = dayofyear(dates, v.make_timeseries(start, end))
         if len([e for e in evaporation if e is not None]) > 0:
@@ -429,7 +429,7 @@ def plot_hourlyET(HUC8, start, end, evaporations, hETs, temp,
 
     fmts = ['s', '+', '*', 'o']
 
-    for item, fmt in zip(evaporations.items(), fmts):
+    for item, fmt in zip(list(evaporations.items()), fmts):
         k, v = item
         evaporation = dayofyear(dates, v.make_timeseries(start, end))
         if len([e for e in evaporation if e is not None]) > 0:
@@ -1022,7 +1022,7 @@ def plot_waterbudget(HUC8, precipitation, potential_evap, simulated_evap,
 
     # add a legend
 
-    hs, ls = zip(*chain(zip(hs, ls), zip(handles, labels)))
+    hs, ls = list(zip(*chain(list(zip(hs, ls)), list(zip(handles, labels)))))
 
     leg = sub2.legend(hs, ls, loc = 'upper center', fontsize = ticksize,
                       ncol = math.ceil(len(hs)/2),

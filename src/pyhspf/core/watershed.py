@@ -122,7 +122,7 @@ class Reach:
     def add_dam(self, nid, name, long, lat, river, owner, damtype, purposes, 
                 year, height, max_storage, norm_storage, surface_area):
 
-        self.dam = Dam(nid, name, long, lat, river, owner, damtype, purposes, 
+        self.dam = Dam(nid, name, int, lat, river, owner, damtype, purposes, 
                        year, height, max_storage, norm_storage, surface_area)
 
 class Subbasin:

@@ -32,4 +32,4 @@ dam = Dam('IA003399',
 ftable = lake_ftable(q, v, L, s, dam)
 
 for row in ftable:
-    print('{:6.2f}, {:6.2f}, {:6.2f}, {:6.2f}'.format(*row))
+    print(('{:6.2f}, {:6.2f}, {:6.2f}, {:6.2f}'.format(*row)))

@@ -43,7 +43,7 @@ class SedimentCalibrator:
 
         with open(self.basemodel, 'rb') as f: hspfmodel = pickle.load(f)
 
-        d = {v: k for k, v in hspfmodel.subbasin_timeseries['flowgage'].items()}
+        d = {v: k for k, v in list(hspfmodel.subbasin_timeseries['flowgage'].items())}
         self.gagecomid = d[gageid]
 
         # use the updown dictionary to find the upstream gages (if desired)

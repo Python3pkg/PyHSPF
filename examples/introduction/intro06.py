@@ -103,7 +103,7 @@ starting_points = [{'INFILT': 0.008, 'LZSN': 9},
 def get_NSE(values):
 
     its = values['LZSN'], values['INFILT']
-    print('running simulation LZSN: {:.1f}, INFILT: {:.4f}\n'.format(*its))
+    print(('running simulation LZSN: {:.1f}, INFILT: {:.4f}\n'.format(*its)))
     
     # open the baseline HSPF model
 
@@ -279,7 +279,7 @@ if __name__ == '__main__':
 
         # make a simple plot of the path
 
-        xs, ys = zip(*vertices)
+        xs, ys = list(zip(*vertices))
         sub.plot(xs,ys, color = 'black', lw = lw)
 
         # draw the path using arrows to show the direction

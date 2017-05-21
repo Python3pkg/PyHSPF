@@ -26,7 +26,7 @@ f = '{}/{}/calibration/{}'.format(directory, HUC8, NWISgage)
 
 with open(f, 'rb') as m: hspfmodel = pickle.load(m)
 
-d = {v:k for k, v in hspfmodel.subbasin_timeseries['flowgage'].items()}
+d = {v:k for k, v in list(hspfmodel.subbasin_timeseries['flowgage'].items())}
 comid = d[NWISgage]
 
 if run:

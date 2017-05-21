@@ -38,7 +38,7 @@ end   = datetime.datetime(2010, 1, 1)
 filename = 'subbasin_catchments'
 
 if not os.path.isfile(filename + '.shp'):
-    print('error: file {} does not exist!'.format(filename))
+    print(('error: file {} does not exist!'.format(filename)))
     raise
 
 # make an instance of the ClimateProcessor to fetch the climate data
@@ -148,7 +148,7 @@ calculator.add_timeseries('RET', 'daily', start, dRET)
 
 evaporations = []
 
-for k, v in processor.metadata.ghcndstations.items():
+for k, v in list(processor.metadata.ghcndstations.items()):
 
     if v['evap'] > 0: evaporations.append(k)
 

@@ -134,7 +134,7 @@ class CDLParser(HTMLParser):
             'Wyoming': 'WY',
             }
 
-        self.abbreviations = {v:k for k,v in self.statenames.items()}
+        self.abbreviations = {v:k for k,v in list(self.statenames.items())}
 
     def is_integer(self, i):
         """
@@ -186,7 +186,7 @@ class CDLParser(HTMLParser):
         elif tag == 'center':   self.center = True
         elif tag == 'tbody':    self.tbody  = True
         else:
-            print('error: unknown tag {} specified'.format(tag))
+            print(('error: unknown tag {} specified'.format(tag)))
             raise
 
         if all((self.tr, self.td, self.a,
@@ -205,7 +205,7 @@ class CDLParser(HTMLParser):
                         else:
                             self.stateyears[state] = [y]
                     except:
-                        print('error: {} does not exist'.format(self.state))
+                        print(('error: {} does not exist'.format(self.state)))
                         raise
 
     def handle_endtag(self, tag):
@@ -247,7 +247,7 @@ class CDLParser(HTMLParser):
         elif tag == 'center':   self.center = False
         elif tag == 'tbody':    self.tbody  = False
         else:
-            print('error: unknown tag {} specified'.format(tag))
+            print(('error: unknown tag {} specified'.format(tag)))
             raise
 
     def handle_data(self, data):
@@ -426,7 +426,7 @@ class CDLExtractor:
         
         # separate the x and y values for the shape
 
-        xs, ys = zip(*shape)
+        xs, ys = list(zip(*shape))
 
         x0 = min(xs)
         y0 = min(ys)
@@ -469,7 +469,7 @@ class CDLExtractor:
 
         # convert the points to xs and ys
 
-        xs, ys = zip(*poly)
+        xs, ys = list(zip(*poly))
 
         if dim == 'x':
 
@@ -513,8 +513,8 @@ class CDLExtractor:
             try:
                 t = (time.time() - self.r_start) * (size - block*n) / block / n
                 it = block * n / 10**6, size / 10**6, t
-                print('{:.1f} MB of {:.1f} MB transferred, {:.1f}'.format(*it) +
-                      ' seconds remaining')
+                print(('{:.1f} MB of {:.1f} MB transferred, {:.1f}'.format(*it) +
+                      ' seconds remaining'))
             except:
 
                 pass
@@ -579,9 +579,9 @@ class CDLExtractor:
 
             except request.HTTPError as error:
 
-                print('the CDL server returned an error; the response ' +
+                print(('the CDL server returned an error; the response ' +
                       'can be viewed with a web browser in file:' +
-                      '\n\n{}\n'.format(e))
+                      '\n\n{}\n'.format(e)))
                 with open(e, 'w') as f: f.write(error.read().decode())
                 raise
 
@@ -591,9 +591,9 @@ class CDLExtractor:
 
             # retrieve the file and save it to the local destination
 
-            print('downloading {} CDL data within '.format(year) +
+            print(('downloading {} CDL data within '.format(year) +
                   '{:.4f}, {:.4f}, {:.4f}, {:.4f}\n'.format(*extent) +
-                  'from {}\nto {}\n'.format(url, local))
+                  'from {}\nto {}\n'.format(url, local)))
                 
             try: 
 
@@ -603,9 +603,9 @@ class CDLExtractor:
 
             except:
 
-                print('unable to download CDL data for {}'.format(year))
-                print('check that the requested data are available for ' +
-                      'the requested year on the server')
+                print(('unable to download CDL data for {}'.format(year)))
+                print(('check that the requested data are available for ' +
+                      'the requested year on the server'))
                 raise
                     
             print('')
@@ -635,11 +635,11 @@ class CDLExtractor:
             if not os.path.isfile(local): 
 
                 exists = False
-                print('file {} needs to be downloaded'.format(local))
+                print(('file {} needs to be downloaded'.format(local)))
 
             else: 
 
-                print('CDL raster for {} {} exists'.format(year, state))
+                print(('CDL raster for {} {} exists'.format(year, state)))
                 self.years.append(year)
 
         print('')
@@ -657,14 +657,14 @@ class CDLExtractor:
                 # make a reverse dictionary to look up the state abbreviation
 
                 abb = parser.abbreviations
-                abb = {v:k for k,v in parser.statenames.items()}
+                abb = {v:k for k,v in list(parser.statenames.items())}
 
                 # get the list of available years
 
                 available_years = parser.stateyears[state]
 
-                print('CDL data for {} available for years:\n'.format(state) + 
-                      ', '.join(['{}'.format(y) for y in available_years])+'\n')
+                print(('CDL data for {} available for years:\n'.format(state) + 
+                      ', '.join(['{}'.format(y) for y in available_years])+'\n'))
 
             except:
 
@@ -683,8 +683,8 @@ class CDLExtractor:
 
             if not os.path.isfile(local) and year in available_years:
 
-                print('requesting the file from the NASS server ' +
-                      '(this may take while)...\n')
+                print(('requesting the file from the NASS server ' +
+                      '(this may take while)...\n'))
 
                 # request the file from the CDL server
 
@@ -698,9 +698,9 @@ class CDLExtractor:
                 except request.HTTPError as error:
 
                     e = '{}/NASSerror{}.html'.format(self.destination, year)
-                    print('the CDL server returned an error; the response ' +
+                    print(('the CDL server returned an error; the response ' +
                           'can be viewed with a web browser in file:' +
-                          '\n\n{}\n'.format(e))
+                          '\n\n{}\n'.format(e)))
                     with open(e, 'w') as f: f.write(error.read().decode())
                     raise
 
@@ -710,8 +710,8 @@ class CDLExtractor:
 
                 # retrieve the file and save it to the local destination
 
-                print('downloading CDL data for {} {} '.format(year, state) +
-                      'from {}\n'.format(url))
+                print(('downloading CDL data for {} {} '.format(year, state) +
+                      'from {}\n'.format(url)))
                 
                 try: 
 
@@ -721,21 +721,21 @@ class CDLExtractor:
 
                 except:
 
-                    print('unable to download CDL data for {}'.format(year))
-                    print('check that the requested data are available for ' +
-                          'the requested year on the server')
+                    print(('unable to download CDL data for {}'.format(year)))
+                    print(('check that the requested data are available for ' +
+                          'the requested year on the server'))
                     raise
                     
                 print('')
 
             elif year in available_years:
 
-                print('NASS CDL raster for ' +
-                      '{} {} exists'.format(*its))
+                print(('NASS CDL raster for ' +
+                      '{} {} exists'.format(*its)))
 
             else:
 
-                print('data for {}, {} are not available'.format(state, year))
+                print(('data for {}, {} are not available'.format(state, year)))
 
     def extract_bbox(self,
                      bbox,
@@ -763,12 +763,12 @@ class CDLExtractor:
 
             if os.path.isfile(output):
 
-                print('land use file {} exists'.format(output))
+                print(('land use file {} exists'.format(output)))
 
             elif not os.path.isfile(decompressed):
 
-                print('warning: source file ' +
-                      '{} does not exist'.format(decompressed))
+                print(('warning: source file ' +
+                      '{} does not exist'.format(decompressed)))
 
             else:
 
@@ -905,8 +905,8 @@ class CDLExtractor:
         for g in self.order:
             for c in (self.reds, self.greens, self.blues):
                 if g not in c:
-                    print('error: land use category data for ' +
-                          '"{}" missing!'.format(g))
+                    print(('error: land use category data for ' +
+                          '"{}" missing!'.format(g)))
                     raise
 
     def calculate_landuse(self, 
@@ -926,7 +926,7 @@ class CDLExtractor:
 
         for f in rasterfile, shapefile + '.shp', aggregatefile:
             if not os.path.isfile(f):
-                print('error, {} does not exist\n'.format(f))
+                print(('error, {} does not exist\n'.format(f)))
                 raise
 
         # read the aggregate file
@@ -941,8 +941,8 @@ class CDLExtractor:
 
         try:    index = attributes.index(attribute) - 1
         except: 
-            print('error: attribute ' +
-                  '{} is not in the shapefile fields'.format(attribute))
+            print(('error: attribute ' +
+                  '{} is not in the shapefile fields'.format(attribute)))
             raise
 
         # iterate through the shapes, get the fractions and save them
@@ -1004,7 +1004,7 @@ class CDLExtractor:
             row = [attribute] + self.order
             writer.writerow(row)
 
-            for k,d in self.landuse.items():
+            for k,d in list(self.landuse.items()):
                 row = [k] + [d[r] for r in self.order]
                 writer.writerow(row)
 
@@ -1056,7 +1056,7 @@ class CDLExtractor:
 
         self.read_categoryfile(categoryfile)
 
-        if verbose: print('generating a {} land use plot\n'.format(datatype))
+        if verbose: print(('generating a {} land use plot\n'.format(datatype)))
 
         # make the figure
 
@@ -1166,7 +1166,7 @@ class CDLExtractor:
                 # ues cdf and filling from left to right
 
                 i = 0
-                for p, n in zip(land_cdf, range(len(self.order))):
+                for p, n in zip(land_cdf, list(range(len(self.order)))):
 
                     # move from left to right nuntil the area_cdf exceeds 
                     # the land area cdf

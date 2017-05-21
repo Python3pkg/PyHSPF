@@ -74,7 +74,7 @@ for f in (f1, f2, basemodel):
 
     if not os.path.isfile(f):
 
-        print('error: required file {} does not exist!\n'.format(f))
+        print(('error: required file {} does not exist!\n'.format(f)))
         raise
 
 # make sure the PyHSPF data have been generated
@@ -83,7 +83,7 @@ for d in (climatedata, pdata, edata, cdata):
 
     if not os.path.isdir(d):
 
-        print('error: required data in {} do not exist!\n'.format(d))
+        print(('error: required data in {} do not exist!\n'.format(d)))
         raise
 
 # use WDMUtil to read the BASINS data
@@ -118,10 +118,10 @@ dates   = [wdm.get_dates(f1, n)               for n in dsns]
 tssteps = [wdm.get_attribute(f1, n, 'TSSTEP') for n in dsns]
 tcodes  = [wdm.get_attribute(f1, n, 'TCODE ') for n in dsns]
 
-print('Time series available in WDM file {}:\n'.format(f1))
+print(('Time series available in WDM file {}:\n'.format(f1)))
 for n, t, d, tstep, tcode in zip(dsns, tstypes, dates, tssteps, tcodes): 
     s, e = d
-    print('{:02d}'.format(n), t, s)
+    print(('{:02d}'.format(n), t, s))
 
 # get the PyHSPF evapotranspiration data
 
@@ -198,44 +198,44 @@ with open('{}/dewpoint'.format(cdata), 'rb') as f:
 print('')
 
 i = sum(prec) / years
-print('average BASINS gage precipitation: {:4.1f} in/yr'.format(i))
+print(('average BASINS gage precipitation: {:4.1f} in/yr'.format(i)))
 i = sum(pavg) / len(pavg) / 25.4 * 24 * 365.25
-print('average aggregated precipitation:  {:4.1f} in/yr'.format(i))
+print(('average aggregated precipitation:  {:4.1f} in/yr'.format(i)))
 
 print('')
 
 i = sum(evap) / years
-print('average BASINS gage PET:           {:4.1f} in/yr'.format(i))
+print(('average BASINS gage PET:           {:4.1f} in/yr'.format(i)))
 i = sum(eavg) / len(eavg) / 25.4 * 24 * 365.25
-print('average aggregated PET:            {:4.1f} in'.format(i))
+print(('average aggregated PET:            {:4.1f} in'.format(i)))
 
 print('')
 
 i = sum(wind) / len(wind)
-print('average BASINS gage wind:          {:4.1f} mph'.format(i))
+print(('average BASINS gage wind:          {:4.1f} mph'.format(i)))
 i = sum(wavg) / len(wavg) / 0.3048 / 5280 * 3600
-print('average aggregated wind:           {:4.1f} mph'.format(i))
+print(('average aggregated wind:           {:4.1f} mph'.format(i)))
 
 print('')
 
 i = sum(solar) / len(solar)
-print('average BASINS gage solar:         {:4.1f} Ly/hr'.format(i))
+print(('average BASINS gage solar:         {:4.1f} Ly/hr'.format(i)))
 i = sum(savg) / len(savg) * 0.086
-print('average aggregated solar:          {:4.1f} Ly/hr'.format(i))
+print(('average aggregated solar:          {:4.1f} Ly/hr'.format(i)))
 
 print('')
 
 i = sum(temp) / len(temp)
-print('average BASINS gage temperature:   {:4.1f} F'.format(i))
+print(('average BASINS gage temperature:   {:4.1f} F'.format(i)))
 i = sum(tavg) / len(tavg) * 1.8 + 32
-print('average aggregated temperature:    {:4.1f} F'.format(i))
+print(('average aggregated temperature:    {:4.1f} F'.format(i)))
 
 print('')
 
 i = sum(dewt) / len(dewt)
-print('average gage dewpoint:             {:4.1f} F'.format(i))
+print(('average gage dewpoint:             {:4.1f} F'.format(i)))
 i = sum(davg) / len(davg) * 1.8 + 32
-print('average aggregated dewpoint:       {:4.1f} F'.format(i))
+print(('average aggregated dewpoint:       {:4.1f} F'.format(i)))
 
 print('')
 
@@ -263,7 +263,7 @@ if not os.path.isfile(newmodel):
 
     # find the comid of the gage and add the flow data to the new model
 
-    d = {v:k for k, v in hspfmodel.subbasin_timeseries['flowgage'].items()}
+    d = {v:k for k, v in list(hspfmodel.subbasin_timeseries['flowgage'].items())}
     comid = d[gageid]
 
     s, tstep, data = hspfmodel.flowgages[gageid]
@@ -323,7 +323,7 @@ else:
 
     with open(newmodel, 'rb') as f: simplified = pickle.load(f)
 
-    d = {v:k for k, v in simplified.subbasin_timeseries['flowgage'].items()}
+    d = {v:k for k, v in list(simplified.subbasin_timeseries['flowgage'].items())}
     comid = d[gageid]
 
 # change the filename
